@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Fab.com Free Assets Auto-Grabber Pro
+// @name         FAB Auto Redeemer
 // @namespace    http://tampermonkey.net/
 // @version      2.0
-// @description  Professional auto-grabber for free assets from Fab.com with detailed logging
-// @author       You
+// @description  Automatically redeem free FAB products with Dynamic Island
+// @author       CreosB
 // @match        https://www.fab.com/channels/unreal-engine*
 // @grant        none
 // ==/UserScript==
@@ -725,6 +725,79 @@
         showAssetsButton.textContent = `Assets (0)`;
         buttonsSection.appendChild(actionButton);
         buttonsSection.appendChild(showAssetsButton);
+
+
+        // Social buttons
+        const socialContainer = document.createElement('div');
+        socialContainer.style.cssText = `
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 15px;
+        `;
+
+        const socialButtons = [
+            { 
+               icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 64 64"><style><![CDATA[.C{clip-rule:evenodd}.D{fill:#100f0d}]]></style><defs><clipPath id="A"><path d="M2332.45 5723.53v37c0 20.44-16.57 37-37 37h-12.33c-20.44 0-37-16.57-37-37v-37h-37c-20.44 0-37-16.57-37-37v-12.33c0-20.44 16.57-37 37-37h37v-37c0-20.44 16.57-37 37-37h12.33c20.44 0 37 16.57 37 37v37h37c20.44 0 37 16.57 37 37v12.33c0 20.44-16.57 37-37 37z" class="C"/></clipPath><clipPath id="B"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="C"><path d="M1534.22 5533.96l-387.92 2.36 190.5-1210.2h464.12l190.5 1210.2z" class="C"/></clipPath><clipPath id="D"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="E"><path d="M1534.22 5533.96l-387.92 2.36 190.5-1210.2h367.14l190.5 1210.2z" class="C"/></clipPath><clipPath id="F"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="G"><path d="M1035.47 5536.32h1000.97v111.602H1035.47z"/></clipPath><clipPath id="H"><path d="M1842.48 5829.28H1222.5l-72.73-167.4h765.44z" class="C"/></clipPath><clipPath id="I"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="J"><path d="M2005.26 5194.53H1059.7l85.37-481.3 387.4 4.2 387.4-4.2z" class="C"/></clipPath><clipPath id="K"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="L"><path d="M707.297 5228.36c78.582 0 142.293 63.7 142.293 142.3s-63.7 142.3-142.293 142.3S565 5449.24 565 5370.65c0-78.58 63.7-142.3 142.297-142.3z" class="C"/></clipPath><clipPath id="M"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="N"><path d="M2188.83 4876.8c36.98 0 66.96 29.98 66.96 66.96s-29.98 66.96-66.96 66.96-66.95-29.98-66.95-66.96 29.97-66.96 66.95-66.96z" class="C"/></clipPath><clipPath id="O"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="P"><path d="M933.293 4491.78c36.98 0 66.957 29.98 66.957 66.96s-29.977 66.96-66.957 66.96-66.965-29.98-66.965-66.96 29.98-66.96 66.965-66.96z" class="C"/></clipPath><clipPath id="Q"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath></defs><g transform="matrix(2.704792 0 0 2.704792 -90.948353 -1833.1808)"><g transform="matrix(.012849 0 0 -.012849 26.365039 755.74948)"><g clip-path="url(#A)"><g clip-path="url(#B)"><path d="M2111.94 5503.03h354.66v354.66h-354.66z" fill="#f9dd05"/></g></g><g clip-path="url(#C)"><g clip-path="url(#D)"><path d="M1086.15 4265.97h965.402v1330.5H1086.15z" fill="#f68313"/></g></g><g clip-path="url(#E)"><g clip-path="url(#F)"><path d="M1086.15 4265.97h868.43v1330.5h-868.43z" fill="#f9dd05"/></g></g><g clip-path="url(#G)"><path d="M975.32 5476.17h1121.26v231.898H975.32z" fill="#fff"/></g></g><path d="M40.004 684.277h12.194v-.766H40.004zm12.862.668h-13.53v-2.102h13.53v2.102" class="D"/><g transform="matrix(.012849 0 0 -.012849 26.365039 755.74948)" clip-path="url(#H)"><g clip-path="url(#I)"><path d="M1089.62 5601.72h885.738v287.703H1089.62z" fill="#fff"/></g></g><path d="M41.648 682.664h8.818l-.645-1.484h-7.53zm9.835.667H40.63l1.225-2.82h8.404l1.225 2.82" fill="#12110f"/><path d="M42.937 699.828h6.283l2.342-14.88-5.486.028-5.482-.028zm6.854.667h-7.424l-2.553-16.22 6.265.032 6.266-.032-2.553 16.22" class="D"/><g transform="matrix(.012849 0 0 -.012849 26.365039 755.74948)" clip-path="url(#J)"><g clip-path="url(#K)"><path d="M999.563 4653.1h1065.85v601.578H999.563z" fill="#fff"/></g></g><path d="M46.053 694.8l4.702.05.978-5.514H40.38l.978 5.514zm5.26.724l-5.26-.057-5.254.057-1.216-6.855H52.53l-1.216 6.855" class="D"/><g transform="matrix(.012849 0 0 -.012849 26.365039 755.74948)"><g clip-path="url(#L)"><g clip-path="url(#M)"><path d="M707.297 5429.25c-32.3 0-58.598-26.3-58.598-58.6s26.3-58.6 58.598-58.6 58.594 26.3 58.594 58.6-26.3 58.6-58.594 58.6zm0-284.6c-124.62 0-225.996 101.38-225.996 226s101.375 226 225.996 226 225.996-101.38 225.996-226c0-124.6-101.38-226-225.996-226" fill="#f1f1f1"/></g></g><g clip-path="url(#N)"><g clip-path="url(#O)"><path d="M2061.73 4816.66h254.2v254.22h-254.2z" fill="#f1f1f1"/></g></g><g clip-path="url(#P)"><g clip-path="url(#Q)"><path d="M806.184 4431.63H1060.4v254.223H806.184z" fill="#f46c35"/></g></g></g></g></svg>`,
+                url: 'http://buymeacoffee.com/creos', 
+                title: 'Buy me a coffee' 
+            },
+            { 
+                icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.300 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>`, 
+                url: 'https://github.com/creosb', 
+                title: 'GitHub' 
+            },
+            { 
+                icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                </svg>`, 
+                url: 'https://x.com/CreosB', 
+                title: 'X (Twitter)' 
+            },
+            { 
+                icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>`, 
+                url: 'https://www.youtube.com/@CreosB', 
+                title: 'YouTube' 
+            }
+        ];
+
+        socialButtons.forEach(btn => {
+            const button = document.createElement('button');
+            button.style.cssText = `
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                color: white;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            `;
+            button.innerHTML = btn.icon;
+            button.title = btn.title;
+            button.addEventListener('click', () => window.open(btn.url, '_blank'));
+            button.addEventListener('mouseenter', () => {
+                button.style.background = 'rgba(255, 255, 255, 0.2)';
+                button.style.transform = 'scale(1.1)';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.background = 'rgba(255, 255, 255, 0.1)';
+                button.style.transform = 'scale(1)';
+            });
+            socialContainer.appendChild(button);
+        });
+
+        // Tip text
         const tipText = document.createElement('p');
         tipText.style.cssText = `
             color: rgba(255, 255, 255, 0.8);
@@ -734,10 +807,14 @@
             text-align: center;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
         `;
-        tipText.textContent = 'Automatically grabs free assets from Fab.com';
+        tipText.textContent = 'Depends on your filters on this page, it automatically adjusts what needs to be grabbed';
+
+
+
         mainContent.appendChild(progressSection);
         mainContent.appendChild(configSection);
         mainContent.appendChild(buttonsSection);
+        mainContent.appendChild(socialContainer);
         mainContent.appendChild(tipText);
         const assetsView = document.createElement('div');
         assetsView.id = 'fab-assets-view';

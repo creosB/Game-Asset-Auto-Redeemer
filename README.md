@@ -9,6 +9,7 @@ Game Asset Auto Redeemer is a powerful userscript designed to save you time and 
 ## Features
 
 *   **Automated Redemption:** Automatically detects and redeems assets marked as "FREE" on any search or category page.
+*   **Licence Type Selection for FAB** You can choose the type of licence (Personal / Professional) you want.**
 *   **Draggable Liquid Glass UI:** A beautiful, semi-transparent interface that can be moved anywhere on the screen. It follows modern design principles for a clean and intuitive feel.
 *   **High-Contrast Readability:** Text is enhanced with a subtle shadow, ensuring it remains perfectly clear and legible on both light and dark website backgrounds.
 *   **Real-time Progress:** The UI displays the name of the asset currently being redeemed and a progress counter (`current/total`).
@@ -53,7 +54,9 @@ The script is now active and will run automatically when you visit the Unity Ass
 | ![Screenshot 3](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/3.png) | ![Screenshot 4](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/4.png) |
 | Screenshot 5 | Screenshot 6 |
 |--------------|--------------|
-| ![Screenshot 5](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/5.png) | ![Screenshot 6](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/6.png) |
+| ![Screenshot 5](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/5.png) | ![Screenshot 6](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/6.png) | ![Screenshot 7](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/7.png) |
+
+
 
 # License
 

@@ -1413,7 +1413,7 @@
         }
     });
     let config = {
-        preferredLicense: 'personal',
+        preferredLicense: 'professional',
         delayBetweenActions: 2000,
         maxRetries: 2,
         dialogTimeout: 10000,

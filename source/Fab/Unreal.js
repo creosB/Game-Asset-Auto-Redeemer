@@ -4,7 +4,7 @@
 // @version      2.0
 // @description  Automatically redeem free FAB products with Dynamic Island
 // @author       CreosB
-// @match        https://www.fab.com/channels/unreal-engine*
+// @match        https://www.fab.com/*
 // @grant        none
 // ==/UserScript==
 

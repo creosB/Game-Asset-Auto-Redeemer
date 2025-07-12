@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FAB Auto Redeemer
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/creosB
 // @version      2.0
 // @description  Automatically redeem free FAB products with Dynamic Island
 // @author       CreosB

@@ -44,6 +44,8 @@ The script is now active and will run automatically when you visit the Unity Ass
     *   **View List:** After one or more assets have been redeemed, a **View Redeemed** button will appear. Click it to see a list of what you've grabbed during the session.
     *   **Search:** Use the search bar within the list view to filter your redeemed assets by name. Click the **'✖'** button to return to the main expanded view.
 
+**For FAB** You should scroll down the page. This will allow you to directly add items to the list, which will then be displayed on the counter as "Found: 15 assets".
+
 ## Screenshots
 
 | Screenshot 1 | Screenshot 2 |

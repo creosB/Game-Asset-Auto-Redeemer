@@ -54,8 +54,9 @@ The script is now active and will run automatically when you visit the Unity Ass
 | ![Screenshot 3](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/3.png) | ![Screenshot 4](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/4.png) |
 | Screenshot 5 | Screenshot 6 |
 |--------------|--------------|
-| ![Screenshot 5](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/5.png) | ![Screenshot 6](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/6.png) | ![Screenshot 7](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/7.png) |
-
+| ![Screenshot 5](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/5.png) | ![Screenshot 6](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/6.png) |
+| FAB |--------------|
+| ![Screenshot 7](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/7.png) |
 
 
 # License

@@ -26,7 +26,7 @@ Game Asset Auto Redeemer is a powerful userscript designed to save you time and 
     *   [Greasemonkey](https://www.greasespot.net/) (Firefox only)
 
 2.  **Install the Script:**
-    *   Go to the script's installation page on [Greasy Fork](https://greasyfork.org/) or click the raw `.user.js` file link in the GitHub repository.
+    *   Go to the script's installation page on [Greasy Fork](https://greasyfork.org/en/users/1496946-creos) or click the raw `.user.js` file link in the GitHub repository.
 
 3.  **Confirm Installation:** Your userscript manager will open a new tab and ask you to confirm the installation. Click **Install**.
 

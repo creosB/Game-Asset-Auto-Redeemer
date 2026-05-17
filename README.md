@@ -9,6 +9,13 @@ Chrome/Edge Manifest V3 browser extension that automatically detects and claims 
 | [FAB (Epic Games)](https://www.fab.com)           | Fully supported | DOM-based card detection + license dialog automation |
 | [Unity Asset Store](https://assetstore.unity.com) | Supported       | GraphQL API redemption with CSRF token handling      |
 
+## Preview
+
+| | | |
+|:---:|:---:|:---:|
+| ![1](new%20images/1.png) | ![2](new%20images/2.png) | ![3](new%20images/3.png) |
+| ![Small Promo](new%20images/small%20promo.png) | ![Promo Tile](new%20images/promo%20tile.png) | |
+
 ## Features
 
 - **Auto-claim** — scans pages for free assets and claims them automatically

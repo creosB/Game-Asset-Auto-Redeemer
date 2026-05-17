@@ -1,0 +1,105 @@
+name: Game Asset Auto Redeemer — Manual Release
+run-name: "Game Asset Auto Redeemer Release ${{ github.event.inputs.tag }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v1.0.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & publish release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read version from manifest.json
+        id: manifest
+        run: |
+          VERSION=$(jq -r '.version' manifest.json)
+          NAME=$(jq -r '.name'    manifest.json)
+          echo "version=$VERSION"        >> "$GITHUB_OUTPUT"
+          echo "extension_name=$NAME"    >> "$GITHUB_OUTPUT"
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREVIOUS_TAG=$(git tag --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sed -n '2p')
+
+          if [ -z "$PREVIOUS_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s (%h)" HEAD)
+          else
+            COMMITS=$(git log --pretty=format:"- %s (%h)" "${PREVIOUS_TAG}..HEAD")
+          fi
+
+          FEATURES=$(echo "$COMMITS"  | grep -iE "^- feat"     || true)
+          FIXES=$(echo "$COMMITS"     | grep -iE "^- fix"      || true)
+          CHORES=$(echo "$COMMITS"    | grep -iE "^- chore|^- refactor|^- perf|^- build" || true)
+          DOCS=$(echo "$COMMITS"      | grep -iE "^- docs"     || true)
+          OTHER=$(echo "$COMMITS"     | grep -ivE "^- (feat|fix|chore|refactor|perf|build|docs)" || true)
+
+          NOTES=""
+          [ -n "$FEATURES" ] && NOTES+="### ✨ New Features"$'\n'"$FEATURES"$'\n\n'
+          [ -n "$FIXES"    ] && NOTES+="### 🐛 Bug Fixes"$'\n'"$FIXES"$'\n\n'
+          [ -n "$CHORES"   ] && NOTES+="### 🔧 Maintenance"$'\n'"$CHORES"$'\n\n'
+          [ -n "$DOCS"     ] && NOTES+="### 📝 Documentation"$'\n'"$DOCS"$'\n\n'
+          [ -n "$OTHER"    ] && NOTES+="### 📦 Other Changes"$'\n'"$OTHER"$'\n\n'
+
+          if [ -z "$NOTES" ]; then
+            NOTES="No notable changes in this release."
+          fi
+
+          {
+            echo "notes<<EOF"
+            echo "$NOTES"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "previous_tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build extension zip
+        run: |
+          ZIP_NAME="game-asset-redeemer-${{ github.event.inputs.tag }}.zip"
+          zip -r "$ZIP_NAME" . \
+            --exclude "*.DS_Store" \
+            --exclude "*Thumbs.db" \
+            --exclude "*.map" \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "node_modules/*" \
+            --exclude "tests/*" \
+            --exclude "test-results/*" \
+            --exclude "playwright.config.js" \
+            --exclude "package.json" \
+            --exclude "package-lock.json" \
+            --exclude "README.md"
+          echo "ZIP_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          name: "${{ steps.manifest.outputs.extension_name }} ${{ github.event.inputs.tag }}"
+          body: |
+            ## ${{ steps.manifest.outputs.extension_name }} ${{ github.event.inputs.tag }}
+
+            ${{ steps.changelog.outputs.notes }}
+
+            ---
+
+            ### 📥 Installation
+            Download the `.zip` below, unzip it, then load it as an **unpacked extension** in Chrome/Edge (`chrome://extensions` → *Load unpacked*).
+
+            **Full Changelog:** ${{ steps.changelog.outputs.previous_tag && format('https://github.com/{0}/compare/{1}...{2}', github.repository, steps.changelog.outputs.previous_tag, github.event.inputs.tag) || format('https://github.com/{0}/commits/{1}', github.repository, github.event.inputs.tag) }}
+          files: ${{ env.ZIP_NAME }}
+          draft: false
+          prerelease: ${{ contains(github.event.inputs.tag, '-beta') || contains(github.event.inputs.tag, '-alpha') || contains(github.event.inputs.tag, '-rc') }}

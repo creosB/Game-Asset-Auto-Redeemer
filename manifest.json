@@ -1,0 +1,73 @@
+{
+  "manifest_version": 3,
+  "name": "Game Asset Auto Redeemer",
+  "version": "1.0.0",
+  "description": "Automatically claim free assets on FAB (Epic) and Unity Asset Store with a Dynamic Island UI.",
+  "author": "CreosB",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": { "16": "icons/icon-16.png"},
+    "default_title": "Game Asset Auto Redeemer"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "tabs", "notifications", "alarms"],
+  "host_permissions": [
+    "https://www.fab.com/*",
+    "https://assetstore.unity.com/*",
+    "https://api.lemonsqueezy.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.fab.com/*"],
+      "js": [
+        "src/content/shared/utils.js",
+        "src/content/shared/state.js",
+        "src/content/shared/config.js",
+        "src/content/shared/ui/styles.js",
+        "src/content/shared/ui/drag.js",
+        "src/content/shared/ui/search.js",
+        "src/content/shared/ui/assets-list.js",
+        "src/content/shared/ui/expanded-panel.js",
+        "src/content/shared/ui/claim-history.js",
+        "src/content/shared/ui/dynamic-island.js",
+        "src/content/shared/controller.js",
+        "src/content/fab/license-processor.js",
+        "src/content/fab/asset-processor.js",
+        "src/content/fab/hide-owned.js",
+        "src/content/fab/index.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://assetstore.unity.com/*"],
+      "js": [
+        "src/content/shared/utils.js",
+        "src/content/shared/state.js",
+        "src/content/shared/config.js",
+        "src/content/shared/ui/styles.js",
+        "src/content/shared/ui/drag.js",
+        "src/content/shared/ui/search.js",
+        "src/content/shared/ui/assets-list.js",
+        "src/content/shared/ui/expanded-panel.js",
+        "src/content/shared/ui/claim-history.js",
+        "src/content/shared/ui/dynamic-island.js",
+        "src/content/shared/controller.js",
+        "src/content/unity/asset-processor.js",
+        "src/content/unity/index.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

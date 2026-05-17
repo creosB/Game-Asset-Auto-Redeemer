@@ -1,0 +1,182 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 320px;
+  min-height: 280px;
+  background: rgba(20, 20, 30, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+}
+
+.popup-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 280px;
+}
+
+/* Header */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.logo-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.popup-version {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Status */
+.popup-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #555;
+  flex-shrink: 0;
+}
+
+.status-indicator.active {
+  background: #34c759;
+  box-shadow: 0 0 8px rgba(52, 199, 89, 0.4);
+}
+
+.status-indicator.inactive {
+  background: #ff9f0a;
+}
+
+#status-text {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Actions */
+.popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  color: #fff;
+}
+
+.popup-btn:active { transform: scale(0.98); }
+
+.popup-btn-primary {
+  background: linear-gradient(135deg, #34c759, #30b350);
+  box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+}
+
+.popup-btn-primary:hover {
+  background: linear-gradient(135deg, #3ddc64, #34c759);
+}
+
+.popup-btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popup-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.popup-btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.popup-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.popup-btn-premium {
+  background: linear-gradient(135deg, rgba(255, 159, 10, 0.15), rgba(255, 159, 10, 0.05));
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  color: #ff9f0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.popup-btn-premium:hover {
+  background: linear-gradient(135deg, rgba(255, 159, 10, 0.25), rgba(255, 159, 10, 0.1));
+  border-color: rgba(255, 159, 10, 0.5);
+  box-shadow: 0 2px 12px rgba(255, 159, 10, 0.2);
+}
+
+.popup-btn-premium.is-premium {
+  background: linear-gradient(135deg, rgba(52, 199, 89, 0.15), rgba(52, 199, 89, 0.05));
+  border-color: rgba(52, 199, 89, 0.3);
+  color: #34c759;
+}
+
+/* Footer */
+.popup-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.popup-footer a {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.popup-footer a:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-sep {
+  color: rgba(255, 255, 255, 0.15);
+}

@@ -1,0 +1,17 @@
+{
+  "name": "game-asset-redeemer",
+  "version": "1.0.0",
+  "description": "Chrome/Edge Manifest V3 browser extension that automatically detects and claims free game assets on **FAB (Epic Games)** and **Unity Asset Store**. Features a Dynamic Island-style overlay UI with real-time status tracking.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:fab": "npx playwright test tests/fab-monthly-free.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

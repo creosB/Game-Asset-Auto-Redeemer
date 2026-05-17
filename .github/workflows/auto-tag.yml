@@ -1,0 +1,127 @@
+name: Game Asset Auto Redeemer
+run-name: "Game Asset Auto Redeemer ${{ github.event.head_commit.message }}"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'manifest.json'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Tag, build & publish release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read version from manifest.json
+        id: manifest
+        run: |
+          VERSION=$(jq -r '.version' manifest.json)
+          NAME=$(jq -r '.name' manifest.json)
+          echo "version=$VERSION"     >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION"        >> "$GITHUB_OUTPUT"
+          echo "extension_name=$NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag already exists
+        id: tag_check
+        run: |
+          if git rev-parse "${{ steps.manifest.outputs.tag }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create and push tag
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.manifest.outputs.tag }}" -m "Release ${{ steps.manifest.outputs.tag }}"
+          git push origin "${{ steps.manifest.outputs.tag }}"
+
+      - name: Generate changelog
+        if: steps.tag_check.outputs.exists == 'false'
+        id: changelog
+        run: |
+          CURRENT_TAG="${{ steps.manifest.outputs.tag }}"
+          PREVIOUS_TAG=$(git tag --sort=-version:refname \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | grep -v "^${CURRENT_TAG}$" \
+            | head -n1 || true)
+
+          if [ -z "$PREVIOUS_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s (%h)" HEAD)
+          else
+            COMMITS=$(git log --pretty=format:"- %s (%h)" "${PREVIOUS_TAG}..HEAD")
+          fi
+
+          FEATURES=$(echo "$COMMITS" | grep -iE "^- feat"                                   || true)
+          FIXES=$(echo    "$COMMITS" | grep -iE "^- fix"                                    || true)
+          CHORES=$(echo   "$COMMITS" | grep -iE "^- chore|^- refactor|^- perf|^- build"    || true)
+          DOCS=$(echo     "$COMMITS" | grep -iE "^- docs"                                   || true)
+          OTHER=$(echo    "$COMMITS" | grep -ivE "^- (feat|fix|chore|refactor|perf|build|docs)" || true)
+
+          NOTES=""
+          [ -n "$FEATURES" ] && NOTES+="### ✨ New Features"$'\n'"$FEATURES"$'\n\n'
+          [ -n "$FIXES"    ] && NOTES+="### 🐛 Bug Fixes"$'\n'"$FIXES"$'\n\n'
+          [ -n "$CHORES"   ] && NOTES+="### 🔧 Maintenance"$'\n'"$CHORES"$'\n\n'
+          [ -n "$DOCS"     ] && NOTES+="### 📝 Documentation"$'\n'"$DOCS"$'\n\n'
+          [ -n "$OTHER"    ] && NOTES+="### 📦 Other Changes"$'\n'"$OTHER"$'\n\n'
+          [ -z "$NOTES"    ] && NOTES="No notable changes in this release."
+
+          {
+            echo "notes<<EOF"
+            echo "$NOTES"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "previous_tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build extension zip
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          ZIP_NAME="game-asset-redeemer-${{ steps.manifest.outputs.tag }}.zip"
+          zip -r "$ZIP_NAME" . \
+            --exclude "*.DS_Store" \
+            --exclude "*Thumbs.db" \
+            --exclude "*.map" \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "node_modules/*" \
+            --exclude "tests/*" \
+            --exclude "test-results/*" \
+            --exclude "playwright.config.js" \
+            --exclude "package.json" \
+            --exclude "package-lock.json" \
+            --exclude "README.md"
+          echo "ZIP_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.manifest.outputs.tag }}
+          name: "${{ steps.manifest.outputs.extension_name }} ${{ steps.manifest.outputs.tag }}"
+          body: |
+            ## ${{ steps.manifest.outputs.extension_name }} ${{ steps.manifest.outputs.tag }}
+
+            ${{ steps.changelog.outputs.notes }}
+
+            ---
+
+            ### 📥 Installation
+            Download the `.zip` below, unzip it, then load it as an **unpacked extension** in Chrome/Edge (`chrome://extensions` → *Load unpacked*).
+
+            **Full Changelog:** ${{ steps.changelog.outputs.previous_tag != '' && format('https://github.com/{0}/compare/{1}...{2}', github.repository, steps.changelog.outputs.previous_tag, steps.manifest.outputs.tag) || format('https://github.com/{0}/commits/{1}', github.repository, steps.manifest.outputs.tag) }}
+          files: ${{ env.ZIP_NAME }}
+          draft: false
+          prerelease: ${{ contains(steps.manifest.outputs.tag, '-beta') || contains(steps.manifest.outputs.tag, '-alpha') || contains(steps.manifest.outputs.tag, '-rc') }}

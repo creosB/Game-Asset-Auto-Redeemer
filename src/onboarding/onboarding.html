@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface-2: #242424;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-2: rgba(255, 255, 255, 0.14);
+      --ink-1: #ffffff;
+      --ink-2: #a0a0a0;
+      --ink-3: #555555;
+      --primary: #34c759;
+      --primary-5: #30b350;
+      --primary-dim: rgba(52, 199, 89, 0.10);
+      --primary-bd: rgba(52, 199, 89, 0.22);
+      --amber-5: #ff9f0a;
+      --amber-6: #e68a00;
+      --amber-dim: rgba(255, 159, 10, 0.12);
+      --amber-bd: rgba(255, 159, 10, 0.28);
+      --unity: #5ac8fa;
+      --unity-dim: rgba(90, 200, 250, 0.10);
+      --unity-bd: rgba(90, 200, 250, 0.22);
+      --radius-md: 14px;
+      --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: var(--bg);
+      font-family: -apple-system, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      color: var(--ink-1);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .shell {
+      width: 100%;
+      height: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px 0;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .brand-name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .skip-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-3);
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      font-family: inherit;
+    }
+
+    .skip-btn:hover { color: var(--ink-2); background: var(--surface); }
+
+    .slider-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slider-track {
+      display: flex;
+      height: 100%;
+      width: 500%;
+      transition: transform 0.55s var(--ease-out-quint);
+      will-change: transform;
+    }
+
+    .slide {
+      width: 20%;
+      height: 100%;
+      padding: 20px 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .step-bg-num {
+      position: absolute;
+      top: -12px;
+      right: 18px;
+      font-size: 120px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: var(--surface-2);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .slide--premium .step-bg-num { color: rgba(255, 159, 10, 0.06); }
+    .slide--unity .step-bg-num { color: rgba(90, 200, 250, 0.06); }
+
+    .illustration-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    .illustration-plate {
+      width: 148px;
+      height: 148px;
+      border-radius: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide--default .illustration-plate {
+      background: var(--surface-2);
+      border: 1px solid var(--border-2);
+    }
+
+    .slide--premium .illustration-plate {
+      background: var(--surface-2);
+      border: 1px solid var(--amber-bd);
+    }
+
+    .slide--unity .illustration-plate {
+      background: var(--surface-2);
+      border: 1px solid var(--unity-bd);
+    }
+
+    .illustration-plate::after {
+      content: "";
+      position: absolute;
+      bottom: 14px;
+      right: 10px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0.18;
+    }
+
+    .slide--premium .illustration-plate::after { background: var(--amber-5); }
+    .slide--unity .illustration-plate::after { background: var(--unity); }
+
+    .illustration-plate svg { width: 72px; height: 72px; }
+
+    .copy {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      padding: 2px 0 8px;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .slide--default .step-label { color: var(--primary-5); }
+    .slide--premium .step-label { color: var(--amber-5); }
+    .slide--unity .step-label { color: var(--unity); }
+
+    .headline {
+      font-size: 26px;
+      font-weight: 760;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      color: var(--ink-1);
+    }
+
+    .body-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--ink-2);
+      max-width: 340px;
+    }
+
+    .body-text strong { color: var(--ink-1); }
+    .body-text--accent { font-weight: 600; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      align-self: flex-start;
+      border: 1px solid transparent;
+    }
+
+    .slide--default .chip {
+      background: var(--primary-dim);
+      color: var(--primary);
+      border-color: var(--primary-bd);
+    }
+
+    .slide--premium .chip {
+      background: var(--amber-dim);
+      color: var(--amber-5);
+      border-color: var(--amber-bd);
+    }
+
+    .slide--unity .chip {
+      background: var(--unity-dim);
+      color: var(--unity);
+      border-color: var(--unity-bd);
+    }
+
+    .chip-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .slide--default .chip-dot { background: var(--primary); }
+    .slide--premium .chip-dot { background: var(--amber-5); }
+    .slide--unity .chip-dot { background: var(--unity); }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--ink-2);
+      font-weight: 450;
+    }
+
+    .feature-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--amber-dim);
+      border: 1px solid var(--amber-bd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon svg {
+      width: 14px;
+      height: 14px;
+      color: var(--amber-5);
+    }
+
+    .controls {
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .progress-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dot {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--surface-2);
+      transition: width 0.4s var(--ease-out-quint), background 0.4s;
+    }
+
+    .dot.active { width: 22px; background: var(--primary); }
+    .dot:not(.active) { width: 6px; }
+    .dot--amber.active { background: var(--amber-5) !important; }
+    .dot--unity.active { background: var(--unity) !important; }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-back {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-2);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      color: var(--ink-2);
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+
+    .btn-back:hover { border-color: var(--ink-3); background: var(--surface-2); }
+    .btn-back:active { transform: scale(0.95); }
+    .btn-back[data-hidden] { visibility: hidden; pointer-events: none; }
+    .btn-back svg { width: 16px; height: 16px; }
+
+    .btn-next, .btn-premium, .btn-start {
+      flex: 1;
+      height: 44px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 620;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-next, .btn-start {
+      background: var(--primary);
+      color: #0f0f0f;
+      box-shadow: 0 2px 12px -2px rgba(52, 199, 89, 0.35);
+    }
+
+    .btn-next:hover, .btn-start:hover {
+      opacity: 0.92;
+      box-shadow: 0 4px 18px -2px rgba(52, 199, 89, 0.45);
+    }
+
+    .btn-premium {
+      background: linear-gradient(135deg, #ff9f0a 0%, #e68a00 100%);
+      color: #fff;
+      box-shadow: 0 2px 8px -2px rgba(230, 138, 0, 0.5);
+    }
+
+    .btn-premium:hover {
+      opacity: 0.92;
+      box-shadow: 0 4px 14px -2px rgba(230, 138, 0, 0.55);
+    }
+
+    .btn-next:active, .btn-premium:active, .btn-start:active {
+      transform: scale(0.97);
+    }
+
+    .btn-next svg, .btn-premium svg, .btn-start svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-premium::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: skewX(-20deg);
+      animation: shimmer 2.8s infinite 1.2s;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      60% { left: 140%; }
+      100% { left: 140%; }
+    }
+
+    .support-note {
+      text-align: center;
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-top: -4px;
+      letter-spacing: 0.01em;
+    }
+
+    @keyframes slideContentIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide.is-active .illustration-wrap,
+    .slide.is-active .copy,
+    .slide.is-active .controls {
+      animation: slideContentIn 0.5s var(--ease-out-quint) forwards;
+    }
+
+    .slide.is-active .illustration-wrap { animation-delay: 0.05s; }
+    .slide.is-active .copy { animation-delay: 0.12s; }
+    .slide.is-active .controls { animation-delay: 0.18s; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-dot"></div>
+        <span class="brand-name">Game Asset Auto Redeemer</span>
+      </div>
+      <button class="skip-btn" id="skipBtn">Skip</button>
+    </div>
+
+    <div class="slider-viewport">
+      <div class="slider-track" id="track">
+
+        <!-- SLIDE 1 — Welcome -->
+        <div class="slide slide--default is-active" data-index="0">
+          <span class="step-bg-num" aria-hidden="true">1</span>
+          <div class="illustration-wrap">
+            <div class="illustration-plate">
+              <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="12" width="56" height="48" rx="8" fill="#1a2a1f" stroke="#34c759" stroke-width="2" />
+                <rect x="14" y="20" width="20" height="14" rx="4" fill="#0d1f15" stroke="#34c759" stroke-width="1.5" />
+                <rect x="38" y="20" width="20" height="14" rx="4" fill="#0d1f15" stroke="#34c759" stroke-width="1.5" />
+                <rect x="14" y="38" width="20" height="14" rx="4" fill="#0d1f15" stroke="#30b350" stroke-width="1.5" />
+                <rect x="38" y="38" width="20" height="14" rx="4" fill="#0d1f15" stroke="#30b350" stroke-width="1.5" />
+                <circle cx="24" cy="27" r="4" fill="#34c759" opacity="0.8" />
+                <circle cx="48" cy="27" r="4" fill="#5ac8fa" opacity="0.8" />
+                <path d="M20 45l4 4 8-8" stroke="#34c759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M44 45l4 4 8-8" stroke="#5ac8fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+          <div class="copy">
+            <span class="step-label">Step 1 of 5</span>
+            <h1 class="headline">Welcome to<br>Game Asset Redeemer</h1>
+            <p class="body-text">Automatically claim <strong>free game assets</strong> from FAB (Epic Games) and Unity Asset Store. Set it up once, and let the extension do the work.</p>
+            <span class="chip"><span class="chip-dot"></span>Works on FAB &amp; Unity Asset Store</span>
+          </div>
+          <div class="controls">
+            <div class="progress-dots">
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn-back" data-hidden aria-label="Back" aria-hidden="true" tabindex="-1">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button class="btn-next" data-action="next">Next <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2 — FAB Auto-Claim -->
+        <div class="slide slide--default" data-index="1">
+          <span class="step-bg-num" aria-hidden="true">2</span>
+          <div class="illustration-wrap">
+            <div class="illustration-plate">
+              <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="12" width="56" height="48" rx="8" fill="#1a2a1f" stroke="#34c759" stroke-width="2" />
+                <rect x="14" y="18" width="44" height="6" rx="3" fill="#34c759" opacity="0.2" />
+                <rect x="18" y="20" width="16" height="2" rx="1" fill="#34c759" opacity="0.7" />
+                <rect x="14" y="28" width="18" height="20" rx="4" fill="#0d1f15" stroke="#34c759" stroke-width="1.5" />
+                <rect x="36" y="28" width="18" height="20" rx="4" fill="#0d1f15" stroke="#34c759" stroke-width="1.5" />
+                <rect x="14" y="52" width="18" height="4" rx="2" fill="#34c759" opacity="0.8" />
+                <rect x="36" y="52" width="18" height="4" rx="2" fill="#34c759" opacity="0.8" />
+                <path d="M19 35l4 4 6-6" stroke="#34c759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M41 35l4 4 6-6" stroke="#34c759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+          <div class="copy">
+            <span class="step-label">Step 2 of 5</span>
+            <h1 class="headline">FAB Monthly<br>Free Assets</h1>
+            <p class="body-text">Every month, FAB offers <strong>limited-time free assets</strong>. The extension detects and can auto-claim them for you — up to 3 times per month.</p>
+            <span class="chip"><span class="chip-dot"></span>Auto-claim runs every 6 hours</span>
+          </div>
+          <div class="controls">
+            <div class="progress-dots">
+              <div class="dot"></div>
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn-back" data-action="prev" aria-label="Back"><svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+              <button class="btn-next" data-action="next">Next <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3 — Unity Weekly Free -->
+        <div class="slide slide--unity" data-index="2">
+          <span class="step-bg-num" aria-hidden="true">3</span>
+          <div class="illustration-wrap">
+            <div class="illustration-plate">
+              <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="12" width="56" height="48" rx="8" fill="#0d1a2a" stroke="#5ac8fa" stroke-width="2" />
+                <rect x="14" y="18" width="24" height="16" rx="4" fill="#0a1525" stroke="#5ac8fa" stroke-width="1.5" />
+                <rect x="42" y="18" width="18" height="3" rx="1.5" fill="#5ac8fa" opacity="0.6" />
+                <rect x="42" y="24" width="14" height="2" rx="1" fill="#5ac8fa" opacity="0.3" />
+                <rect x="42" y="29" width="16" height="2" rx="1" fill="#5ac8fa" opacity="0.3" />
+                <rect x="14" y="40" width="44" height="8" rx="4" fill="#5ac8fa" opacity="0.15" stroke="#5ac8fa" stroke-width="1" />
+                <rect x="18" y="42" width="18" height="2" rx="1" fill="#5ac8fa" opacity="0.6" />
+                <rect x="18" y="45" width="12" height="1.5" rx="0.75" fill="#5ac8fa" opacity="0.3" />
+                <rect x="14" y="52" width="20" height="4" rx="2" fill="#5ac8fa" opacity="0.8" />
+                <text x="24" y="55.5" font-size="3" fill="#0d0d1a" font-weight="bold" text-anchor="middle" font-family="sans-serif">FREE</text>
+              </svg>
+            </div>
+          </div>
+          <div class="copy">
+            <span class="step-label">Step 3 of 5</span>
+            <h1 class="headline">Unity Weekly<br>Free Asset</h1>
+            <p class="body-text">Each week, Unity gives away a <strong>free premium asset</strong> with a coupon code. The extension fetches it automatically so you never miss one.</p>
+            <span class="chip"><span class="chip-dot"></span>Coupon code copied with one click</span>
+          </div>
+          <div class="controls">
+            <div class="progress-dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot active dot--unity"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn-back" data-action="prev" aria-label="Back"><svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+              <button class="btn-next" data-action="next">Next <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 4 — Claim History -->
+        <div class="slide slide--default" data-index="3">
+          <span class="step-bg-num" aria-hidden="true">4</span>
+          <div class="illustration-wrap">
+            <div class="illustration-plate">
+              <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="52" height="52" rx="10" fill="#1a2a1f" stroke="#34c759" stroke-width="1.8" />
+                <rect x="16" y="18" width="40" height="4" rx="2" fill="#34c759" opacity="0.3" />
+                <rect x="16" y="26" width="40" height="4" rx="2" fill="#34c759" opacity="0.2" />
+                <rect x="16" y="34" width="40" height="4" rx="2" fill="#5ac8fa" opacity="0.2" />
+                <rect x="16" y="42" width="40" height="4" rx="2" fill="#34c759" opacity="0.2" />
+                <rect x="16" y="50" width="40" height="4" rx="2" fill="#5ac8fa" opacity="0.2" />
+                <circle cx="20" cy="20" r="2" fill="#34c759" />
+                <circle cx="20" cy="28" r="2" fill="#34c759" />
+                <circle cx="20" cy="36" r="2" fill="#5ac8fa" />
+                <circle cx="20" cy="44" r="2" fill="#34c759" />
+                <circle cx="20" cy="52" r="2" fill="#5ac8fa" />
+                <rect x="26" y="19" width="14" height="2" rx="1" fill="#fff" opacity="0.5" />
+                <rect x="26" y="27" width="18" height="2" rx="1" fill="#fff" opacity="0.5" />
+                <rect x="26" y="35" width="12" height="2" rx="1" fill="#fff" opacity="0.5" />
+                <rect x="26" y="43" width="16" height="2" rx="1" fill="#fff" opacity="0.5" />
+                <rect x="26" y="51" width="10" height="2" rx="1" fill="#fff" opacity="0.5" />
+              </svg>
+            </div>
+          </div>
+          <div class="copy">
+            <span class="step-label">Step 4 of 5</span>
+            <h1 class="headline">Track Every<br>Claim</h1>
+            <p class="body-text">Keep a <strong>searchable history</strong> of every asset you've claimed. Filter by FAB or Unity, export to JSON, and never lose track.</p>
+            <span class="chip"><span class="chip-dot"></span>Up to 500 records saved locally</span>
+          </div>
+          <div class="controls">
+            <div class="progress-dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot active"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn-back" data-action="prev" aria-label="Back"><svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+              <button class="btn-next" data-action="next">Next <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 5 — Go Premium -->
+        <div class="slide slide--premium" data-index="4">
+          <span class="step-bg-num" aria-hidden="true">5</span>
+          <div class="illustration-wrap">
+            <div class="illustration-plate">
+              <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 30a6 6 0 016-6h14l4 5h22a6 6 0 016 6v18a6 6 0 01-6 6H16a6 6 0 01-6-6V30z" fill="#fef3c7" stroke="#ff9f0a" stroke-width="1.8" />
+                <path d="M10 30V26a4 4 0 014-4h14l4 5H10z" fill="#fde68a" stroke="#ff9f0a" stroke-width="1.8" />
+                <rect x="18" y="38" width="24" height="2.5" rx="1.25" fill="#ff9f0a" opacity="0.5" />
+                <rect x="18" y="43" width="18" height="2.5" rx="1.25" fill="#fde68a" />
+                <rect x="18" y="48" width="20" height="2.5" rx="1.25" fill="#fde68a" />
+                <path d="M24 20l4 6 8-9 8 9 4-6v8H20v-8z" fill="#ff9f0a" stroke="#e68a00" stroke-width="1.5" stroke-linejoin="round" />
+                <circle cx="24" cy="20" r="2" fill="#fbbf24" />
+                <circle cx="36" cy="11" r="2" fill="#fbbf24" />
+                <circle cx="48" cy="20" r="2" fill="#fbbf24" />
+                <path d="M54 14l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" fill="#fbbf24" opacity="0.9" />
+                <path d="M14 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z" fill="#fbbf24" opacity="0.7" />
+              </svg>
+            </div>
+          </div>
+          <div class="copy">
+            <span class="step-label">Step 5 of 5</span>
+            <h1 class="headline">Unlock<br>Premium</h1>
+            <p class="body-text">Upgrade to <strong class="body-text--accent" style="color: var(--amber-5);">Premium</strong> to unlock these features and support development.</p>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.4" /><path d="M5 7l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+                Claim History with search &amp; export
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.4" /><path d="M5 7l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+                FAB Monthly Free Assets viewer &amp; claimer
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.4" /><path d="M5 7l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+                Unity Weekly Free Asset with coupon codes
+              </div>
+            </div>
+          </div>
+          <div class="controls">
+            <div class="progress-dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot active dot--amber"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn-back" data-action="prev" aria-label="Back"><svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+              <button class="btn-premium" id="goPremiumBtn">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 11l2-5 3 4 3-4 2 5H3z" fill="currentColor" opacity="0.85" /><circle cx="3" cy="6" r="1.2" fill="currentColor" /><circle cx="8" cy="4" r="1.2" fill="currentColor" /><circle cx="13" cy="6" r="1.2" fill="currentColor" /></svg>
+                Go Premium
+              </button>
+            </div>
+            <div class="btn-row">
+              <button class="btn-start" id="getStartedBtn">Get Started <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+            </div>
+            <p class="support-note">This extension is completely open source.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="onboarding.js"></script>
+</body>
+</html>

@@ -1,68 +1,109 @@
-# Game Asset Auto Redeemer (UNITY / FAB)
+# Game Asset Auto Redeemer
 
-## Overview
+Chrome/Edge Manifest V3 browser extension that automatically detects and claims free game assets on **FAB (Epic Games)** and **Unity Asset Store**. Features a Dynamic Island-style overlay UI with real-time status tracking.
 
-Game Asset Auto Redeemer is a powerful userscript designed to save you time and effort by automatically adding free assets from the FAB and Unity Asset Store to your account. It features a sleek, draggable "Liquid Glass" UI that is both modern and functional, ensuring a seamless experience without getting in your way. The interface provides real-time feedback and is carefully designed for high readability on any background.
+## Supported Platforms
 
-[![sponsor](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/creos)
+| Platform                                       | Status          | Method                                               |
+| ---------------------------------------------- | --------------- | ---------------------------------------------------- |
+| [FAB (Epic Games)](https://www.fab.com)           | Fully supported | DOM-based card detection + license dialog automation |
+| [Unity Asset Store](https://assetstore.unity.com) | Supported       | GraphQL API redemption with CSRF token handling      |
 
 ## Features
 
-*   **Automated Redemption:** Automatically detects and redeems assets marked as "FREE" on any search or category page.
-*   **Licence Type Selection for FAB** You can choose the type of licence (Personal / Professional) you want.**
-*   **Draggable Liquid Glass UI:** A beautiful, semi-transparent interface that can be moved anywhere on the screen. It follows modern design principles for a clean and intuitive feel.
-*   **High-Contrast Readability:** Text is enhanced with a subtle shadow, ensuring it remains perfectly clear and legible on both light and dark website backgrounds.
-*   **Real-time Progress:** The UI displays the name of the asset currently being redeemed and a progress counter (`current/total`).
-*   **Automatic Page Navigation:** Once all free assets on a page are redeemed, the script will automatically click the "Next" button to continue to the next page.
-*   **Searchable Asset List:** After a session, you can view a complete list of all assets you've redeemed. This list includes a search bar to quickly find specific assets.
-*   **Simple Controls:** Easily start, stop, expand, and collapse the UI with simple clicks.
-
+- **Auto-claim** — scans pages for free assets and claims them automatically
+- **Dynamic Island UI** — iPhone-inspired draggable overlay with collapsed/expanded states, Shadow DOM isolation, frosted glass aesthetic
+- **License selection** — choose personal or professional license preference for FAB
+- **Hide owned assets** — filters out assets already in your FAB library
+- **Auto-pagination** — Unity: navigates to next page after claiming all free assets
+- **Live status** — per-asset status dots (claimed/failed/pending), claimed count badge, search/filter
+- **Config persistence** — all settings synced via `chrome.storage.sync`
+- **Notifications** — native Chrome notifications on completion or error
+- **SPA-aware** — detects client-side navigation on FAB via history API interception + MutationObserver
 
 ## Installation
 
-1.  **Install a Userscript Manager:** You need a browser extension to run this script. Choose one of the following:
-    *   [Tampermonkey](https://www.tampermonkey.net/) (Recommended for Chrome, Firefox, Edge, Safari)
-    *   [Violentmonkey](https://violentmonkey.github.io/)
-    *   [Greasemonkey](https://www.greasespot.net/) (Firefox only)
+1. Clone or download this repository
+2. Open `chrome://extensions` or `edge://extensions`
+3. Enable **Developer mode**
+4. Click **Load unpacked** and select the project root folder
 
-2.  **Install the Script:**
-    *   Go to the script's installation page on [Greasy Fork](https://greasyfork.org/en/users/1496946-creos) or click the raw `.user.js` file link in the GitHub repository.
-
-3.  **Confirm Installation:** Your userscript manager will open a new tab and ask you to confirm the installation. Click **Install**.
-
-The script is now active and will run automatically when you visit the Unity Asset Store OR FAB.
-
-Unity: https://assetstore.unity.com/?free=true&exclude=true&orderBy=6&rows=96
-
-FAB: https://www.fab.com/channels/unreal-engine?is_free=1&sort_by=-firstPublishedAt
-
+No build step required — load directly as unpacked extension.
 
 ## Usage
 
-1.  **Navigate to the Unity Asset Store / FAB:** Go to any search results, category, or publisher page that lists multiple assets.
-2.  **Locate the UI:** The Liquid Glass UI will appear in the top-right corner of the page.
-3.  **Interact with the UI:**
-    *   **Move:** Click and drag the panel to move it anywhere on the screen.
-    *   **Expand/Collapse:** Click the panel (when not dragging) to expand it for more options or collapse it to a compact view.
-    *   **Start/Stop:** In the expanded view, click the **Start Auto Redeem** button to begin the process. The button will change to **Stop Process**, which you can click at any time to halt the script.
-    *   **View List:** After one or more assets have been redeemed, a **View Redeemed** button will appear. Click it to see a list of what you've grabbed during the session.
-    *   **Search:** Use the search bar within the list view to filter your redeemed assets by name. Click the **'✖'** button to return to the main expanded view.
+1. Navigate to [FAB free assets](https://www.fab.com) or [Unity Asset Store free assets](https://assetstore.unity.com)
+2. The Dynamic Island overlay appears when free assets are detected
+3. Click the island to expand the control panel
+4. Adjust settings (license type, delays, retries) as needed
+5. Press **Start** — assets are claimed automatically with live progress updates
 
-**For FAB** You should scroll down the page. This will allow you to directly add items to the list, which will then be displayed on the counter as "Found: 15 assets".
+### Auto-start
 
-## Screenshots
+Enable **Auto-start** in the options or in-page panel to begin claiming automatically on page load.
 
-| Screenshot 1 | Screenshot 2 |
-|--------------|--------------|
-| ![Screenshot 1](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/1.png) | ![Screenshot 2](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/2.png) |
-| Screenshot 3 | Screenshot 4 |
-|--------------|--------------|
-| ![Screenshot 3](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/3.png) | ![Screenshot 4](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/4.png) |
-| Screenshot 5 | Screenshot 6 |
-|--------------|--------------|
-| ![Screenshot 5](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/5.png) | ![Screenshot 6](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/6.png) |
-| FAB |--------------|
-| ![Screenshot 7](https://raw.githubusercontent.com/creosB/Game-Asset-Auto-Redeemer/refs/heads/main/images/7.png) |
+## Configuration
+
+Accessible via the Options page or the expanded in-page panel:
+
+| Setting                      | Default          | Description                                     |
+| ---------------------------- | ---------------- | ----------------------------------------------- |
+| Preferred License            | `professional` | FAB license type (personal/professional)        |
+| Delay Between Actions        | `2000ms`       | Wait between FAB claim attempts (500–10000ms)  |
+| Max Retries                  | `2`            | Retry count on claim failure (0–5)             |
+| Dialog Timeout               | `10000ms`      | Max wait for FAB license dialog (3000–30000ms) |
+| Auto-start                   | `false`        | Start claiming on page load                     |
+| Hide Owned Assets            | `true`         | Hide already-owned FAB assets                   |
+| Unity Delay Between Products | `500ms`        | Wait between Unity claims (200–10000ms)        |
+| Unity Auto-paginate          | `true`         | Navigate to next Unity page automatically       |
+| Unity Delay Before Next Page | `10000ms`      | Wait before next Unity page (3000–60000ms)     |
+
+## Project Structure
+
+```
+├── manifest.json                    # MV3 manifest (permissions, content scripts, service worker)
+├── icons/                           # Extension icons + generation script
+├── src/
+│   ├── background/
+│   │   └── service-worker.js        # Message routing, notifications, tab tracking, keep-alive
+│   ├── content/
+│   │   ├── shared/
+│   │   │   ├── utils.js             # Helpers: wait, log, safeClick, waitForElement, retryWithBackoff
+│   │   │   ├── state.js             # Global state: isRunning, assetsFound[], claimed/failed counts
+│   │   │   ├── config.js            # Config load/save via chrome.storage.sync, change listener
+│   │   │   ├── controller.js        # Start/stop orchestration, keep-alive pings
+│   │   │   └── ui/
+│   │   │       ├── styles.js        # Full CSS (Dynamic Island, panel, buttons, toggles)
+│   │   │       ├── drag.js          # Mouse/touch drag for island and panel
+│   │   │       ├── search.js        # Debounced asset search/filter
+│   │   │       ├── assets-list.js   # Asset items with status indicators
+│   │   │       ├── expanded-panel.js# Control panel: start/stop, config, asset list
+│   │   │       └── dynamic-island.js# Shadow DOM host, collapsed pill, expand/collapse
+│   │   ├── fab/
+│   │   │   ├── index.js             # FAB init, free asset scanning, SPA navigation handling
+│   │   │   ├── asset-processor.js   # Card detection, multi-tier button finding, claim flow
+│   │   │   ├── license-processor.js # License dialog: radio selection, action button
+│   │   │   └── hide-owned.js        # Hides owned assets via CSS + MutationObserver
+│   │   └── unity/
+│   │       ├── index.js             # Unity init, scanning, island creation
+│   │       └── asset-processor.js   # GraphQL addToDownload mutation, auto-pagination
+│   ├── popup/
+│   │   ├── popup.html               # Browser action popup
+│   │   ├── popup.css
+│   │   └── popup.js                 # Status check, quick links
+│   └── options/
+│       ├── options.html             # Full settings page
+│       ├── options.css
+│       └── options.js               # Config management with validation
+```
+
+## Architecture
+
+- **No build step** — vanilla JavaScript, IIFE modules, zero dependencies at runtime
+- Shared state via `window.__fabGrabber` global namespace across content scripts
+- Shadow DOM UI isolation prevents host page CSS conflicts
+- ES module service worker for background processing
+- SPA navigation detection: `history.pushState`/`replaceState` interception + `MutationObserver`
 
 
 # License

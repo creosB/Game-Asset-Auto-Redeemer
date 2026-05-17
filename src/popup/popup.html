@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Asset Auto Redeemer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <div class="popup-logo">
+        <img src="../../icons/icon-128.png" alt="Logo" class="logo-img">
+        <span class="logo-text">Game Asset Auto Redeemer</span>
+      </div>
+      <span class="popup-version">v1.0.0</span>
+    </header>
+
+    <div class="popup-status" id="status-box">
+      <div class="status-indicator" id="status-indicator"></div>
+      <span id="status-text">Checking...</span>
+    </div>
+
+    <div class="popup-actions">
+      <button class="popup-btn popup-btn-primary" id="btn-open-fab">
+        Open FAB
+      </button>
+      <button class="popup-btn popup-btn-secondary" id="btn-open-unity">
+        Open Unity
+      </button>
+      <button class="popup-btn popup-btn-premium" id="btn-premium">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.18 22 12 18.8 5.82 22 7 14.15l-5-4.88 6.91-1.01L12 2z"/></svg>
+        <span>Premium</span>
+      </button>
+      <button class="popup-btn popup-btn-ghost" id="btn-options">
+        ⚙️ Options
+      </button>
+    </div>
+
+    <footer class="popup-footer">
+      <a href="https://github.com/CreosB" target="_blank" rel="noopener">GitHub</a>
+      <span class="footer-sep">·</span>
+      <a href="https://twitter.com/CreosB" target="_blank" rel="noopener">Twitter</a>
+      <span class="footer-sep">·</span>
+      <span>by CreosB</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

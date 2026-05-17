@@ -1,6 +1,11 @@
 # Game Asset Auto Redeemer
 
+![Promo Tile](new%20images/promo%20tile.png)
+
 Chrome/Edge Manifest V3 browser extension that automatically detects and claims free game assets on **FAB (Epic Games)** and **Unity Asset Store**. Features a Dynamic Island-style overlay UI with real-time status tracking.
+
+[![Chrome](https://raw.githubusercontent.com/creosB/creosB/refs/heads/main/assets/Chrome%20Web%20Store.svg)](https://chromewebstore.google.com/detail/game-asset-auto-redeemer/fbjceplloidnllfkmngbopibinmcbcaj)
+[![sponsor](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/creos)
 
 ## Supported Platforms
 

@@ -75,13 +75,18 @@ jobs:
             --exclude "*.map" \
             --exclude ".git/*" \
             --exclude ".github/*" \
+            --exclude ".gitignore" \
+            --exclude ".gitleaks.toml" \
             --exclude "node_modules/*" \
             --exclude "tests/*" \
             --exclude "test-results/*" \
             --exclude "playwright.config.js" \
             --exclude "package.json" \
             --exclude "package-lock.json" \
-            --exclude "README.md"
+            --exclude "README.md" \
+            --exclude "Scripts README (greasyfork).md" \
+            --exclude "Old Scripts (greasyfork)/*" \
+            --exclude "images/*"
           echo "ZIP_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
 
       - name: Create GitHub Release

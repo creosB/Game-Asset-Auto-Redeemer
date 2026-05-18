@@ -73,7 +73,7 @@
     document.getElementById('premium-modal-backdrop').addEventListener('click', closePremiumModal);
     document.getElementById('premium-close-btn').addEventListener('click', closePremiumModal);
     document.getElementById('premium-buy-btn').addEventListener('click', function() {
-      window.open('https://artistscompany.lemonsqueezy.com/checkout/buy/6bbaae2a-94bd-4b63-b005-9f6e7c3d98c4', '_blank');
+      window.open('https://artistscompany.lemonsqueezy.com/checkout/buy/3ab2bd0f-c364-4ebd-afaf-8bd3065ab6ee', '_blank');
     });
     document.getElementById('premium-verify-btn').addEventListener('click', handlePremiumVerify);
 

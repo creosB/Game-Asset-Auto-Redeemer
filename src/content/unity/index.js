@@ -11,6 +11,11 @@
   var config = ns.config;
 
   var islandCreated = false;
+  var i18nReady = false;
+
+  document.addEventListener('i18n-ready', function() {
+    i18nReady = true;
+  });
 
   async function init() {
     await ns.loadConfig();
@@ -40,8 +45,15 @@
   function createIslandOnce() {
     if (islandCreated) return;
     islandCreated = true;
-    ns.ui.dynamicIsland.create();
-    utils.log('[Unity] Dynamic Island UI created.');
+    if (i18nReady || (ns.i18n && ns.i18n._ready)) {
+      ns.ui.dynamicIsland.create();
+      utils.log('[Unity] Dynamic Island UI created.');
+    } else {
+      document.addEventListener('i18n-ready', function() {
+        ns.ui.dynamicIsland.create();
+        utils.log('[Unity] Dynamic Island UI created.');
+      }, { once: true });
+    }
   }
 
   if (document.readyState === 'loading') {

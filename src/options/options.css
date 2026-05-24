@@ -130,6 +130,36 @@ body {
   flex-shrink: 0;
 }
 
+/* Select */
+.option-select {
+  width: 160px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(255,255,255,0.4)' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+.option-select:focus {
+  border-color: rgba(52, 199, 89, 0.5);
+}
+
+.option-select option {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
 /* Number Input */
 .option-input {
   width: 90px;

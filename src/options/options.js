@@ -1,6 +1,14 @@
 (function() {
   'use strict';
 
+  function t(key) {
+    var subs = [];
+    for (var i = 1; i < arguments.length; i++) subs.push(arguments[i]);
+    var ns = window.__fabGrabber && window.__fabGrabber.i18n;
+    var msg = ns ? ns.getMessage(key, subs) : chrome.i18n.getMessage(key, subs);
+    return msg || key;
+  }
+
   var DEFAULTS = {
     preferredLicense: 'professional',
     delayBetweenActions: 2000,
@@ -12,7 +20,8 @@
     fabAutoClaim: false,
     unityDelayBetweenProducts: 500,
     unityAutoPaginate: true,
-    unityDelayBeforeNextPage: 10000
+    unityDelayBeforeNextPage: 10000,
+    selectedLanguage: 'auto'
   };
 
   var radios = document.querySelectorAll('input[name="license"]');
@@ -26,6 +35,7 @@
   var unityDelayInput = document.getElementById('opt-unity-delay');
   var unityAutoPaginateToggle = document.getElementById('opt-unity-auto-paginate');
   var unityPageDelayInput = document.getElementById('opt-unity-page-delay');
+  var languageSelect = document.getElementById('opt-language');
   var saveBtn = document.getElementById('btn-save');
   var saveStatus = document.getElementById('save-status');
 
@@ -48,6 +58,8 @@
       unityDelayInput.value = stored.unityDelayBetweenProducts || DEFAULTS.unityDelayBetweenProducts;
       unityAutoPaginateToggle.checked = stored.unityAutoPaginate !== false;
       unityPageDelayInput.value = stored.unityDelayBeforeNextPage || DEFAULTS.unityDelayBeforeNextPage;
+      if (languageSelect) languageSelect.value = stored.selectedLanguage || DEFAULTS.selectedLanguage;
+      window.__currentLang = stored.selectedLanguage || DEFAULTS.selectedLanguage;
     } catch (err) {
       console.error('Failed to load config:', err);
     }
@@ -73,12 +85,16 @@
       fabAutoClaim: fabAutoClaimToggle ? fabAutoClaimToggle.checked : false,
       unityDelayBetweenProducts: clamp(parseInt(unityDelayInput.value, 10) || DEFAULTS.unityDelayBetweenProducts, 200, 10000),
       unityAutoPaginate: unityAutoPaginateToggle.checked,
-      unityDelayBeforeNextPage: clamp(parseInt(unityPageDelayInput.value, 10) || DEFAULTS.unityDelayBeforeNextPage, 3000, 60000)
+      unityDelayBeforeNextPage: clamp(parseInt(unityPageDelayInput.value, 10) || DEFAULTS.unityDelayBeforeNextPage, 3000, 60000),
+      selectedLanguage: languageSelect ? languageSelect.value : DEFAULTS.selectedLanguage
     };
 
     try {
       await chrome.storage.sync.set(cfg);
       showSaved();
+      if (languageSelect && cfg.selectedLanguage !== (window.__currentLang || 'auto')) {
+        setTimeout(function() { location.reload(); }, 300);
+      }
     } catch (err) {
       console.error('Failed to save config:', err);
     }
@@ -96,6 +112,21 @@
   }
 
   saveBtn.addEventListener('click', saveConfig);
+
+  // ── Live language switching ────────────────────────────
+  if (languageSelect) {
+    languageSelect.addEventListener('change', function() {
+      var lang = languageSelect.value;
+      window.__currentLang = lang;
+      chrome.storage.sync.set({ selectedLanguage: lang });
+      var i18n = window.__fabGrabber && window.__fabGrabber.i18n;
+      if (i18n) {
+        i18n.loadLocale(lang, function() {
+          i18n.localizeDocument();
+        });
+      }
+    });
+  }
 
   chrome.storage.onChanged.addListener(function(changes, area) {
     if (area !== 'sync') return;
@@ -134,6 +165,9 @@
     }
     if ('unityDelayBeforeNextPage' in changes) {
       unityPageDelayInput.value = changes.unityDelayBeforeNextPage.newValue || DEFAULTS.unityDelayBeforeNextPage;
+    }
+    if ('selectedLanguage' in changes && languageSelect) {
+      languageSelect.value = changes.selectedLanguage.newValue || DEFAULTS.selectedLanguage;
     }
   });
 
@@ -308,7 +342,7 @@
 
     if (filtered.length === 0) {
       chList.innerHTML = '<div class="claim-history-empty">' +
-        (query ? 'No results for "' + escapeHtml(searchQuery) + '"' : 'No claimed assets yet. Start claiming to build your history.') +
+        (query ? t('options_history_no_results', escapeHtml(searchQuery)) : t('options_history_empty')) +
         '</div>';
       return;
     }
@@ -427,7 +461,7 @@
   function renderWeeklyAsset(data) {
     if (waImage && data.image) waImage.src = data.image;
     if (waSubheading) waSubheading.textContent = data.subheading || '';
-    if (waName) waName.textContent = data.name || 'Unknown Asset';
+    if (waName) waName.textContent = data.name || t('assets_unknown');
     if (waDesc) waDesc.textContent = data.description || '';
     if (waDisclaimer) waDisclaimer.textContent = data.disclaimer || '';
 
@@ -449,19 +483,19 @@
     showWeeklyState('loading');
     chrome.runtime.sendMessage({ type: 'FETCH_WEEKLY_ASSET', forceRefresh: !!forceRefresh }, function(result) {
       if (chrome.runtime.lastError) {
-        if (waErrorMsg) waErrorMsg.textContent = 'Extension communication error.';
+        if (waErrorMsg) waErrorMsg.textContent = t('error_communication');
         showWeeklyState('error');
         return;
       }
       if (!result) {
-        if (waErrorMsg) waErrorMsg.textContent = 'No response from background.';
+        if (waErrorMsg) waErrorMsg.textContent = t('error_no_response');
         showWeeklyState('error');
         return;
       }
       if (result.success && result.data) {
         renderWeeklyAsset(result.data);
       } else {
-        if (waErrorMsg) waErrorMsg.textContent = result.error || 'Failed to fetch weekly asset.';
+        if (waErrorMsg) waErrorMsg.textContent = result.error || t('error_fetch_weekly');
         showWeeklyState('error');
       }
     });
@@ -472,10 +506,10 @@
       var code = waCode ? waCode.textContent : '';
       if (!code) return;
       navigator.clipboard.writeText(code).then(function() {
-        waCopyBtn.textContent = 'Copied!';
+        waCopyBtn.textContent = t('options_weekly_copied');
         waCopyBtn.classList.add('copied');
         setTimeout(function() {
-          waCopyBtn.textContent = 'Copy';
+          waCopyBtn.textContent = t('options_weekly_copy');
           waCopyBtn.classList.remove('copied');
         }, 1500);
       });
@@ -519,19 +553,20 @@
       var d = new Date(dateStr);
       var now = new Date();
       var diff = d.getTime() - now.getTime();
-      if (diff <= 0) return 'Expired';
+      if (diff <= 0) return t('monthly_expired');
       var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      if (days > 0) return days + 'd left';
+      if (days > 0) return t('monthly_days_left', String(days));
       var hours = Math.floor(diff / (1000 * 60 * 60));
-      return hours + 'h left';
+      return t('monthly_hours_left', String(hours));
     } catch (e) {
       return '';
     }
   }
 
   function renderMonthlyAssets(data) {
-    if (mfTitle) mfTitle.textContent = data.title || 'FAB Limited-Time Free';
-    if (mfBadge) mfBadge.textContent = data.assets.length + ' asset' + (data.assets.length !== 1 ? 's' : '');
+    if (mfTitle) mfTitle.textContent = data.title || t('monthly_default_title');
+    var count = data.assets.length;
+    if (mfBadge) mfBadge.textContent = count === 1 ? t('monthly_asset_count', String(count)) : t('monthly_assets_count', String(count));
 
     if (mfGrid) {
       mfGrid.innerHTML = '';
@@ -571,12 +606,12 @@
       : '';
 
     var statusHtml = isClaimed
-      ? '<span class="monthly-free-item-owned">Saved in My Library</span>'
+      ? '<span class="monthly-free-item-owned">' + t('monthly_saved_library') + '</span>'
       : '';
 
     var claimBtnHtml = isClaimed
-      ? '<button class="monthly-free-claim-btn claimed" disabled>Claimed</button>'
-      : '<button class="monthly-free-claim-btn" data-uid="' + escapeHtml(asset.uid) + '" data-url="' + escapeHtml(asset.url) + '" data-name="' + escapeHtml(asset.title) + '">Claim Free</button>';
+      ? '<button class="monthly-free-claim-btn claimed" disabled>' + t('monthly_claimed') + '</button>'
+      : '<button class="monthly-free-claim-btn" data-uid="' + escapeHtml(asset.uid) + '" data-url="' + escapeHtml(asset.url) + '" data-name="' + escapeHtml(asset.title) + '">' + t('monthly_claim_free') + '</button>';
 
     item.innerHTML =
       '<a class="monthly-free-item-link" href="' + escapeHtml(asset.url) + '" target="_blank" rel="noopener">' +
@@ -614,7 +649,7 @@
   }
 
   function markButtonClaimed(btn) {
-    btn.textContent = 'Claimed';
+    btn.textContent = t('monthly_claimed');
     btn.disabled = true;
     btn.classList.remove('claiming');
     btn.classList.add('claimed');
@@ -625,7 +660,7 @@
       if (meta && !meta.querySelector('.monthly-free-item-owned')) {
         var owned = document.createElement('span');
         owned.className = 'monthly-free-item-owned';
-        owned.textContent = 'Saved in My Library';
+        owned.textContent = t('monthly_saved_library');
         meta.appendChild(owned);
       }
     }
@@ -636,7 +671,7 @@
     var url = btn.getAttribute('data-url');
     var name = btn.getAttribute('data-name');
     btn.disabled = true;
-    btn.textContent = 'Claiming...';
+    btn.textContent = t('monthly_claiming');
     btn.classList.add('claiming');
 
     chrome.runtime.sendMessage({
@@ -647,7 +682,7 @@
     }, function(result) {
       if (chrome.runtime.lastError || !result || !result.success) {
         btn.disabled = false;
-        btn.textContent = 'Claim Free';
+        btn.textContent = t('monthly_claim_free');
         btn.classList.remove('claiming');
         return;
       }
@@ -673,19 +708,19 @@
     showMonthlyState('loading');
     chrome.runtime.sendMessage({ type: 'FETCH_MONTHLY_FREE', forceRefresh: !!forceRefresh }, function(result) {
       if (chrome.runtime.lastError) {
-        if (mfErrorMsg) mfErrorMsg.textContent = 'Extension communication error.';
+        if (mfErrorMsg) mfErrorMsg.textContent = t('error_communication');
         showMonthlyState('error');
         return;
       }
       if (!result) {
-        if (mfErrorMsg) mfErrorMsg.textContent = 'No response from background.';
+        if (mfErrorMsg) mfErrorMsg.textContent = t('error_no_response');
         showMonthlyState('error');
         return;
       }
       if (result.success && result.data) {
         renderMonthlyAssets(result.data);
       } else {
-        if (mfErrorMsg) mfErrorMsg.textContent = result.error || 'Failed to fetch monthly free assets.';
+        if (mfErrorMsg) mfErrorMsg.textContent = result.error || t('error_fetch_monthly');
         showMonthlyState('error');
       }
     });

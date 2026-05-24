@@ -1,0 +1,578 @@
+{
+  "manifest_name": {
+    "message": "Game Asset Auto Redeemer"
+  },
+  "manifest_description": {
+    "message": "Автоматическое получение бесплатных ассетов на FAB (Epic) и Unity Asset Store с интерфейсом в стиле Dynamic Island."
+  },
+  "popup_status_checking": {
+    "message": "Проверка..."
+  },
+  "popup_status_no_tab": {
+    "message": "Нет активной вкладки"
+  },
+  "popup_status_active_fab": {
+    "message": "Активно на FAB"
+  },
+  "popup_status_active_unity": {
+    "message": "Активно на Unity"
+  },
+  "popup_status_unsupported": {
+    "message": "Сайт не поддерживается"
+  },
+  "popup_status_error": {
+    "message": "Не удалось проверить вкладку"
+  },
+  "popup_open_fab": {
+    "message": "Открыть FAB"
+  },
+  "popup_open_unity": {
+    "message": "Открыть Unity"
+  },
+  "popup_premium": {
+    "message": "Премиум"
+  },
+  "popup_options": {
+    "message": "Настройки"
+  },
+  "popup_premium_active": {
+    "message": "Премиум активен"
+  },
+  "options_go_premium": {
+    "message": "Активировать Премиум"
+  },
+  "options_section_general": {
+    "message": "Общие"
+  },
+  "options_autostart": {
+    "message": "Автостарт"
+  },
+  "options_autostart_desc": {
+    "message": "Автоматически запускать получение при посещении поддерживаемых сайтов"
+  },
+  "options_max_retries": {
+    "message": "Макс. число попыток"
+  },
+  "options_max_retries_desc": {
+    "message": "Количество повторных попыток при сбое (0–5)"
+  },
+  "options_feature_tour": {
+    "message": "Обзор функций"
+  },
+  "options_feature_tour_desc": {
+    "message": "Повторить приветственный тур, чтобы узнать обо всех возможностях"
+  },
+  "options_language": {
+    "message": "Язык"
+  },
+  "options_language_desc": {
+    "message": "Изменить язык интерфейса расширения"
+  },
+  "options_language_auto": {
+    "message": "По умолчанию (браузер)"
+  },
+  "options_show_tour": {
+    "message": "Показать тур"
+  },
+  "options_section_fab": {
+    "message": "FAB / Epic Games"
+  },
+  "options_default_license": {
+    "message": "Лицензия по умолчанию"
+  },
+  "options_default_license_desc": {
+    "message": "Предпочтительный тип лицензии при получении бесплатных ассетов"
+  },
+  "options_personal": {
+    "message": "Персональная"
+  },
+  "options_professional": {
+    "message": "Профессиональная"
+  },
+  "options_delay_actions": {
+    "message": "Задержка между действиями"
+  },
+  "options_delay_actions_desc": {
+    "message": "Миллисекунды между попытками получения (500–10000)"
+  },
+  "options_dialog_timeout": {
+    "message": "Тайм-аут диалогов"
+  },
+  "options_dialog_timeout_desc": {
+    "message": "Максимальное время ожидания появления диалогового окна (3000–30000 мс)"
+  },
+  "options_hide_owned": {
+    "message": "Скрывать приобретенные ассеты"
+  },
+  "options_hide_owned_desc": {
+    "message": "Автоматически скрывать ассеты, которые уже добавлены в библиотеку, при просмотре"
+  },
+  "options_claim_history": {
+    "message": "История получения"
+  },
+  "options_claim_history_desc": {
+    "message": "Отслеживание полученных ассетов: история с поиском, счетчики и прямые ссылки"
+  },
+  "options_fab_auto_claim": {
+    "message": "Автополучение ежемесячных раздач"
+  },
+  "options_fab_auto_claim_desc": {
+    "message": "Автоматически забирать бесплатные ассеты FAB с ограниченным временем действия при обнаружении (до 3 раз в месяц)"
+  },
+  "options_section_unity": {
+    "message": "Unity Asset Store"
+  },
+  "options_unity_delay": {
+    "message": "Задержка между продуктами"
+  },
+  "options_unity_delay_desc": {
+    "message": "Миллисекунды между запросами к API на получение (200–10000)"
+  },
+  "options_unity_auto_paginate": {
+    "message": "Автопереход по страницам"
+  },
+  "options_unity_auto_paginate_desc": {
+    "message": "Автоматически переходить на следующую страницу после обработки текущей"
+  },
+  "options_unity_page_delay": {
+    "message": "Задержка перехода страниц"
+  },
+  "options_unity_page_delay_desc": {
+    "message": "Время ожидания перед переходом на следующую страницу (3000–60000 мс)"
+  },
+  "options_monthly_title": {
+    "message": "Ежемесячные бесплатные ассеты FAB"
+  },
+  "options_monthly_loading": {
+    "message": "Получение списка бесплатных ассетов этого месяца..."
+  },
+  "options_monthly_retry": {
+    "message": "Повторить"
+  },
+  "options_monthly_view_all": {
+    "message": "Посмотреть все на FAB"
+  },
+  "options_monthly_refresh": {
+    "message": "Обновить"
+  },
+  "options_weekly_title": {
+    "message": "Еженедельный бесплатный ассет Unity"
+  },
+  "options_weekly_loading": {
+    "message": "Получение бесплатного ассета этой недели..."
+  },
+  "options_weekly_coupon_label": {
+    "message": "Промокод:"
+  },
+  "options_weekly_copy": {
+    "message": "Копировать"
+  },
+  "options_weekly_copied": {
+    "message": "Скопировано!"
+  },
+  "options_weekly_get": {
+    "message": "Получить ассет"
+  },
+  "options_weekly_retry": {
+    "message": "Повторить"
+  },
+  "options_weekly_refresh": {
+    "message": "Обновить"
+  },
+  "options_save": {
+    "message": "Сохранить настройки"
+  },
+  "options_saved": {
+    "message": "✓ Сохранено"
+  },
+  "options_history_title": {
+    "message": "История получения"
+  },
+  "options_history_export": {
+    "message": "Экспорт"
+  },
+  "options_history_clear": {
+    "message": "Очистить всё"
+  },
+  "options_history_total": {
+    "message": "Всего"
+  },
+  "options_history_fab": {
+    "message": "FAB"
+  },
+  "options_history_unity": {
+    "message": "Unity"
+  },
+  "options_history_search": {
+    "message": "Поиск полученных ассетов..."
+  },
+  "options_history_loading": {
+    "message": "Загрузка истории..."
+  },
+  "options_history_empty": {
+    "message": "Полученных ассетов пока нет. Начните собирать их, чтобы здесь появилась история."
+  },
+  "options_history_no_results": {
+    "message": "Нет результатов по запросу «$1»"
+  },
+  "options_support_message": {
+    "message": "Поддержать развитие проекта"
+  },
+  "options_support_submessage": {
+    "message": "Создано с ❤️ и большим усердием. Ваша поддержка помогает нам продолжать разработку полезных инструментов для всех."
+  },
+  "options_footer": {
+    "message": "Game Asset Auto Redeemer от CreosB"
+  },
+  "premium_title": {
+    "message": "Премиум"
+  },
+  "premium_subtitle": {
+    "message": "Разблокируйте премиум-функции и поддержите разработку."
+  },
+  "premium_feature_history": {
+    "message": "История получения — отслеживайте и ищите все полученные ассеты"
+  },
+  "premium_feature_monthly": {
+    "message": "Ежемесячные бесплатные ассеты FAB — просматривайте и забирайте временные раздачи"
+  },
+  "premium_feature_weekly": {
+    "message": "Еженедельный бесплатный ассет Unity — просматривайте бесплатный ассет недели с промокодами"
+  },
+  "premium_feature_support": {
+    "message": "Поддержка активной разработки и будущих функций"
+  },
+  "premium_email_placeholder": {
+    "message": "Email, указанный при покупке"
+  },
+  "premium_code_placeholder": {
+    "message": "Лицензионный ключ (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+  },
+  "premium_buy": {
+    "message": "Купить Премиум"
+  },
+  "premium_verify": {
+    "message": "Проверить"
+  },
+  "premium_status_info": {
+    "message": "Введите ваш email и лицензионный ключ для проверки."
+  },
+  "premium_status_active": {
+    "message": "Премиум активен. Спасибо!"
+  },
+  "premium_status_not_verified": {
+    "message": "Лицензия еще не подтверждена."
+  },
+  "premium_status_not_verified_check": {
+    "message": "Лицензия не подтверждена. Пожалуйста, проверьте ключ."
+  },
+  "premium_status_granted": {
+    "message": "Доступ предоставлен. Добро пожаловать в Премиум!"
+  },
+  "premium_error_required": {
+    "message": "Требуется указать email и лицензию."
+  },
+  "premium_error_email": {
+    "message": "Неверный формат email."
+  },
+  "premium_error_code": {
+    "message": "Неверный формат лицензионного ключа."
+  },
+  "premium_error_rate_limit": {
+    "message": "Слишком много попыток. Повторите попытку позже."
+  },
+  "premium_error_verify": {
+    "message": "Ошибка проверки."
+  },
+  "premium_error_unexpected": {
+    "message": "Непредвиденная ошибка. Пожалуйста, попробуйте еще раз."
+  },
+  "premium_gate_label": {
+    "message": "Премиум-функция"
+  },
+  "premium_gate_unlock": {
+    "message": "Разблокировать с Премиум"
+  },
+  "premium_active_title": {
+    "message": "Премиум активен"
+  },
+  "onboarding_skip": {
+    "message": "Пропустить"
+  },
+  "onboarding_next": {
+    "message": "Далее"
+  },
+  "onboarding_go_premium": {
+    "message": "Купить Премиум"
+  },
+  "onboarding_get_started": {
+    "message": "Начать"
+  },
+  "onboarding_opensource_note": {
+    "message": "Это расширение имеет полностью открытый исходный код."
+  },
+  "onboarding_step_label": {
+    "message": "Шаг $1 из $2"
+  },
+  "onboarding_step1_headline": {
+    "message": "Добро пожаловать в\nGame Asset Redeemer"
+  },
+  "onboarding_step1_body": {
+    "message": "Автоматически забирайте <strong>бесплатные игровые ассеты</strong> с FAB (Epic Games) и Unity Asset Store. Настройте один раз, а дальше расширение сделает всё само."
+  },
+  "onboarding_step1_chip": {
+    "message": "Работает с FAB и Unity Asset Store"
+  },
+  "onboarding_step2_headline": {
+    "message": "Ежемесячные бесплатные\nассеты FAB"
+  },
+  "onboarding_step2_body": {
+    "message": "Каждый месяц FAB предлагает <strong>бесплатные ассеты на ограниченное время</strong>. Расширение находит их и может автоматически забирать — до 3 раз в месяц."
+  },
+  "onboarding_step2_chip": {
+    "message": "Автополучение запускается каждые 6 часов"
+  },
+  "onboarding_step3_headline": {
+    "message": "Еженедельный бесплатный\nассет Unity"
+  },
+  "onboarding_step3_body": {
+    "message": "Каждую неделю Unity раздает <strong>бесплатный премиум-ассет</strong> по промокоду. Расширение автоматически находит его, чтобы вы ничего не пропустили."
+  },
+  "onboarding_step3_chip": {
+    "message": "Копирование промокода в один клик"
+  },
+  "onboarding_step4_headline": {
+    "message": "Отслеживайте каждое\nполучение"
+  },
+  "onboarding_step4_body": {
+    "message": "Ведите <strong>историю с поиском</strong> по каждому полученному ассету. Фильтруйте результаты по FAB или Unity, экспортируйте в JSON и контролируйте вашу коллекцию."
+  },
+  "onboarding_step4_chip": {
+    "message": "Локально сохраняется до 500 записей"
+  },
+  "onboarding_step5_headline": {
+    "message": "Разблокировать\nПремиум"
+  },
+  "onboarding_step5_body": {
+    "message": "Перейдите на версию <strong>Премиум</strong>, чтобы разблокировать эти функции и поддержать проект."
+  },
+  "onboarding_step5_feature1": {
+    "message": "История получения с поиском и экспортом"
+  },
+  "onboarding_step5_feature2": {
+    "message": "Просмотр и получение ежемесячных бесплатных ассетов FAB"
+  },
+  "onboarding_step5_feature3": {
+    "message": "Еженедельные бесплатные ассеты Unity с промокодами"
+  },
+  "panel_auto_redeem": {
+    "message": "Автополучение"
+  },
+  "panel_fab_auto_redeem": {
+    "message": "Автополучение FAB"
+  },
+  "panel_unity_auto_redeem": {
+    "message": "Автополучение Unity"
+  },
+  "panel_start": {
+    "message": "▶ Старт"
+  },
+  "panel_stop": {
+    "message": "⏹ Стоп"
+  },
+  "panel_refresh": {
+    "message": "↻ Обновить"
+  },
+  "panel_autostart": {
+    "message": "Автостарт"
+  },
+  "panel_max_retries": {
+    "message": "Макс. попыток"
+  },
+  "panel_dialog_timeout": {
+    "message": "Тайм-аут диалогов (мс)"
+  },
+  "panel_license_pref": {
+    "message": "Предпочтение лицензии"
+  },
+  "panel_delay": {
+    "message": "Задержка (мс)"
+  },
+  "panel_hide_owned": {
+    "message": "Скрывать приобретенные"
+  },
+  "panel_claim_history": {
+    "message": "История получения"
+  },
+  "panel_product_delay": {
+    "message": "Задержка продуктов (мс)"
+  },
+  "panel_auto_paginate": {
+    "message": "Автостраницы"
+  },
+  "panel_page_delay": {
+    "message": "Задержка страниц (мс)"
+  },
+  "panel_search_placeholder": {
+    "message": "Поиск ассетов..."
+  },
+  "panel_free_assets": {
+    "message": "Бесплатные ассеты"
+  },
+  "panel_scanning": {
+    "message": "Поиск бесплатных ассетов..."
+  },
+  "panel_tip_drag": {
+    "message": "Совет: потяните в любом месте панели, чтобы переместить ее"
+  },
+  "controller_idle": {
+    "message": "Ожидание"
+  },
+  "controller_scanning": {
+    "message": "Сканирование..."
+  },
+  "controller_done": {
+    "message": "Готово"
+  },
+  "controller_done_summary": {
+    "message": "Готово: $1"
+  },
+  "controller_error": {
+    "message": "Ошибка — проверьте консоль"
+  },
+  "controller_stopping": {
+    "message": "Остановка..."
+  },
+  "assets_none_found": {
+    "message": "Бесплатные ассеты на этой странице не найдены."
+  },
+  "assets_unknown": {
+    "message": "Неизвестный ассет"
+  },
+  "error_communication": {
+    "message": "Ошибка связи с расширением."
+  },
+  "error_no_response": {
+    "message": "Нет ответа от фонового скрипта."
+  },
+  "error_fetch_weekly": {
+    "message": "Не удалось получить еженедельный ассет."
+  },
+  "error_fetch_monthly": {
+    "message": "Не удалось получить ежемесячные бесплатные ассеты."
+  },
+  "error_network": {
+    "message": "Ошибка сети"
+  },
+  "error_http": {
+    "message": "HTTP $1"
+  },
+  "notif_claimed_title": {
+    "message": "Ассет FAB получен"
+  },
+  "notif_claimed_message": {
+    "message": "Ассет «$1» добавлен в вашу библиотеку!"
+  },
+  "notif_complete_title": {
+    "message": "Автополучение $1 завершено"
+  },
+  "notif_error_title": {
+    "message": "Ошибка автополучения $1"
+  },
+  "notif_error_default": {
+    "message": "Произошла ошибка во время обработки."
+  },
+  "notif_monthly_title": {
+    "message": "Доступны бесплатные ассеты FAB"
+  },
+  "notif_monthly_message": {
+    "message": "$1 — доступно бесплатных ассетов в этом месяце: $2!"
+  },
+  "monthly_saved_library": {
+    "message": "Сохранено в библиотеке"
+  },
+  "monthly_claimed": {
+    "message": "Получено"
+  },
+  "monthly_claiming": {
+    "message": "Получение..."
+  },
+  "monthly_claim_free": {
+    "message": "Забрать бесплатно"
+  },
+  "monthly_expired": {
+    "message": "Срок истек"
+  },
+  "monthly_days_left": {
+    "message": "Осталось: $1 д."
+  },
+  "monthly_hours_left": {
+    "message": "Осталось: $1 ч."
+  },
+  "monthly_asset_count": {
+    "message": "$1 ассет"
+  },
+  "monthly_assets_count": {
+    "message": "Ассетов: $1"
+  },
+  "monthly_default_title": {
+    "message": "Временные бесплатные ассеты FAB"
+  },
+  "monthly_no_assets": {
+    "message": "Временные бесплатные ассеты не найдены."
+  },
+  "weekly_not_found": {
+    "message": "Не удалось найти раздел бесплатных ассетов на странице."
+  },
+  "premium_error_missing": {
+    "message": "Отсутствует email или код"
+  },
+  "premium_error_invalid_email": {
+    "message": "Некорректный email"
+  },
+  "premium_error_invalid_key": {
+    "message": "Неверный формат лицензионного ключа"
+  },
+  "premium_error_too_many": {
+    "message": "Слишком много попыток"
+  },
+  "premium_error_api_response": {
+    "message": "Неожиданный ответ API"
+  },
+  "premium_error_mismatch": {
+    "message": "Email и лицензионный ключ не совпадают"
+  },
+  "premium_error_check_failed": {
+    "message": "Не удалось проверить статус Премиума"
+  },
+  "premium_error_integrity": {
+    "message": "Ошибка проверки целостности данных"
+  },
+  "error_no_url": {
+    "message": "URL-адрес не указан"
+  },
+  "controller_summary": {
+    "message": "Получено: $1, не удалось: $2 из $3"
+  },
+  "controller_summary_simple": {
+    "message": "Готово: получено $1, не удалось $2"
+  },
+  "controller_claiming_n": {
+    "message": "Получение $1/$2..."
+  },
+  "controller_stopped": {
+    "message": "Остановлено"
+  },
+  "controller_waiting_page": {
+    "message": "Ожидание следующей страницы..."
+  },
+  "controller_assets_found": {
+    "message": "Найдено $1 бесплатных ассет(ов)"
+  },
+  "controller_no_assets_page": {
+    "message": "На этой странице нет бесплатных ассетов"
+  },
+  "premium_buy_coffee": {
+    "message": "☕ Купить мне кофе"
+  }
+}

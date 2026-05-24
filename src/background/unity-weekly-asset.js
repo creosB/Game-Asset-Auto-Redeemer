@@ -91,20 +91,20 @@ async function fetchWeeklyAsset(forceRefresh) {
     });
 
     if (!response.ok) {
-      return { success: false, error: 'HTTP ' + response.status };
+      return { success: false, error: chrome.i18n.getMessage('error_http', [String(response.status)]) || 'HTTP ' + response.status };
     }
 
     var htmlText = await response.text();
     var data = parseHtml(htmlText);
 
     if (!data) {
-      return { success: false, error: 'Could not find free asset section on page.' };
+      return { success: false, error: chrome.i18n.getMessage('weekly_not_found') || 'Could not find free asset section on page.' };
     }
 
     await setCachedAsset(data);
     return { success: true, data: data, cached: false };
   } catch (error) {
-    return { success: false, error: error.message || 'Network error' };
+    return { success: false, error: error.message || chrome.i18n.getMessage('error_network') || 'Network error' };
   }
 }
 

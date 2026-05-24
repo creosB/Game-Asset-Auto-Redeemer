@@ -6,6 +6,7 @@
   var utils = ns.utils;
   var state = ns.state;
   var config = ns.config;
+  var t = function(k) { return (ns.i18n && ns.i18n.t) ? ns.i18n.t.apply(null, arguments) : k; };
 
   function recordClaim(id, name) {
     if (!ns.claimHistory) return;
@@ -163,31 +164,31 @@
   }
 
   async function processAllAssets() {
-    state.statusText = 'Scanning...';
+    state.statusText = t('controller_scanning');
     utils.log('[Unity] Scanning for free assets...');
 
     state.assetsFound = getFreeAssetCards();
     state.assetsTotal = state.assetsFound.length;
 
     if (state.assetsFound.length === 0) {
-      state.statusText = 'No free assets found';
+      state.statusText = t('assets_none_found');
       utils.log('[Unity] No free assets on this page.');
       return;
     }
 
     utils.log('[Unity] Processing ' + state.assetsFound.length + ' asset(s)...');
-    state.statusText = 'Claiming 0/' + state.assetsTotal + '...';
+    state.statusText = t('controller_claiming_n', String(0), String(state.assetsTotal));
 
     var products = getFreeUnownedProducts();
 
     for (var i = 0; i < state.assetsFound.length; i++) {
       if (state.shouldStop) {
         utils.log('[Unity] Stopped by user.');
-        state.statusText = 'Stopped';
+        state.statusText = t('controller_stopped');
         break;
       }
 
-      state.statusText = 'Claiming ' + (i + 1) + '/' + state.assetsTotal + '...';
+      state.statusText = t('controller_claiming_n', String(i + 1), String(state.assetsTotal));
       await processProduct(products[i], i);
 
       if (i < state.assetsFound.length - 1 && !state.shouldStop) {
@@ -197,7 +198,7 @@
       }
     }
 
-    var summary = 'Done: ' + state.assetsClaimed + ' claimed, ' + state.assetsFailed + ' failed';
+    var summary = t('controller_summary_simple', String(state.assetsClaimed), String(state.assetsFailed));
     state.statusText = summary;
     utils.log('[Unity] ' + summary);
 
@@ -215,7 +216,7 @@
 
     var pageDelay = config.unityDelayBeforeNextPage || 10000;
     utils.log('[Unity] Next page in ' + pageDelay + 'ms...');
-    state.statusText = 'Waiting for next page...';
+    state.statusText = t('controller_waiting_page');
     await utils.wait(pageDelay);
 
     if (state.shouldStop) return;

@@ -146,21 +146,21 @@ async function fetchMonthlyFree(forceRefresh) {
     });
 
     if (!response.ok) {
-      return { success: false, error: 'HTTP ' + response.status };
+      return { success: false, error: chrome.i18n.getMessage('error_http', [String(response.status)]) || 'HTTP ' + response.status };
     }
 
     var json = await response.json();
     var data = parseBladeData(json);
 
     if (!data) {
-      return { success: false, error: 'No limited-time free assets found.' };
+      return { success: false, error: chrome.i18n.getMessage('monthly_no_assets') || 'No limited-time free assets found.' };
     }
 
     await syncOwnershipStatus(data.assets);
     await setCachedData(data);
     return { success: true, data: data, cached: false };
   } catch (error) {
-    return { success: false, error: error.message || 'Network error' };
+    return { success: false, error: error.message || chrome.i18n.getMessage('error_network') || 'Network error' };
   }
 }
 

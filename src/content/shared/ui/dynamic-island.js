@@ -5,6 +5,7 @@
 
   var state = ns.state;
   var utils = ns.utils;
+  var t = function(k) { return (ns.i18n && ns.i18n.t) ? ns.i18n.t.apply(null, arguments) : k; };
 
   var shadowHost = null;
   var shadowRoot = null;
@@ -61,7 +62,7 @@
     islandEl.innerHTML =
       '<div id="fab-grab-drag-handle">' + GRIP_SVG + '</div>' +
       '<div id="fab-grab-dot"></div>' +
-      '<span id="fab-grab-status">Auto Redeem</span>' +
+      '<span id="fab-grab-status">' + t('panel_auto_redeem') + '</span>' +
       '<span id="fab-grab-count">0/0</span>' +
       '<button id="fab-grab-expand">' + CHEVRON_SVG + '</button>';
 
@@ -124,14 +125,14 @@
 
   function updateUI() {
     if (statusEl) {
-      var sitePrefix = state.currentSite === 'unity' ? 'Unity' : 'FAB';
-      statusEl.textContent = state.statusText || sitePrefix + ' Auto Redeem';
+      var sitePrefix = state.currentSite === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem');
+      statusEl.textContent = state.statusText || sitePrefix;
     }
 
     if (dotEl) {
       dotEl.className = '';
       if (state.isRunning) dotEl.classList.add('running');
-      else if (state.statusText && state.statusText.indexOf('Error') !== -1) dotEl.classList.add('error');
+      else if (state.hasError) dotEl.classList.add('error');
     }
 
     if (countEl) {
@@ -148,6 +149,29 @@
     state.statusText = text;
     if (statusEl) statusEl.textContent = text;
   }
+
+  // Re-render when locale changes at runtime
+  document.addEventListener('i18n-locale-changed', function() {
+    if (!islandEl) return;
+    // Clear stale translated statusText so updateUI uses fresh locale
+    if (!state.isRunning) {
+      state.statusText = '';
+    }
+    if (statusEl) {
+      var sitePrefix = state.currentSite === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem');
+      statusEl.textContent = state.statusText || sitePrefix;
+    }
+    updateUI();
+  });
+
+  // Re-render when i18n first becomes ready (handles late async init)
+  document.addEventListener('i18n-ready', function() {
+    if (!islandEl) return;
+    if (!state.isRunning) {
+      state.statusText = '';
+    }
+    updateUI();
+  });
 
   ns.ui = ns.ui || {};
   ns.ui.dynamicIsland = {

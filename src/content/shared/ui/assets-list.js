@@ -4,6 +4,7 @@
   if (!ns) return;
 
   var state = ns.state;
+  var t = function(k) { return (ns.i18n && ns.i18n.t) ? ns.i18n.t.apply(null, arguments) : k; };
 
   function updateAssetsList(container) {
     if (!container) return;
@@ -11,7 +12,7 @@
 
     var assets = state.assetsFound;
     if (!assets || assets.length === 0) {
-      container.innerHTML = '<div class="fab-grab-empty">No free assets found on this page.</div>';
+      container.innerHTML = '<div class="fab-grab-empty">' + t('assets_none_found') + '</div>';
       return;
     }
 
@@ -27,7 +28,7 @@
 
       item.innerHTML =
         '<div class="fab-grab-asset-status' + statusClass + '"></div>' +
-        '<div class="fab-grab-asset-name">' + escapeHtml(asset.name || 'Unknown Asset') + '</div>' +
+        '<div class="fab-grab-asset-name">' + escapeHtml(asset.name || t('assets_unknown')) + '</div>' +
         (asset.license ? '<div class="fab-grab-asset-license">' + escapeHtml(asset.license) + '</div>' : '');
 
       container.appendChild(item);

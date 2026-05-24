@@ -1,0 +1,578 @@
+{
+  "manifest_name": {
+    "message": "Récupérateur automatique d'assets de jeu"
+  },
+  "manifest_description": {
+    "message": "Récupérez automatiquement les assets gratuits sur FAB (Epic) et Unity Asset Store avec une interface Dynamic Island."
+  },
+  "popup_status_checking": {
+    "message": "Vérification..."
+  },
+  "popup_status_no_tab": {
+    "message": "Aucun onglet actif"
+  },
+  "popup_status_active_fab": {
+    "message": "Actif sur FAB"
+  },
+  "popup_status_active_unity": {
+    "message": "Actif sur Unity"
+  },
+  "popup_status_unsupported": {
+    "message": "Site non compatible"
+  },
+  "popup_status_error": {
+    "message": "Impossible de vérifier l'onglet"
+  },
+  "popup_open_fab": {
+    "message": "Ouvrir FAB"
+  },
+  "popup_open_unity": {
+    "message": "Ouvrir Unity"
+  },
+  "popup_premium": {
+    "message": "Premium"
+  },
+  "popup_options": {
+    "message": "Options"
+  },
+  "popup_premium_active": {
+    "message": "Premium actif"
+  },
+  "options_go_premium": {
+    "message": "Passer à Premium"
+  },
+  "options_section_general": {
+    "message": "Général"
+  },
+  "options_autostart": {
+    "message": "Démarrage automatique"
+  },
+  "options_autostart_desc": {
+    "message": "Lancer automatiquement la récupération lors de la visite de sites compatibles"
+  },
+  "options_max_retries": {
+    "message": "Nb max de tentatives"
+  },
+  "options_max_retries_desc": {
+    "message": "Nombre de tentatives en cas d'échec (0-5)"
+  },
+  "options_feature_tour": {
+    "message": "Visite guidée des fonctionnalités"
+  },
+  "options_feature_tour_desc": {
+    "message": "Revoir la visite de bienvenue pour découvrir toutes les fonctionnalités"
+  },
+  "options_language": {
+    "message": "Langue"
+  },
+  "options_language_desc": {
+    "message": "Modifier la langue d'affichage de l'extension"
+  },
+  "options_language_auto": {
+    "message": "Par défaut (navigateur)"
+  },
+  "options_show_tour": {
+    "message": "Afficher la visite"
+  },
+  "options_section_fab": {
+    "message": "FAB / Epic Games"
+  },
+  "options_default_license": {
+    "message": "Licence par défaut"
+  },
+  "options_default_license_desc": {
+    "message": "Type de licence préféré lors de la récupération d'assets gratuits"
+  },
+  "options_personal": {
+    "message": "Personnelle"
+  },
+  "options_professional": {
+    "message": "Professionnelle"
+  },
+  "options_delay_actions": {
+    "message": "Délai entre les actions"
+  },
+  "options_delay_actions_desc": {
+    "message": "Millisecondes entre chaque tentative (500–10000)"
+  },
+  "options_dialog_timeout": {
+    "message": "Délai d'attente de la boîte de dialogue"
+  },
+  "options_dialog_timeout_desc": {
+    "message": "Attente maximale pour l'apparition d'une boîte de dialogue (3000-30000 ms)"
+  },
+  "options_hide_owned": {
+    "message": "Masquer les assets possédés"
+  },
+  "options_hide_owned_desc": {
+    "message": "Masquer automatiquement les assets déjà en bibliothèque lors de la navigation"
+  },
+  "options_claim_history": {
+    "message": "Historique des récupérations"
+  },
+  "options_claim_history_desc": {
+    "message": "Suivez les assets récupérés avec un historique consultable, des compteurs et des liens directs"
+  },
+  "options_fab_auto_claim": {
+    "message": "Récupération automatique mensuelle"
+  },
+  "options_fab_auto_claim_desc": {
+    "message": "Récupérer automatiquement les assets gratuits limités de FAB dès qu'ils sont détectés (3 fois par mois)"
+  },
+  "options_section_unity": {
+    "message": "Unity Asset Store"
+  },
+  "options_unity_delay": {
+    "message": "Délai entre les produits"
+  },
+  "options_unity_delay_desc": {
+    "message": "Millisecondes entre chaque récupération API (200–10000)"
+  },
+  "options_unity_auto_paginate": {
+    "message": "Pagination automatique"
+  },
+  "options_unity_auto_paginate_desc": {
+    "message": "Passer automatiquement à la page suivante après le traitement"
+  },
+  "options_unity_page_delay": {
+    "message": "Délai de navigation entre les pages"
+  },
+  "options_unity_page_delay_desc": {
+    "message": "Temps d'attente avant de passer à la page suivante (3000–60000 ms)"
+  },
+  "options_monthly_title": {
+    "message": "Assets gratuits mensuels FAB"
+  },
+  "options_monthly_loading": {
+    "message": "Récupération des assets gratuits du mois..."
+  },
+  "options_monthly_retry": {
+    "message": "Réessayer"
+  },
+  "options_monthly_view_all": {
+    "message": "Voir tout sur FAB"
+  },
+  "options_monthly_refresh": {
+    "message": "Actualiser"
+  },
+  "options_weekly_title": {
+    "message": "Asset gratuit hebdomadaire Unity"
+  },
+  "options_weekly_loading": {
+    "message": "Récupération de l'asset gratuit de la semaine..."
+  },
+  "options_weekly_coupon_label": {
+    "message": "Code promo :"
+  },
+  "options_weekly_copy": {
+    "message": "Copier"
+  },
+  "options_weekly_copied": {
+    "message": "Copié !"
+  },
+  "options_weekly_get": {
+    "message": "Obtenir l'asset gratuit"
+  },
+  "options_weekly_retry": {
+    "message": "Réessayer"
+  },
+  "options_weekly_refresh": {
+    "message": "Actualiser"
+  },
+  "options_save": {
+    "message": "Enregistrer les paramètres"
+  },
+  "options_saved": {
+    "message": "✓ Enregistré"
+  },
+  "options_history_title": {
+    "message": "Historique des récupérations"
+  },
+  "options_history_export": {
+    "message": "Exporter"
+  },
+  "options_history_clear": {
+    "message": "Tout effacer"
+  },
+  "options_history_total": {
+    "message": "Total"
+  },
+  "options_history_fab": {
+    "message": "FAB"
+  },
+  "options_history_unity": {
+    "message": "Unity"
+  },
+  "options_history_search": {
+    "message": "Rechercher dans les assets récupérés..."
+  },
+  "options_history_loading": {
+    "message": "Chargement de l'historique..."
+  },
+  "options_history_empty": {
+    "message": "Aucun asset récupéré pour le moment. Commencez la récupération pour créer votre historique."
+  },
+  "options_history_no_results": {
+    "message": "Aucun résultat pour « $1 »"
+  },
+  "options_support_message": {
+    "message": "Soutenez l'éducation et le développement futur"
+  },
+  "options_support_submessage": {
+    "message": "Créé avec ❤️ et d'innombrables heures de dévouement. Votre soutien nous aide à continuer de créer des outils formidables pour tous."
+  },
+  "options_footer": {
+    "message": "Récupérateur automatique d'assets de jeu par CreosB"
+  },
+  "premium_title": {
+    "message": "Premium"
+  },
+  "premium_subtitle": {
+    "message": "Débloquez les fonctionnalités premium et soutenez le développement."
+  },
+  "premium_feature_history": {
+    "message": "Historique des récupérations — Suivez et recherchez tous vos assets récupérés"
+  },
+  "premium_feature_monthly": {
+    "message": "Assets gratuits mensuels FAB — Consultez et récupérez les offres limitées"
+  },
+  "premium_feature_weekly": {
+    "message": "Asset gratuit hebdomadaire Unity — Découvrez l'asset gratuit de la semaine avec son code promo"
+  },
+  "premium_feature_support": {
+    "message": "Soutenez le développement continu et les futures fonctionnalités"
+  },
+  "premium_email_placeholder": {
+    "message": "E-mail utilisé lors de l'achat"
+  },
+  "premium_code_placeholder": {
+    "message": "Clé de licence (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+  },
+  "premium_buy": {
+    "message": "Passer à Premium"
+  },
+  "premium_verify": {
+    "message": "Vérifier"
+  },
+  "premium_status_info": {
+    "message": "Saisissez votre e-mail et votre clé de licence pour vérifier."
+  },
+  "premium_status_active": {
+    "message": "Premium actif. Merci !"
+  },
+  "premium_status_not_verified": {
+    "message": "Licence non encore vérifiée."
+  },
+  "premium_status_not_verified_check": {
+    "message": "Licence non vérifiée. Veuillez vérifier votre clé."
+  },
+  "premium_status_granted": {
+    "message": "Accès accordé. Bienvenue dans Premium !"
+  },
+  "premium_error_required": {
+    "message": "L'e-mail et la licence sont requis."
+  },
+  "premium_error_email": {
+    "message": "Format d'e-mail invalide."
+  },
+  "premium_error_code": {
+    "message": "Format de clé de licence invalide."
+  },
+  "premium_error_rate_limit": {
+    "message": "Trop de tentatives. Réessayez plus tard."
+  },
+  "premium_error_verify": {
+    "message": "Échec de la vérification."
+  },
+  "premium_error_unexpected": {
+    "message": "Erreur inattendue. Veuillez réessayer."
+  },
+  "premium_gate_label": {
+    "message": "Fonctionnalité premium"
+  },
+  "premium_gate_unlock": {
+    "message": "Débloquer avec Premium"
+  },
+  "premium_active_title": {
+    "message": "Premium actif"
+  },
+  "onboarding_skip": {
+    "message": "Passer"
+  },
+  "onboarding_next": {
+    "message": "Suivant"
+  },
+  "onboarding_go_premium": {
+    "message": "Passer à Premium"
+  },
+  "onboarding_get_started": {
+    "message": "Commencer"
+  },
+  "onboarding_opensource_note": {
+    "message": "Cette extension est entièrement open source."
+  },
+  "onboarding_step_label": {
+    "message": "Étape $1 sur $2"
+  },
+  "onboarding_step1_headline": {
+    "message": "Bienvenue dans\nGame Asset Redeemer"
+  },
+  "onboarding_step1_body": {
+    "message": "Récupérez automatiquement les <strong>assets de jeu gratuits</strong> sur FAB (Epic Games) et l'Unity Asset Store. Configurez-le une fois, et laissez l'extension faire le travail."
+  },
+  "onboarding_step1_chip": {
+    "message": "Fonctionne sur FAB et l'Unity Asset Store"
+  },
+  "onboarding_step2_headline": {
+    "message": "Assets gratuits\nmensuels FAB"
+  },
+  "onboarding_step2_body": {
+    "message": "Chaque mois, FAB propose des <strong>assets gratuits limités dans le temps</strong>. L'extension les détecte et peut les récupérer automatiquement pour vous — jusqu'à 3 fois par mois."
+  },
+  "onboarding_step2_chip": {
+    "message": "La récupération automatique s'exécute toutes les 6 heures"
+  },
+  "onboarding_step3_headline": {
+    "message": "Asset gratuit\nhebdomadaire Unity"
+  },
+  "onboarding_step3_body": {
+    "message": "Chaque semaine, Unity offre un <strong>asset premium gratuit</strong> avec un code promo. L'extension le récupère automatiquement pour que vous n'en manquiez aucun."
+  },
+  "onboarding_step3_chip": {
+    "message": "Code promo copié en un clic"
+  },
+  "onboarding_step4_headline": {
+    "message": "Suivez chaque\nrécupération"
+  },
+  "onboarding_step4_body": {
+    "message": "Conservez un <strong>historique consultable</strong> de chaque asset récupéré. Filtrez par FAB ou Unity, exportez en JSON, et ne perdez jamais le fil."
+  },
+  "onboarding_step4_chip": {
+    "message": "Jusqu'à 500 entrées sauvegardées localement"
+  },
+  "onboarding_step5_headline": {
+    "message": "Débloquez\nPremium"
+  },
+  "onboarding_step5_body": {
+    "message": "Passez à <strong>Premium</strong> pour débloquer ces fonctionnalités et soutenir le développement."
+  },
+  "onboarding_step5_feature1": {
+    "message": "Historique des récupérations avec recherche et export"
+  },
+  "onboarding_step5_feature2": {
+    "message": "Visualiseur et récupérateur d'assets gratuits mensuels FAB"
+  },
+  "onboarding_step5_feature3": {
+    "message": "Asset gratuit hebdomadaire Unity avec codes promo"
+  },
+  "panel_auto_redeem": {
+    "message": "Récupération automatique"
+  },
+  "panel_fab_auto_redeem": {
+    "message": "Récupération automatique FAB"
+  },
+  "panel_unity_auto_redeem": {
+    "message": "Récupération automatique Unity"
+  },
+  "panel_start": {
+    "message": "▶ Démarrer"
+  },
+  "panel_stop": {
+    "message": "⏹ Arrêter"
+  },
+  "panel_refresh": {
+    "message": "↻ Actualiser"
+  },
+  "panel_autostart": {
+    "message": "Démarrage auto."
+  },
+  "panel_max_retries": {
+    "message": "Tentatives max."
+  },
+  "panel_dialog_timeout": {
+    "message": "Délai dialogue (ms)"
+  },
+  "panel_license_pref": {
+    "message": "Préférence de licence"
+  },
+  "panel_delay": {
+    "message": "Délai (ms)"
+  },
+  "panel_hide_owned": {
+    "message": "Masquer possédés"
+  },
+  "panel_claim_history": {
+    "message": "Historique"
+  },
+  "panel_product_delay": {
+    "message": "Délai produit (ms)"
+  },
+  "panel_auto_paginate": {
+    "message": "Pagination auto."
+  },
+  "panel_page_delay": {
+    "message": "Délai page (ms)"
+  },
+  "panel_search_placeholder": {
+    "message": "Rechercher des assets..."
+  },
+  "panel_free_assets": {
+    "message": "Assets gratuits"
+  },
+  "panel_scanning": {
+    "message": "Recherche d'assets gratuits..."
+  },
+  "panel_tip_drag": {
+    "message": "Astuce : Faites glisser n'importe où sur ce panneau pour le déplacer"
+  },
+  "controller_idle": {
+    "message": "Inactif"
+  },
+  "controller_scanning": {
+    "message": "Analyse..."
+  },
+  "controller_done": {
+    "message": "Terminé"
+  },
+  "controller_done_summary": {
+    "message": "Terminé : $1"
+  },
+  "controller_error": {
+    "message": "Erreur — consultez la console"
+  },
+  "controller_stopping": {
+    "message": "Arrêt..."
+  },
+  "assets_none_found": {
+    "message": "Aucun asset gratuit trouvé sur cette page."
+  },
+  "assets_unknown": {
+    "message": "Asset inconnu"
+  },
+  "error_communication": {
+    "message": "Erreur de communication de l'extension."
+  },
+  "error_no_response": {
+    "message": "Aucune réponse du processus d'arrière-plan."
+  },
+  "error_fetch_weekly": {
+    "message": "Échec de la récupération de l'asset hebdomadaire."
+  },
+  "error_fetch_monthly": {
+    "message": "Échec de la récupération des assets gratuits mensuels."
+  },
+  "error_network": {
+    "message": "Erreur réseau"
+  },
+  "error_http": {
+    "message": "HTTP $1"
+  },
+  "notif_claimed_title": {
+    "message": "Asset FAB récupéré"
+  },
+  "notif_claimed_message": {
+    "message": "$1 ajouté à votre bibliothèque !"
+  },
+  "notif_complete_title": {
+    "message": "Récupération automatique $1 terminée"
+  },
+  "notif_error_title": {
+    "message": "Erreur de récupération automatique $1"
+  },
+  "notif_error_default": {
+    "message": "Une erreur est survenue pendant le traitement."
+  },
+  "notif_monthly_title": {
+    "message": "Assets gratuits FAB disponibles"
+  },
+  "notif_monthly_message": {
+    "message": "$1 — $2 asset(s) gratuit(s) ce mois-ci !"
+  },
+  "monthly_saved_library": {
+    "message": "Enregistré dans Ma Bibliothèque"
+  },
+  "monthly_claimed": {
+    "message": "Récupéré"
+  },
+  "monthly_claiming": {
+    "message": "Récupération..."
+  },
+  "monthly_claim_free": {
+    "message": "Récupérer gratuitement"
+  },
+  "monthly_expired": {
+    "message": "Expiré"
+  },
+  "monthly_days_left": {
+    "message": "Plus que $1 j"
+  },
+  "monthly_hours_left": {
+    "message": "Plus que $1 h"
+  },
+  "monthly_asset_count": {
+    "message": "$1 asset"
+  },
+  "monthly_assets_count": {
+    "message": "$1 assets"
+  },
+  "monthly_default_title": {
+    "message": "FAB – Offre limitée gratuite"
+  },
+  "monthly_no_assets": {
+    "message": "Aucun asset gratuit limité trouvé."
+  },
+  "weekly_not_found": {
+    "message": "Impossible de trouver la section des assets gratuits sur la page."
+  },
+  "premium_error_missing": {
+    "message": "E-mail ou code manquant"
+  },
+  "premium_error_invalid_email": {
+    "message": "E-mail invalide"
+  },
+  "premium_error_invalid_key": {
+    "message": "Format de clé de licence invalide"
+  },
+  "premium_error_too_many": {
+    "message": "Trop de tentatives"
+  },
+  "premium_error_api_response": {
+    "message": "Réponse API inattendue"
+  },
+  "premium_error_mismatch": {
+    "message": "L'e-mail et la clé de licence ne correspondent pas"
+  },
+  "premium_error_check_failed": {
+    "message": "Échec de la vérification du statut premium"
+  },
+  "premium_error_integrity": {
+    "message": "Échec du contrôle d'intégrité des données"
+  },
+  "error_no_url": {
+    "message": "Aucune URL fournie"
+  },
+  "controller_summary": {
+    "message": "$1 récupéré(s), $2 échec(s) sur $3"
+  },
+  "controller_summary_simple": {
+    "message": "Terminé : $1 récupéré(s), $2 échec(s)"
+  },
+  "controller_claiming_n": {
+    "message": "Récupération $1/$2..."
+  },
+  "controller_stopped": {
+    "message": "Arrêté"
+  },
+  "controller_waiting_page": {
+    "message": "En attente de la page suivante..."
+  },
+  "controller_assets_found": {
+    "message": "$1 asset(s) gratuit(s) trouvé(s)"
+  },
+  "controller_no_assets_page": {
+    "message": "Aucun asset gratuit sur cette page"
+  },
+  "premium_buy_coffee": {
+    "message": "☕ Offrez-moi un café"
+  }
+}

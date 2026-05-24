@@ -9,9 +9,15 @@
   var utils = ns.utils;
   var state = ns.state;
   var config = ns.config;
+  var t = function(k) { return (ns.i18n && ns.i18n.t) ? ns.i18n.t.apply(null, arguments) : k; };
 
   var islandCreated = false;
   var rescanTimer = null;
+  var i18nReady = false;
+
+  document.addEventListener('i18n-ready', function() {
+    i18nReady = true;
+  });
 
   async function init() {
     await ns.loadConfig();
@@ -41,8 +47,15 @@
   function createIslandOnce() {
     if (islandCreated) return;
     islandCreated = true;
-    ns.ui.dynamicIsland.create();
-    setupNavigationHandling();
+    if (i18nReady || (ns.i18n && ns.i18n._ready)) {
+      ns.ui.dynamicIsland.create();
+      setupNavigationHandling();
+    } else {
+      document.addEventListener('i18n-ready', function() {
+        ns.ui.dynamicIsland.create();
+        setupNavigationHandling();
+      }, { once: true });
+    }
   }
 
   function setupNavigationHandling() {
@@ -100,8 +113,8 @@
 
     utils.log('Re-scan complete. Found ' + cards.length + ' free asset(s) on current view.');
     state.statusText = cards.length > 0
-      ? cards.length + ' free asset(s) found'
-      : 'No free assets on this page';
+      ? t('controller_assets_found', String(cards.length))
+      : t('controller_no_assets_page');
   }
 
   if (document.readyState === 'loading') {

@@ -1,0 +1,578 @@
+{
+  "manifest_name": {
+    "message": "游戏资源自动领取器"
+  },
+  "manifest_description": {
+    "message": "使用灵动岛 UI 自动在 FAB (Epic) 和 Unity 资源商店领取免费资源。"
+  },
+  "popup_status_checking": {
+    "message": "正在检查..."
+  },
+  "popup_status_no_tab": {
+    "message": "无活动标签页"
+  },
+  "popup_status_active_fab": {
+    "message": "已在 FAB 激活"
+  },
+  "popup_status_active_unity": {
+    "message": "已在 Unity 激活"
+  },
+  "popup_status_unsupported": {
+    "message": "当前页面不在支持的网站上"
+  },
+  "popup_status_error": {
+    "message": "无法检查标签页"
+  },
+  "popup_open_fab": {
+    "message": "打开 FAB"
+  },
+  "popup_open_unity": {
+    "message": "打开 Unity"
+  },
+  "popup_premium": {
+    "message": "高级版"
+  },
+  "popup_options": {
+    "message": "设置"
+  },
+  "popup_premium_active": {
+    "message": "高级版已激活"
+  },
+  "options_go_premium": {
+    "message": "升级到高级版"
+  },
+  "options_section_general": {
+    "message": "常规"
+  },
+  "options_autostart": {
+    "message": "自动启动"
+  },
+  "options_autostart_desc": {
+    "message": "访问支持的网站时自动开始领取"
+  },
+  "options_max_retries": {
+    "message": "最大重试次数"
+  },
+  "options_max_retries_desc": {
+    "message": "失败时的重试尝试次数 (0–5)"
+  },
+  "options_feature_tour": {
+    "message": "功能导览"
+  },
+  "options_feature_tour_desc": {
+    "message": "重新播放欢迎导览以了解所有功能"
+  },
+  "options_language": {
+    "message": "语言"
+  },
+  "options_language_desc": {
+    "message": "更改扩展程序的显示语言"
+  },
+  "options_language_auto": {
+    "message": "默认（浏览器）"
+  },
+  "options_show_tour": {
+    "message": "显示导览"
+  },
+  "options_section_fab": {
+    "message": "FAB / Epic Games"
+  },
+  "options_default_license": {
+    "message": "默认许可"
+  },
+  "options_default_license_desc": {
+    "message": "领取免费资源时首选的许可类型"
+  },
+  "options_personal": {
+    "message": "个人"
+  },
+  "options_professional": {
+    "message": "专业"
+  },
+  "options_delay_actions": {
+    "message": "操作间延迟"
+  },
+  "options_delay_actions_desc": {
+    "message": "每次尝试领取之间的延迟毫秒数 (500–10000)"
+  },
+  "options_dialog_timeout": {
+    "message": "对话框超时时间"
+  },
+  "options_dialog_timeout_desc": {
+    "message": "等待对话框/模态框出现的最大时间 (3000–30000 毫秒)"
+  },
+  "options_hide_owned": {
+    "message": "隐藏已拥有资源"
+  },
+  "options_hide_owned_desc": {
+    "message": "浏览时自动隐藏已保存到库中的资源"
+  },
+  "options_claim_history": {
+    "message": "领取历史"
+  },
+  "options_claim_history_desc": {
+    "message": "追踪已领取的资源，支持历史记录搜索、计数器和直接链接"
+  },
+  "options_fab_auto_claim": {
+    "message": "自动领取每月免费资源"
+  },
+  "options_fab_auto_claim_desc": {
+    "message": "检测到 FAB 限时免费资源时自动领取（每月最多 3 次）"
+  },
+  "options_section_unity": {
+    "message": "Unity 资源商店"
+  },
+  "options_unity_delay": {
+    "message": "产品间延迟"
+  },
+  "options_unity_delay_desc": {
+    "message": "每次 API 接口领取之间的延迟毫秒数 (200–10000)"
+  },
+  "options_unity_auto_paginate": {
+    "message": "自动翻页"
+  },
+  "options_unity_auto_paginate_desc": {
+    "message": "处理完成后自动跳转到下一页"
+  },
+  "options_unity_page_delay": {
+    "message": "翻页延迟"
+  },
+  "options_unity_page_delay_desc": {
+    "message": "跳转到下一页前的等待时间 (3000–60000 毫秒)"
+  },
+  "options_monthly_title": {
+    "message": "FAB 每月免费资源"
+  },
+  "options_monthly_loading": {
+    "message": "正在获取本月免费资源..."
+  },
+  "options_monthly_retry": {
+    "message": "重试"
+  },
+  "options_monthly_view_all": {
+    "message": "在 FAB 上查看全部"
+  },
+  "options_monthly_refresh": {
+    "message": "刷新"
+  },
+  "options_weekly_title": {
+    "message": "Unity 每周免费资源"
+  },
+  "options_weekly_loading": {
+    "message": "正在获取本周免费资源..."
+  },
+  "options_weekly_coupon_label": {
+    "message": "优惠码："
+  },
+  "options_weekly_copy": {
+    "message": "复制"
+  },
+  "options_weekly_copied": {
+    "message": "已复制！"
+  },
+  "options_weekly_get": {
+    "message": "获取免费资源"
+  },
+  "options_weekly_retry": {
+    "message": "重试"
+  },
+  "options_weekly_refresh": {
+    "message": "刷新"
+  },
+  "options_save": {
+    "message": "保存设置"
+  },
+  "options_saved": {
+    "message": "✓ 已保存"
+  },
+  "options_history_title": {
+    "message": "领取历史"
+  },
+  "options_history_export": {
+    "message": "导出"
+  },
+  "options_history_clear": {
+    "message": "清除全部"
+  },
+  "options_history_total": {
+    "message": "总计"
+  },
+  "options_history_fab": {
+    "message": "FAB"
+  },
+  "options_history_unity": {
+    "message": "Unity"
+  },
+  "options_history_search": {
+    "message": "搜索已领取的资源..."
+  },
+  "options_history_loading": {
+    "message": "正在加载历史记录..."
+  },
+  "options_history_empty": {
+    "message": "暂无已领取资源。开始领取以记录历史。"
+  },
+  "options_history_no_results": {
+    "message": "未找到关于 “$1” 的结果"
+  },
+  "options_support_message": {
+    "message": "支持教学与后续开发"
+  },
+  "options_support_submessage": {
+    "message": "倾注了 ❤️ 和无数心血制作而成。您的支持将帮助我们继续为每一个人开发优秀的工具。"
+  },
+  "options_footer": {
+    "message": "Game Asset Auto Redeemer - 由 CreosB 开发"
+  },
+  "premium_title": {
+    "message": "高级版"
+  },
+  "premium_subtitle": {
+    "message": "解锁高级版功能并支持开发。"
+  },
+  "premium_feature_history": {
+    "message": "领取历史 — 追踪并搜索您所有已领取的资源"
+  },
+  "premium_feature_monthly": {
+    "message": "FAB 每月免费资源 — 查看并领取限时免费资源"
+  },
+  "premium_feature_weekly": {
+    "message": "Unity 每周免费资源 — 查看本周免费资源及优惠码"
+  },
+  "premium_feature_support": {
+    "message": "支持持续开发与后续功能"
+  },
+  "premium_email_placeholder": {
+    "message": "结账时使用的电子邮箱"
+  },
+  "premium_code_placeholder": {
+    "message": "许可密钥 (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+  },
+  "premium_buy": {
+    "message": "升级到高级版"
+  },
+  "premium_verify": {
+    "message": "验证"
+  },
+  "premium_status_info": {
+    "message": "输入您的电子邮箱和许可密钥以进行验证。"
+  },
+  "premium_status_active": {
+    "message": "高级版已激活。非常感谢您的支持！"
+  },
+  "premium_status_not_verified": {
+    "message": "许可证尚未验证。"
+  },
+  "premium_status_not_verified_check": {
+    "message": "许可证验证失败。请检查您的密钥。"
+  },
+  "premium_status_granted": {
+    "message": "已授予访问权限。欢迎使用高级版！"
+  },
+  "premium_error_required": {
+    "message": "需要电子邮箱和许可证。"
+  },
+  "premium_error_email": {
+    "message": "电子邮箱格式无效。"
+  },
+  "premium_error_code": {
+    "message": "许可密钥格式无效。"
+  },
+  "premium_error_rate_limit": {
+    "message": "尝试次数过多。请稍后再试。"
+  },
+  "premium_error_verify": {
+    "message": "验证失败。"
+  },
+  "premium_error_unexpected": {
+    "message": "发生非预期错误。请重试。"
+  },
+  "premium_gate_label": {
+    "message": "高级版功能"
+  },
+  "premium_gate_unlock": {
+    "message": "升级高级版解锁"
+  },
+  "premium_active_title": {
+    "message": "高级版已激活"
+  },
+  "onboarding_skip": {
+    "message": "跳过"
+  },
+  "onboarding_next": {
+    "message": "下一步"
+  },
+  "onboarding_go_premium": {
+    "message": "升级到高级版"
+  },
+  "onboarding_get_started": {
+    "message": "开始使用"
+  },
+  "onboarding_opensource_note": {
+    "message": "本扩展程序完全开源。"
+  },
+  "onboarding_step_label": {
+    "message": "第 $1 步（共 $2 步）"
+  },
+  "onboarding_step1_headline": {
+    "message": "欢迎使用\n游戏资源自动领取器"
+  },
+  "onboarding_step1_body": {
+    "message": "自动领取来自 FAB (Epic Games) 和 Unity 资源商店的<strong>免费游戏资源</strong>。一次设置，即可自动运行。"
+  },
+  "onboarding_step1_chip": {
+    "message": "支持 FAB 与 Unity 资源商店"
+  },
+  "onboarding_step2_headline": {
+    "message": "FAB 每月\n免费资源"
+  },
+  "onboarding_step2_body": {
+    "message": "每月 FAB 都会提供<strong>限时免费资源</strong>。本扩展可以检测并为您自动领取——每月最多 3 次。"
+  },
+  "onboarding_step2_chip": {
+    "message": "自动领取每 6 小时运行一次"
+  },
+  "onboarding_step3_headline": {
+    "message": "Unity 每周\n免费资源"
+  },
+  "onboarding_step3_body": {
+    "message": "每周 Unity 都会通过优惠码赠送一款<strong>免费优质资源</strong>。本扩展可自动获取该资源，让您不再错过。"
+  },
+  "onboarding_step3_chip": {
+    "message": "一键复制优惠码"
+  },
+  "onboarding_step4_headline": {
+    "message": "记录每次\n领取"
+  },
+  "onboarding_step4_body": {
+    "message": "保留已领取的每个资源的<strong>可搜索历史记录</strong>。支持按 FAB 或 Unity 筛选、导出为 JSON，让一切井井有条。"
+  },
+  "onboarding_step4_chip": {
+    "message": "本地最多保存 500 条记录"
+  },
+  "onboarding_step5_headline": {
+    "message": "解锁\n高级版"
+  },
+  "onboarding_step5_body": {
+    "message": "升级至<strong>高级版</strong>以解锁这些功能并支持后续开发。"
+  },
+  "onboarding_step5_feature1": {
+    "message": "带搜索和导出功能的领取历史"
+  },
+  "onboarding_step5_feature2": {
+    "message": "FAB 每月免费资源查看与领取工具"
+  },
+  "onboarding_step5_feature3": {
+    "message": "带优惠码的 Unity 每周免费资源"
+  },
+  "panel_auto_redeem": {
+    "message": "自动领取"
+  },
+  "panel_fab_auto_redeem": {
+    "message": "FAB 自动领取"
+  },
+  "panel_unity_auto_redeem": {
+    "message": "Unity 自动领取"
+  },
+  "panel_start": {
+    "message": "▶ 开始"
+  },
+  "panel_stop": {
+    "message": "⏹ 停止"
+  },
+  "panel_refresh": {
+    "message": "↻ 刷新"
+  },
+  "panel_autostart": {
+    "message": "自动启动"
+  },
+  "panel_max_retries": {
+    "message": "最大重试次数"
+  },
+  "panel_dialog_timeout": {
+    "message": "对话框超时 (毫秒)"
+  },
+  "panel_license_pref": {
+    "message": "首选许可"
+  },
+  "panel_delay": {
+    "message": "延迟 (毫秒)"
+  },
+  "panel_hide_owned": {
+    "message": "隐藏已拥有"
+  },
+  "panel_claim_history": {
+    "message": "领取历史"
+  },
+  "panel_product_delay": {
+    "message": "产品延迟 (毫秒)"
+  },
+  "panel_auto_paginate": {
+    "message": "自动翻页"
+  },
+  "panel_page_delay": {
+    "message": "翻页延迟 (毫秒)"
+  },
+  "panel_search_placeholder": {
+    "message": "搜索资源..."
+  },
+  "panel_free_assets": {
+    "message": "免费资源"
+  },
+  "panel_scanning": {
+    "message": "正在扫描免费资源..."
+  },
+  "panel_tip_drag": {
+    "message": "提示：拖动面板的任意位置可进行移动"
+  },
+  "controller_idle": {
+    "message": "闲置"
+  },
+  "controller_scanning": {
+    "message": "正在扫描..."
+  },
+  "controller_done": {
+    "message": "完成"
+  },
+  "controller_done_summary": {
+    "message": "完成：$1"
+  },
+  "controller_error": {
+    "message": "出错 — 请检查控制台"
+  },
+  "controller_stopping": {
+    "message": "正在停止..."
+  },
+  "assets_none_found": {
+    "message": "此页面上未找到免费资源。"
+  },
+  "assets_unknown": {
+    "message": "未知资源"
+  },
+  "error_communication": {
+    "message": "扩展程序通信错误。"
+  },
+  "error_no_response": {
+    "message": "后台未响应。"
+  },
+  "error_fetch_weekly": {
+    "message": "获取每周资源失败。"
+  },
+  "error_fetch_monthly": {
+    "message": "获取每月免费资源失败。"
+  },
+  "error_network": {
+    "message": "网络错误"
+  },
+  "error_http": {
+    "message": "HTTP $1"
+  },
+  "notif_claimed_title": {
+    "message": "已领取 FAB 资源"
+  },
+  "notif_claimed_message": {
+    "message": "$1 已添加到您的库！"
+  },
+  "notif_complete_title": {
+    "message": "$1 自动领取完成"
+  },
+  "notif_error_title": {
+    "message": "$1 自动领取错误"
+  },
+  "notif_error_default": {
+    "message": "处理过程中发生错误。"
+  },
+  "notif_monthly_title": {
+    "message": "发现 FAB 免费资源"
+  },
+  "notif_monthly_message": {
+    "message": "$1 — 本月有 $2 个免费资源！"
+  },
+  "monthly_saved_library": {
+    "message": "已保存到我的库"
+  },
+  "monthly_claimed": {
+    "message": "已领取"
+  },
+  "monthly_claiming": {
+    "message": "正在领取..."
+  },
+  "monthly_claim_free": {
+    "message": "免费领取"
+  },
+  "monthly_expired": {
+    "message": "已过期"
+  },
+  "monthly_days_left": {
+    "message": "剩 $1 天"
+  },
+  "monthly_hours_left": {
+    "message": "剩 $1 小时"
+  },
+  "monthly_asset_count": {
+    "message": "$1 个资源"
+  },
+  "monthly_assets_count": {
+    "message": "$1 个资源"
+  },
+  "monthly_default_title": {
+    "message": "FAB 限时免费"
+  },
+  "monthly_no_assets": {
+    "message": "未找到限时免费资源。"
+  },
+  "weekly_not_found": {
+    "message": "无法在页面上找到免费资源板块。"
+  },
+  "premium_error_missing": {
+    "message": "缺少电子邮箱或密码"
+  },
+  "premium_error_invalid_email": {
+    "message": "无效的电子邮箱"
+  },
+  "premium_error_invalid_key": {
+    "message": "无效的许可密钥格式"
+  },
+  "premium_error_too_many": {
+    "message": "尝试次数过多"
+  },
+  "premium_error_api_response": {
+    "message": "非预期的 API 响应"
+  },
+  "premium_error_mismatch": {
+    "message": "电子邮箱与许可密钥不匹配"
+  },
+  "premium_error_check_failed": {
+    "message": "检查高级版状态失败"
+  },
+  "premium_error_integrity": {
+    "message": "数据完整性检查失败"
+  },
+  "error_no_url": {
+    "message": "未提供 URL"
+  },
+  "controller_summary": {
+    "message": "共 $3 个，已领取 $1 个，失败 $2 个"
+  },
+  "controller_summary_simple": {
+    "message": "完成：已领取 $1 个，失败 $2 个"
+  },
+  "controller_claiming_n": {
+    "message": "正在领取 $1/$2..."
+  },
+  "controller_stopped": {
+    "message": "已停止"
+  },
+  "controller_waiting_page": {
+    "message": "等待下一页..."
+  },
+  "controller_assets_found": {
+    "message": "找到 $1 个免费资产"
+  },
+  "controller_no_assets_page": {
+    "message": "此页面没有免费资产"
+  },
+  "premium_buy_coffee": {
+    "message": "☕ 请我喝杯咖啡"
+  }
+}

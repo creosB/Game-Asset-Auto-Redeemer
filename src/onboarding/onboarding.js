@@ -5,6 +5,24 @@
   var slides = document.querySelectorAll('.slide');
   var skipBtn = document.getElementById('skipBtn');
 
+  function t(key) {
+    if (!key) return '';
+    var subs = [];
+    for (var i = 1; i < arguments.length; i++) subs.push(arguments[i]);
+    var ns = window.__fabGrabber && window.__fabGrabber.i18n;
+    var msg = ns ? ns.getMessage(key, subs) : chrome.i18n.getMessage(key, subs);
+    return msg || key;
+  }
+
+  function updateStepLabels() {
+    for (var i = 0; i < slides.length; i++) {
+      var label = slides[i].querySelector('.step-label');
+      if (label) {
+        label.textContent = t('onboarding_step_label', String(i + 1), String(TOTAL));
+      }
+    }
+  }
+
   function goTo(idx) {
     if (idx < 0 || idx >= TOTAL) return;
     slides[current].classList.remove('is-active');
@@ -47,4 +65,6 @@
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
   });
+
+  updateStepLabels();
 })();

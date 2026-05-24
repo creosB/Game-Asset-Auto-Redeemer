@@ -6,6 +6,7 @@
   var utils = ns.utils;
   var state = ns.state;
   var config = ns.config;
+  var t = function(k) { return (ns.i18n && ns.i18n.t) ? ns.i18n.t.apply(null, arguments) : k; };
 
   var _keepAliveInterval = null;
 
@@ -40,8 +41,9 @@
 
     state.isRunning = true;
     state.shouldStop = false;
+    state.hasError = false;
     state.currentSite = site;
-    state.statusText = 'Scanning...';
+    state.statusText = t('controller_scanning');
     state.assetsClaimed = 0;
     state.assetsFailed = 0;
     utils.log('Starting auto-grab on ' + site + '...');
@@ -53,8 +55,8 @@
       await processAssetsFn();
 
       if (!state.shouldStop) {
-        var summary = state.assetsClaimed + ' claimed, ' + state.assetsFailed + ' failed out of ' + state.assetsTotal;
-        state.statusText = 'Done: ' + summary;
+        var summary = t('controller_summary', String(state.assetsClaimed), String(state.assetsFailed), String(state.assetsTotal));
+        state.statusText = t('controller_done_summary', summary);
         notifyServiceWorker('PROCESSING_COMPLETE', {
           site: site,
           summary: summary
@@ -64,7 +66,8 @@
       }
     } catch (err) {
       utils.log('Auto-grab error: ' + err.message, 'error');
-      state.statusText = 'Error — check console';
+      state.statusText = t('controller_error');
+      state.hasError = true;
       state.addLog('Error: ' + err.message, 'error');
       notifyServiceWorker('PROCESSING_ERROR', {
         site: site,
@@ -73,8 +76,8 @@
     } finally {
       state.isRunning = false;
       stopKeepAlive();
-      if (state.statusText === 'Scanning...') {
-        state.statusText = 'Done';
+      if (state.statusText === t('controller_scanning')) {
+        state.statusText = t('controller_done');
       }
     }
   }
@@ -82,7 +85,7 @@
   function stop() {
     if (!state.isRunning) return;
     state.shouldStop = true;
-    state.statusText = 'Stopping...';
+    state.statusText = t('controller_stopping');
     utils.log('Stopping auto-grab...');
   }
 

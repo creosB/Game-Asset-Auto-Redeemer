@@ -9,24 +9,30 @@
   var btnOptions = document.getElementById('btn-options');
   var btnPremium = document.getElementById('btn-premium');
 
+  function t(key) {
+    var ns = window.__fabGrabber && window.__fabGrabber.i18n;
+    var msg = ns ? ns.getMessage(key) : chrome.i18n.getMessage(key);
+    return msg || key;
+  }
+
   async function checkStatus() {
     try {
       var [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (!tab || !tab.url) {
-        setStatus('inactive', 'No active tab');
+        setStatus('inactive', t('popup_status_no_tab'));
         return;
       }
 
       var url = tab.url;
       if (url.indexOf('fab.com') !== -1) {
-        setStatus('active', 'Active on FAB');
+        setStatus('active', t('popup_status_active_fab'));
       } else if (url.indexOf('assetstore.unity.com') !== -1) {
-        setStatus('active', 'Active on Unity');
+        setStatus('active', t('popup_status_active_unity'));
       } else {
-        setStatus('inactive', 'Not on a supported site');
+        setStatus('inactive', t('popup_status_unsupported'));
       }
     } catch (err) {
-      setStatus('inactive', 'Could not check tab');
+      setStatus('inactive', t('popup_status_error'));
     }
   }
 
@@ -40,7 +46,7 @@
       var result = await chrome.runtime.sendMessage({ type: 'GET_PREMIUM_STATUS' });
       if (result && result.isPremium) {
         btnPremium.classList.add('is-premium');
-        btnPremium.querySelector('span').textContent = 'Premium Active';
+        btnPremium.querySelector('span').textContent = t('popup_premium_active');
       }
     } catch (_) {}
   }

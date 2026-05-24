@@ -59,9 +59,9 @@ async function handlePremiumCheck(payload) {
   var email = payload.email;
   var code = payload.code;
 
-  if (!email || !code) return { success: false, isPremium: false, error: 'Missing email or code' };
-  if (!isValidEmail(email)) return { success: false, isPremium: false, error: 'Invalid email' };
-  if (!isValidCode(code)) return { success: false, isPremium: false, error: 'Invalid license key format' };
+  if (!email || !code) return { success: false, isPremium: false, error: chrome.i18n.getMessage('premium_error_missing') || 'Missing email or code' };
+  if (!isValidEmail(email)) return { success: false, isPremium: false, error: chrome.i18n.getMessage('premium_error_invalid_email') || 'Invalid email' };
+  if (!isValidCode(code)) return { success: false, isPremium: false, error: chrome.i18n.getMessage('premium_error_invalid_key') || 'Invalid license key format' };
 
   var key = '' + STORAGE_KEY_PREFIX + email;
   var storedData = await chrome.storage.local.get(key);
@@ -71,7 +71,7 @@ async function handlePremiumCheck(payload) {
   var now = Date.now();
   var recent = attempts.filter(function(t) { return now - t < ATTEMPT_WINDOW_MS; });
   if (recent.length >= MAX_ATTEMPTS) {
-    return { success: false, isPremium: false, error: 'Too many attempts' };
+    return { success: false, isPremium: false, error: chrome.i18n.getMessage('premium_error_too_many') || 'Too many attempts' };
   }
 
   try {
@@ -85,11 +85,11 @@ async function handlePremiumCheck(payload) {
     });
 
     if (!resp.ok) {
-      return { success: false, isPremium: false, error: 'Network error' };
+      return { success: false, isPremium: false, error: chrome.i18n.getMessage('error_network') || 'Network error' };
     }
     var data = await resp.json();
     if (!data || typeof data.valid !== 'boolean') {
-      return { success: false, isPremium: false, error: 'Unexpected API response' };
+      return { success: false, isPremium: false, error: chrome.i18n.getMessage('premium_error_api_response') || 'Unexpected API response' };
     }
 
     if (!data.valid) {
@@ -103,7 +103,7 @@ async function handlePremiumCheck(payload) {
     }
 
     if (data.meta && data.meta.customer_email && data.meta.customer_email.toLowerCase() !== email.toLowerCase()) {
-      return { success: false, isPremium: false, error: 'Email and license key mismatch' };
+      return { success: false, isPremium: false, error: chrome.i18n.getMessage('premium_error_mismatch') || 'Email and license key mismatch' };
     }
 
     var checkPeriodDays = 7;
@@ -122,7 +122,7 @@ async function handlePremiumCheck(payload) {
     broadcastPremiumUpdate();
     return { success: true, isPremium: true, checkPeriodDays: checkPeriodDays };
   } catch (e) {
-    return { success: false, isPremium: false, error: 'Failed to check premium status' };
+    return { success: false, isPremium: false, error: chrome.i18n.getMessage('premium_error_check_failed') || 'Failed to check premium status' };
   }
 }
 
@@ -142,11 +142,11 @@ async function handlePremiumGet() {
           return { success: true, isPremium: !!stored.isPremium };
         } else {
           await chrome.storage.local.remove(k);
-          return { success: false, error: 'Data integrity check failed' };
+          return { success: false, error: chrome.i18n.getMessage('premium_error_integrity') || 'Data integrity check failed' };
         }
       } else if (stored) {
         await chrome.storage.local.remove(k);
-        return { success: false, error: 'Data integrity check failed' };
+        return { success: false, error: chrome.i18n.getMessage('premium_error_integrity') || 'Data integrity check failed' };
       }
     }
   }
@@ -194,7 +194,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     var assetUrl = message.assetUrl;
     var assetName = message.assetName || 'Unknown';
     if (!assetUrl) {
-      sendResponse({ success: false, error: 'No URL provided' });
+      sendResponse({ success: false, error: chrome.i18n.getMessage('error_no_url') || 'No URL provided' });
       return false;
     }
     markAssetClaimed(assetUid).catch(function() {});
@@ -217,8 +217,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         chrome.notifications.create('fab-claimed-' + Date.now(), {
           type: 'basic',
           iconUrl: 'icons/icon-128.png',
-          title: 'FAB Asset Claimed',
-          message: (message.assetName || 'Asset') + ' added to your library!',
+          title: chrome.i18n.getMessage('notif_claimed_title') || 'FAB Asset Claimed',
+          message: chrome.i18n.getMessage('notif_claimed_message', [message.assetName || 'Asset']) || (message.assetName || 'Asset') + ' added to your library!',
           priority: 1
         });
       } catch (e) {}
@@ -277,8 +277,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
           chrome.notifications.create('fab-claimed-' + Date.now(), {
             type: 'basic',
             iconUrl: 'icons/icon-128.png',
-            title: 'FAB Asset Claimed',
-            message: (claimInfo.assetName || 'Asset') + ' added to your library!',
+            title: chrome.i18n.getMessage('notif_claimed_title') || 'FAB Asset Claimed',
+            message: chrome.i18n.getMessage('notif_claimed_message', [claimInfo.assetName || 'Asset']) || (claimInfo.assetName || 'Asset') + ' added to your library!',
             priority: 1
           });
         } catch (e) {}
@@ -292,7 +292,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       chrome.notifications.create('grab-complete-' + tabId, {
         type: 'basic',
         iconUrl: 'icons/icon-128.png',
-        title: siteName + ' Auto Redeem Complete',
+        title: chrome.i18n.getMessage('notif_complete_title', [siteName]) || siteName + ' Auto Redeem Complete',
         message: summary,
         priority: 2,
         requireInteraction: true
@@ -323,8 +323,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       chrome.notifications.create('grab-error-' + tabId, {
         type: 'basic',
         iconUrl: 'icons/icon-128.png',
-        title: errSiteName + ' Auto Redeem Error',
-        message: message.error || 'An error occurred during processing.',
+        title: chrome.i18n.getMessage('notif_error_title', [errSiteName]) || errSiteName + ' Auto Redeem Error',
+        message: message.error || chrome.i18n.getMessage('notif_error_default') || 'An error occurred during processing.',
         priority: 2,
         requireInteraction: true
       });
@@ -414,8 +414,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
             chrome.notifications.create('fab-monthly-free-' + Date.now(), {
               type: 'basic',
               iconUrl: 'icons/icon-128.png',
-              title: 'FAB Free Assets Available',
-              message: result.data.title + ' — ' + result.data.assets.length + ' free asset(s) this month!',
+              title: chrome.i18n.getMessage('notif_monthly_title') || 'FAB Free Assets Available',
+              message: chrome.i18n.getMessage('notif_monthly_message', [result.data.title, String(result.data.assets.length)]) || result.data.title + ' — ' + result.data.assets.length + ' free asset(s) this month!',
               priority: 1
             });
           } catch (e) {}

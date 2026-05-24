@@ -1,0 +1,578 @@
+{
+  "manifest_name": {
+    "message": "Game Asset Auto Redeemer"
+  },
+  "manifest_description": {
+    "message": "FAB (Epic) ve Unity Asset Store üzerindeki ücretsiz varlıkları Dinamik Ada arayüzüyle otomatik olarak talep edin."
+  },
+  "popup_status_checking": {
+    "message": "Kontrol ediliyor..."
+  },
+  "popup_status_no_tab": {
+    "message": "Aktif sekme yok"
+  },
+  "popup_status_active_fab": {
+    "message": "FAB üzerinde aktif"
+  },
+  "popup_status_active_unity": {
+    "message": "Unity üzerinde aktif"
+  },
+  "popup_status_unsupported": {
+    "message": "Desteklenen bir sitede değil"
+  },
+  "popup_status_error": {
+    "message": "Sekme kontrol edilemedi"
+  },
+  "popup_open_fab": {
+    "message": "FAB'ı Aç"
+  },
+  "popup_open_unity": {
+    "message": "Unity'yi Aç"
+  },
+  "popup_premium": {
+    "message": "Premium"
+  },
+  "popup_options": {
+    "message": "Seçenekler"
+  },
+  "popup_premium_active": {
+    "message": "Premium Aktif"
+  },
+  "options_go_premium": {
+    "message": "Premium'a Geç"
+  },
+  "options_section_general": {
+    "message": "Genel"
+  },
+  "options_autostart": {
+    "message": "Otomatik Başlat"
+  },
+  "options_autostart_desc": {
+    "message": "Desteklenen siteler ziyaret edildiğinde talep etme işlemini otomatik olarak başlatır"
+  },
+  "options_max_retries": {
+    "message": "Maksimum Yeniden Deneme"
+  },
+  "options_max_retries_desc": {
+    "message": "Hata durumunda yeniden deneme sayısı (0–5)"
+  },
+  "options_feature_tour": {
+    "message": "Özellik Tanıtımı"
+  },
+  "options_feature_tour_desc": {
+    "message": "Tüm özellikleri öğrenmek için hoş geldiniz tanıtımını yeniden oynatın"
+  },
+  "options_language": {
+    "message": "Dil"
+  },
+  "options_language_desc": {
+    "message": "Uzantının görüntüleme dilini değiştirin"
+  },
+  "options_language_auto": {
+    "message": "Varsayılan (Tarayıcı)"
+  },
+  "options_show_tour": {
+    "message": "Tanıtımı Göster"
+  },
+  "options_section_fab": {
+    "message": "FAB / Epic Games"
+  },
+  "options_default_license": {
+    "message": "Varsayılan Lisans"
+  },
+  "options_default_license_desc": {
+    "message": "Ücretsiz varlıklar talep edilirken tercih edilen lisans türü"
+  },
+  "options_personal": {
+    "message": "Kişisel"
+  },
+  "options_professional": {
+    "message": "Profesyonel"
+  },
+  "options_delay_actions": {
+    "message": "İşlemler Arası Gecikme"
+  },
+  "options_delay_actions_desc": {
+    "message": "Her talep girişimi arasındaki milisaniye cinsinden süre (500–10000)"
+  },
+  "options_dialog_timeout": {
+    "message": "Pencere Zaman Aşımı"
+  },
+  "options_dialog_timeout_desc": {
+    "message": "İletişim kutusunun/pencerenin görünmesi için maksimum bekleme süresi (3000–30000 ms)"
+  },
+  "options_hide_owned": {
+    "message": "Sahip Olunan Varlıkları Gizle"
+  },
+  "options_hide_owned_desc": {
+    "message": "Göz atarken kütüphanenizde zaten kayıtlı olan varlıkları otomatik olarak gizler"
+  },
+  "options_claim_history": {
+    "message": "Talep Geçmişi"
+  },
+  "options_claim_history_desc": {
+    "message": "Talep edilen varlıkları aranabilir geçmiş, sayaçlar ve doğrudan bağlantılarla takip edin"
+  },
+  "options_fab_auto_claim": {
+    "message": "Aylık Ücretsizleri Otomatik Talep Et"
+  },
+  "options_fab_auto_claim_desc": {
+    "message": "FAB süreli ücretsiz varlıkları algılandığında otomatik olarak talep edin (ayda 3 kez)"
+  },
+  "options_section_unity": {
+    "message": "Unity Asset Store"
+  },
+  "options_unity_delay": {
+    "message": "Ürünler Arası Gecikme"
+  },
+  "options_unity_delay_desc": {
+    "message": "Her API talebi arasındaki milisaniye cinsinden süre (200–10000)"
+  },
+  "options_unity_auto_paginate": {
+    "message": "Otomatik Sayfalandırma"
+  },
+  "options_unity_auto_paginate_desc": {
+    "message": "İşlem bittikten sonra otomatik olarak sonraki sayfaya geç"
+  },
+  "options_unity_page_delay": {
+    "message": "Sayfa Geçiş Gecikmesi"
+  },
+  "options_unity_page_delay_desc": {
+    "message": "Sonraki sayfaya geçmeden önceki bekleme süresi (3000–60000 ms)"
+  },
+  "options_monthly_title": {
+    "message": "FAB Aylık Ücretsiz Varlıkları"
+  },
+  "options_monthly_loading": {
+    "message": "Bu ayın ücretsiz varlıkları alınıyor..."
+  },
+  "options_monthly_retry": {
+    "message": "Yeniden Dene"
+  },
+  "options_monthly_view_all": {
+    "message": "Hepsini FAB'da Görüntüle"
+  },
+  "options_monthly_refresh": {
+    "message": "Yenile"
+  },
+  "options_weekly_title": {
+    "message": "Unity Haftalık Ücretsiz Varlığı"
+  },
+  "options_weekly_loading": {
+    "message": "Bu haftanın ücretsiz varlığı alınıyor..."
+  },
+  "options_weekly_coupon_label": {
+    "message": "Kupon Kodu:"
+  },
+  "options_weekly_copy": {
+    "message": "Kopyala"
+  },
+  "options_weekly_copied": {
+    "message": "Kopyalandı!"
+  },
+  "options_weekly_get": {
+    "message": "Ücretsiz Varlığı Al"
+  },
+  "options_weekly_retry": {
+    "message": "Yeniden Dene"
+  },
+  "options_weekly_refresh": {
+    "message": "Yenile"
+  },
+  "options_save": {
+    "message": "Ayarları Kaydet"
+  },
+  "options_saved": {
+    "message": "✓ Kaydedildi"
+  },
+  "options_history_title": {
+    "message": "Talep Geçmişi"
+  },
+  "options_history_export": {
+    "message": "Dışa Aktar"
+  },
+  "options_history_clear": {
+    "message": "Tümünü Temizle"
+  },
+  "options_history_total": {
+    "message": "Toplam"
+  },
+  "options_history_fab": {
+    "message": "FAB"
+  },
+  "options_history_unity": {
+    "message": "Unity"
+  },
+  "options_history_search": {
+    "message": "Talep edilen varlıklarda ara..."
+  },
+  "options_history_loading": {
+    "message": "Geçmiş yükleniyor..."
+  },
+  "options_history_empty": {
+    "message": "Henüz talep edilen varlık yok. Geçmişinizi oluşturmak için talep etmeye başlayın."
+  },
+  "options_history_no_results": {
+    "message": "\"$1\" için sonuç bulunamadı"
+  },
+  "options_support_message": {
+    "message": "Eğitimi ve gelecekteki geliştirmeleri destekleyin"
+  },
+  "options_support_submessage": {
+    "message": "❤️ ve sayısız saatlik emekle oluşturuldu. Desteğiniz, herkes için harika araçlar geliştirmeye devam etmemize yardımcı olur."
+  },
+  "options_footer": {
+    "message": "CreosB tarafından geliştirilen Game Asset Auto Redeemer"
+  },
+  "premium_title": {
+    "message": "Premium"
+  },
+  "premium_subtitle": {
+    "message": "Premium özelliklerin kilidini açın ve geliştirmeyi destekleyin."
+  },
+  "premium_feature_history": {
+    "message": "Talep Geçmişi — Talep ettiğiniz tüm varlıkları takip edin ve arayın"
+  },
+  "premium_feature_monthly": {
+    "message": "FAB Aylık Ücretsiz Varlıkları — Süreli ücretsiz varlıkları görüntüleyin ve talep edin"
+  },
+  "premium_feature_weekly": {
+    "message": "Unity Haftalık Ücretsiz Varlığı — Kupon kodlarıyla bu haftanın ücretsiz varlığını görün"
+  },
+  "premium_feature_support": {
+    "message": "Devam eden geliştirmeleri ve gelecekteki özellikleri destekleyin"
+  },
+  "premium_email_placeholder": {
+    "message": "Ödeme sırasında kullanılan e-posta"
+  },
+  "premium_code_placeholder": {
+    "message": "Lisans anahtarı (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+  },
+  "premium_buy": {
+    "message": "Premium'a Geç"
+  },
+  "premium_verify": {
+    "message": "Doğrula"
+  },
+  "premium_status_info": {
+    "message": "Doğrulamak için e-posta adresinizi ve lisans anahtarınızı girin."
+  },
+  "premium_status_active": {
+    "message": "Premium aktif. Teşekkürler!"
+  },
+  "premium_status_not_verified": {
+    "message": "Lisans henüz doğrulanmadı."
+  },
+  "premium_status_not_verified_check": {
+    "message": "Lisans doğrulanmadı. Lütfen anahtarınızı kontrol edin."
+  },
+  "premium_status_granted": {
+    "message": "Erişim sağlandı. Premium'a hoş geldiniz!"
+  },
+  "premium_error_required": {
+    "message": "E-posta ve lisans gereklidir."
+  },
+  "premium_error_email": {
+    "message": "Geçersiz e-posta biçimi."
+  },
+  "premium_error_code": {
+    "message": "Geçersiz lisans anahtarı biçimi."
+  },
+  "premium_error_rate_limit": {
+    "message": "Çok fazla deneme yapıldı. Daha sonra tekrar deneyin."
+  },
+  "premium_error_verify": {
+    "message": "Doğrulama başarısız oldu."
+  },
+  "premium_error_unexpected": {
+    "message": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+  },
+  "premium_gate_label": {
+    "message": "Premium özellik"
+  },
+  "premium_gate_unlock": {
+    "message": "Premium ile Kilidi Aç"
+  },
+  "premium_active_title": {
+    "message": "Premium Aktif"
+  },
+  "onboarding_skip": {
+    "message": "Atla"
+  },
+  "onboarding_next": {
+    "message": "Sonraki"
+  },
+  "onboarding_go_premium": {
+    "message": "Premium'a Geç"
+  },
+  "onboarding_get_started": {
+    "message": "Başlayın"
+  },
+  "onboarding_opensource_note": {
+    "message": "Bu uzantı tamamen açık kaynaklıdır."
+  },
+  "onboarding_step_label": {
+    "message": "Adım $1 / $2"
+  },
+  "onboarding_step1_headline": {
+    "message": "Game Asset Redeemer'a\nHoş Geldiniz"
+  },
+  "onboarding_step1_body": {
+    "message": "FAB (Epic Games) ve Unity Asset Store'dan <strong>ücretsiz oyun varlıklarını</strong> otomatik olarak talep edin. Bir kez kurun ve gerisini uzantıya bırakın."
+  },
+  "onboarding_step1_chip": {
+    "message": "FAB ve Unity Asset Store'da çalışır"
+  },
+  "onboarding_step2_headline": {
+    "message": "FAB Aylık\nÜcretsiz Varlıkları"
+  },
+  "onboarding_step2_body": {
+    "message": "FAB her ay <strong>süreli ücretsiz varlıklar</strong> sunar. Uzantı bunları algılar ve sizin için otomatik olarak talep edebilir (ayda en fazla 3 kez)."
+  },
+  "onboarding_step2_chip": {
+    "message": "Otomatik talep etme 6 saatte bir çalışır"
+  },
+  "onboarding_step3_headline": {
+    "message": "Unity Haftalık\nÜcretsiz Varlığı"
+  },
+  "onboarding_step3_body": {
+    "message": "Unity her hafta bir kupon koduyla <strong>ücretsiz premium varlık</strong> verir. Hiçbirini kaçırmamanız için uzantı bunu otomatik olarak alır."
+  },
+  "onboarding_step3_chip": {
+    "message": "Kupon kodu tek tıkla kopyalanır"
+  },
+  "onboarding_step4_headline": {
+    "message": "Her Talebi\nTakip Edin"
+  },
+  "onboarding_step4_body": {
+    "message": "Talep ettiğiniz her varlığın <strong>aranabilir bir geçmişini</strong> tutun. FAB veya Unity'ye göre filtreleyin, JSON olarak dışa aktarın ve takibi asla kaybetmeyin."
+  },
+  "onboarding_step4_chip": {
+    "message": "Yerel olarak 500 adede kadar kayıt saklanır"
+  },
+  "onboarding_step5_headline": {
+    "message": "Premium'un\nKilidini Açın"
+  },
+  "onboarding_step5_body": {
+    "message": "Bu özelliklerin kilidini açmak ve geliştirmeyi desteklemek için <strong>Premium</strong>'a yükseltin."
+  },
+  "onboarding_step5_feature1": {
+    "message": "Arama ve dışa aktarma özellikli Talep Geçmişi"
+  },
+  "onboarding_step5_feature2": {
+    "message": "FAB Aylık Ücretsiz Varlık görüntüleyici ve talep edici"
+  },
+  "onboarding_step5_feature3": {
+    "message": "Kupon kodlarıyla birlikte Unity Haftalık Ücretsiz Varlığı"
+  },
+  "panel_auto_redeem": {
+    "message": "Otomatik Talep Et"
+  },
+  "panel_fab_auto_redeem": {
+    "message": "FAB Otomatik Talep"
+  },
+  "panel_unity_auto_redeem": {
+    "message": "Unity Otomatik Talep"
+  },
+  "panel_start": {
+    "message": "▶ Başlat"
+  },
+  "panel_stop": {
+    "message": "⏹ Durdur"
+  },
+  "panel_refresh": {
+    "message": "↻ Yenile"
+  },
+  "panel_autostart": {
+    "message": "Otomatik Başlat"
+  },
+  "panel_max_retries": {
+    "message": "Maks. Yeniden Deneme"
+  },
+  "panel_dialog_timeout": {
+    "message": "Pencere Zaman Aşımı (ms)"
+  },
+  "panel_license_pref": {
+    "message": "Lisans Tercihi"
+  },
+  "panel_delay": {
+    "message": "Gecikme (ms)"
+  },
+  "panel_hide_owned": {
+    "message": "Sahip Olunanları Gizle"
+  },
+  "panel_claim_history": {
+    "message": "Talep Geçmişi"
+  },
+  "panel_product_delay": {
+    "message": "Ürün Gecikmesi (ms)"
+  },
+  "panel_auto_paginate": {
+    "message": "Otomatik Sayfalandırma"
+  },
+  "panel_page_delay": {
+    "message": "Sayfa Gecikmesi (ms)"
+  },
+  "panel_search_placeholder": {
+    "message": "Varlıklarda ara..."
+  },
+  "panel_free_assets": {
+    "message": "Ücretsiz Varlıklar"
+  },
+  "panel_scanning": {
+    "message": "Ücretsiz varlıklar taranıyor..."
+  },
+  "panel_tip_drag": {
+    "message": "İpucu: Taşımak için bu panelin herhangi bir yerinden sürükleyin"
+  },
+  "controller_idle": {
+    "message": "Boşta"
+  },
+  "controller_scanning": {
+    "message": "Taranıyor..."
+  },
+  "controller_done": {
+    "message": "Tamamlandı"
+  },
+  "controller_done_summary": {
+    "message": "Tamamlandı: $1"
+  },
+  "controller_error": {
+    "message": "Hata — konsolu kontrol edin"
+  },
+  "controller_stopping": {
+    "message": "Durduruluyor..."
+  },
+  "assets_none_found": {
+    "message": "Bu sayfada ücretsiz varlık bulunamadı."
+  },
+  "assets_unknown": {
+    "message": "Bilinmeyen Varlık"
+  },
+  "error_communication": {
+    "message": "Uzantı iletişim hatası."
+  },
+  "error_no_response": {
+    "message": "Arka plandan yanıt alınamadı."
+  },
+  "error_fetch_weekly": {
+    "message": "Haftalık varlık alınamadı."
+  },
+  "error_fetch_monthly": {
+    "message": "Aylık ücretsiz varlıklar alınamadı."
+  },
+  "error_network": {
+    "message": "Ağ hatası"
+  },
+  "error_http": {
+    "message": "HTTP $1"
+  },
+  "notif_claimed_title": {
+    "message": "FAB Varlığı Talep Edildi"
+  },
+  "notif_claimed_message": {
+    "message": "$1 kütüphanenize eklendi!"
+  },
+  "notif_complete_title": {
+    "message": "$1 Otomatik Talep Tamamlandı"
+  },
+  "notif_error_title": {
+    "message": "$1 Otomatik Talep Hatası"
+  },
+  "notif_error_default": {
+    "message": "İşlem sırasında bir hata oluştu."
+  },
+  "notif_monthly_title": {
+    "message": "FAB Ücretsiz Varlıkları Mevcut"
+  },
+  "notif_monthly_message": {
+    "message": "$1 — Bu ay $2 ücretsiz varlık mevcut!"
+  },
+  "monthly_saved_library": {
+    "message": "Kütüphanemde Kayıtlı"
+  },
+  "monthly_claimed": {
+    "message": "Talep Edildi"
+  },
+  "monthly_claiming": {
+    "message": "Talep ediliyor..."
+  },
+  "monthly_claim_free": {
+    "message": "Ücretsiz Talep Et"
+  },
+  "monthly_expired": {
+    "message": "Süresi Doldu"
+  },
+  "monthly_days_left": {
+    "message": "$1g kaldı"
+  },
+  "monthly_hours_left": {
+    "message": "$1sa kaldı"
+  },
+  "monthly_asset_count": {
+    "message": "$1 varlık"
+  },
+  "monthly_assets_count": {
+    "message": "$1 varlık"
+  },
+  "monthly_default_title": {
+    "message": "FAB Süreli Ücretsiz"
+  },
+  "monthly_no_assets": {
+    "message": "Süreli ücretsiz varlık bulunamadı."
+  },
+  "weekly_not_found": {
+    "message": "Sayfada ücretsiz varlık bölümü bulunamadı."
+  },
+  "premium_error_missing": {
+    "message": "E-posta veya kod eksik"
+  },
+  "premium_error_invalid_email": {
+    "message": "Geçersiz e-posta"
+  },
+  "premium_error_invalid_key": {
+    "message": "Geçersiz lisans anahtarı biçimi"
+  },
+  "premium_error_too_many": {
+    "message": "Çok fazla deneme"
+  },
+  "premium_error_api_response": {
+    "message": "Beklenmeyen API yanıtı"
+  },
+  "premium_error_mismatch": {
+    "message": "E-posta ve lisans anahtarı eşleşmiyor"
+  },
+  "premium_error_check_failed": {
+    "message": "Premium durumu kontrol edilemedi"
+  },
+  "premium_error_integrity": {
+    "message": "Veri bütünlüğü kontrolü başarısız oldu"
+  },
+  "error_no_url": {
+    "message": "URL belirtilmedi"
+  },
+  "controller_summary": {
+    "message": "Toplam $3 varlıktan $1 adedi talep edildi, $2 adedi başarısız oldu"
+  },
+  "controller_summary_simple": {
+    "message": "Tamamlandı: $1 talep edildi, $2 başarısız oldu"
+  },
+  "controller_claiming_n": {
+    "message": "$1/$2 talep ediliyor..."
+  },
+  "controller_stopped": {
+    "message": "Durduruldu"
+  },
+  "controller_waiting_page": {
+    "message": "Sonraki sayfa bekleniyor..."
+  },
+  "controller_assets_found": {
+    "message": "$1 ücretsiz varlık bulundu"
+  },
+  "controller_no_assets_page": {
+    "message": "Bu sayfada ücretsiz varlık yok"
+  },
+  "premium_buy_coffee": {
+    "message": "☕ Bana Bir Kahve Ismarla"
+  }
+}

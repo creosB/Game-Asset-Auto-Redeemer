@@ -10,7 +10,8 @@
     assetsClaimed: 0,
     assetsFailed: 0,
     assetsTotal: 0,
-    statusText: 'Idle',
+    statusText: '',
+    hasError: false,
     expanded: false,
     logs: [],
 
@@ -21,7 +22,8 @@
       this.assetsClaimed = 0;
       this.assetsFailed = 0;
       this.assetsTotal = 0;
-      this.statusText = 'Idle';
+      this.statusText = '';
+      this.hasError = false;
     },
 
     addLog: function(msg, type) {

@@ -7,6 +7,14 @@
 
   var inMemoryAttempts = {};
 
+  function t(key) {
+    var subs = [];
+    for (var i = 1; i < arguments.length; i++) subs.push(arguments[i]);
+    var ns = window.__fabGrabber && window.__fabGrabber.i18n;
+    var msg = ns ? ns.getMessage(key, subs) : chrome.i18n.getMessage(key, subs);
+    return msg || key;
+  }
+
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
@@ -42,28 +50,28 @@
     overlay.innerHTML =
       '<div class="premium-modal-backdrop" id="premium-modal-backdrop"></div>' +
       '<div class="premium-modal" role="dialog" aria-modal="true">' +
-        '<button class="premium-close" id="premium-close-btn" aria-label="Close">' +
+        '<button class="premium-close" id="premium-close-btn" aria-label="' + t('premium_title') + '">' +
           '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 0 0 5.7 7.11L10.59 12l-4.9 4.89a1 1 0 1 0 1.41 1.42L12 13.41l4.89 4.9a1 1 0 0 0 1.42-1.42L13.41 12l4.9-4.89a1 1 0 0 0-.01-1.4Z"/></svg>' +
         '</button>' +
         '<div class="premium-modal-header">' +
-          '<h2 class="premium-modal-title">Premium</h2>' +
-          '<div class="premium-modal-subtitle">Unlock premium features and support development.</div>' +
+          '<h2 class="premium-modal-title">' + t('premium_title') + '</h2>' +
+          '<div class="premium-modal-subtitle">' + t('premium_subtitle') + '</div>' +
         '</div>' +
         '<div class="premium-modal-body">' +
           '<div class="premium-features">' +
-            '<div class="premium-feature"><span class="premium-check">✔</span><span>Claim History — Track and search all your claimed assets</span></div>' +
-            '<div class="premium-feature"><span class="premium-check">✔</span><span>FAB Monthly Free Assets — View and claim limited-time free assets</span></div>' +
-            '<div class="premium-feature"><span class="premium-check">✔</span><span>Unity Weekly Free Asset — See this week\'s free asset with coupon codes</span></div>' +
-            '<div class="premium-feature"><span class="premium-check">✔</span><span>Support ongoing development &amp; future features</span></div>' +
+            '<div class="premium-feature"><span class="premium-check">✔</span><span>' + t('premium_feature_history') + '</span></div>' +
+            '<div class="premium-feature"><span class="premium-check">✔</span><span>' + t('premium_feature_monthly') + '</span></div>' +
+            '<div class="premium-feature"><span class="premium-check">✔</span><span>' + t('premium_feature_weekly') + '</span></div>' +
+            '<div class="premium-feature"><span class="premium-check">✔</span><span>' + t('premium_feature_support') + '</span></div>' +
           '</div>' +
           '<div class="premium-form" id="premium-form">' +
-            '<input type="email" class="premium-input" id="premium-email" placeholder="Email used at checkout" />' +
-            '<input type="text" class="premium-input" id="premium-code" placeholder="License key (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)" />' +
+            '<input type="email" class="premium-input" id="premium-email" placeholder="' + t('premium_email_placeholder') + '" />' +
+            '<input type="text" class="premium-input" id="premium-code" placeholder="' + t('premium_code_placeholder') + '" />' +
           '</div>' +
           '<div class="premium-status" id="premium-status"></div>' +
           '<div class="premium-actions">' +
-            '<button class="premium-btn primary" id="premium-buy-btn">Go Premium</button>' +
-            '<button class="premium-btn secondary" id="premium-verify-btn">Verify</button>' +
+            '<button class="premium-btn primary" id="premium-buy-btn">' + t('premium_buy') + '</button>' +
+            '<button class="premium-btn secondary" id="premium-verify-btn">' + t('premium_verify') + '</button>' +
           '</div>' +
         '</div>' +
       '</div>';
@@ -115,7 +123,7 @@
       if (!bg || bg.isPremium === undefined) {
         if (statusEl) {
           statusEl.className = 'premium-status info show';
-          statusEl.textContent = 'Enter your email and license key to verify.';
+          statusEl.textContent = t('premium_status_info');
         }
         showVerifyForm(true);
         return;
@@ -124,7 +132,7 @@
       if (bg.isPremium) {
         if (statusEl) {
           statusEl.className = 'premium-status success show';
-          statusEl.textContent = 'Premium active. Thank you!';
+          statusEl.textContent = t('premium_status_active');
         }
         showVerifyForm(false);
         if (buyBtn) {
@@ -139,13 +147,13 @@
           coffeeBtn.href = 'https://buymeacoffee.com/creos';
           coffeeBtn.target = '_blank';
           coffeeBtn.rel = 'noopener noreferrer';
-          coffeeBtn.textContent = '☕ Buy Me a Coffee';
+          coffeeBtn.textContent = t('premium_buy_coffee');
           actionsEl.appendChild(coffeeBtn);
         }
       } else {
         if (statusEl) {
           statusEl.className = 'premium-status info show';
-          statusEl.textContent = 'License not verified yet.';
+          statusEl.textContent = t('premium_status_not_verified');
         }
         showVerifyForm(true);
         if (buyBtn) {
@@ -160,10 +168,10 @@
     var email = (document.getElementById('premium-email').value || '').trim();
     var code = (document.getElementById('premium-code').value || '').trim();
 
-    if (!email || !code) return showPremiumStatus('error', 'Email and license are required.');
-    if (!isValidEmail(email)) return showPremiumStatus('error', 'Invalid email format.');
-    if (!isValidCode(code)) return showPremiumStatus('error', 'Invalid license key format.');
-    if (!checkRateLimit(email)) return showPremiumStatus('error', 'Too many attempts. Try again later.');
+    if (!email || !code) return showPremiumStatus('error', t('premium_error_required'));
+    if (!isValidEmail(email)) return showPremiumStatus('error', t('premium_error_email'));
+    if (!isValidCode(code)) return showPremiumStatus('error', t('premium_error_code'));
+    if (!checkRateLimit(email)) return showPremiumStatus('error', t('premium_error_rate_limit'));
     incrementAttempts(email);
 
     try {
@@ -173,16 +181,16 @@
       });
 
       if (result && result.success && result.isPremium) {
-        showPremiumStatus('success', 'Access granted. Welcome to Premium!');
+        showPremiumStatus('success', t('premium_status_granted'));
         applyPremiumGating(true);
         setTimeout(closePremiumModal, 1500);
       } else if (result && result.success && !result.isPremium) {
-        showPremiumStatus('info', 'License not verified. Please check your key.');
+        showPremiumStatus('info', t('premium_status_not_verified_check'));
       } else {
-        showPremiumStatus('error', (result && result.error) || 'Verification failed.');
+        showPremiumStatus('error', (result && result.error) || t('premium_error_verify'));
       }
     } catch (e) {
-      showPremiumStatus('error', 'Unexpected error. Please try again.');
+      showPremiumStatus('error', t('premium_error_unexpected'));
     }
   }
 
@@ -222,8 +230,8 @@
             '<div class="premium-gate-content">' +
               '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="premium-gate-icon"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>' +
               '<span class="premium-gate-label">' + sections[i].label + '</span>' +
-              '<span class="premium-gate-desc">Premium feature</span>' +
-              '<button class="premium-gate-btn">Unlock with Premium</button>' +
+              '<span class="premium-gate-desc">' + t('premium_gate_label') + '</span>' +
+              '<button class="premium-gate-btn">' + t('premium_gate_unlock') + '</button>' +
             '</div>';
           var gateBtn = gate.querySelector('.premium-gate-btn');
           if (gateBtn) {
@@ -239,10 +247,10 @@
       premiumBtn.style.display = '';
       if (isPremium) {
         premiumBtn.classList.add('is-premium');
-        premiumBtn.title = 'Premium Active';
+        premiumBtn.title = t('premium_active_title');
       } else {
         premiumBtn.classList.remove('is-premium');
-        premiumBtn.title = 'Go Premium';
+        premiumBtn.title = t('options_go_premium');
       }
     }
   }

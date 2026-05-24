@@ -6,6 +6,7 @@
   var utils = ns.utils;
   var state = ns.state;
   var config = ns.config;
+  var t = function(k) { return (ns.i18n && ns.i18n.t) ? ns.i18n.t.apply(null, arguments) : k; };
 
   function recordClaim(asset) {
     if (!ns.claimHistory) return;
@@ -471,30 +472,30 @@
   }
 
   async function processAllAssets() {
-    state.statusText = 'Scanning...';
+    state.statusText = t('controller_scanning');
     utils.log('Scanning for free assets...');
 
     state.assetsFound = getFreeAssetCards();
     state.assetsTotal = state.assetsFound.length;
 
     if (state.assetsFound.length === 0) {
-      state.statusText = 'No free assets found';
+      state.statusText = t('assets_none_found');
       utils.log('No free assets found on this page.');
       return;
     }
 
     utils.log('Found ' + state.assetsFound.length + ' free asset(s).');
-    state.statusText = 'Claiming 0/' + state.assetsTotal + '...';
+    state.statusText = t('controller_claiming_n', String(0), String(state.assetsTotal));
 
     for (var i = 0; i < state.assetsFound.length; i++) {
       if (state.shouldStop) {
         utils.log('Stopped by user.');
-        state.statusText = 'Stopped';
+        state.statusText = t('controller_stopped');
         break;
       }
 
       var asset = state.assetsFound[i];
-      state.statusText = 'Claiming ' + (i + 1) + '/' + state.assetsTotal + '...';
+      state.statusText = t('controller_claiming_n', String(i + 1), String(state.assetsTotal));
 
       await processCard(asset);
 
@@ -505,7 +506,7 @@
       }
     }
 
-    state.statusText = 'Done: ' + state.assetsClaimed + ' claimed, ' + state.assetsFailed + ' failed';
+    state.statusText = t('controller_summary_simple', String(state.assetsClaimed), String(state.assetsFailed));
     utils.log(state.statusText);
   }
 

@@ -1,0 +1,578 @@
+{
+  "manifest_name": {
+    "message": "Game Asset Auto Redeemer"
+  },
+  "manifest_description": {
+    "message": "Automatically claim free assets on FAB (Epic) and Unity Asset Store with a Dynamic Island UI."
+  },
+  "popup_status_checking": {
+    "message": "Checking..."
+  },
+  "popup_status_no_tab": {
+    "message": "No active tab"
+  },
+  "popup_status_active_fab": {
+    "message": "Active on FAB"
+  },
+  "popup_status_active_unity": {
+    "message": "Active on Unity"
+  },
+  "popup_status_unsupported": {
+    "message": "Not on a supported site"
+  },
+  "popup_status_error": {
+    "message": "Could not check tab"
+  },
+  "popup_open_fab": {
+    "message": "Open FAB"
+  },
+  "popup_open_unity": {
+    "message": "Open Unity"
+  },
+  "popup_premium": {
+    "message": "Premium"
+  },
+  "popup_options": {
+    "message": "Options"
+  },
+  "popup_premium_active": {
+    "message": "Premium Active"
+  },
+  "options_go_premium": {
+    "message": "Go Premium"
+  },
+  "options_section_general": {
+    "message": "General"
+  },
+  "options_autostart": {
+    "message": "Auto-Start"
+  },
+  "options_autostart_desc": {
+    "message": "Automatically start claiming when visiting supported sites"
+  },
+  "options_max_retries": {
+    "message": "Max Retries"
+  },
+  "options_max_retries_desc": {
+    "message": "Number of retry attempts on failure (0–5)"
+  },
+  "options_feature_tour": {
+    "message": "Feature Tour"
+  },
+  "options_feature_tour_desc": {
+    "message": "Replay the welcome tour to learn about all features"
+  },
+  "options_language": {
+    "message": "Language"
+  },
+  "options_language_desc": {
+    "message": "Change the display language of the extension"
+  },
+  "options_language_auto": {
+    "message": "Default (Browser)"
+  },
+  "options_show_tour": {
+    "message": "Show Tour"
+  },
+  "options_section_fab": {
+    "message": "FAB / Epic Games"
+  },
+  "options_default_license": {
+    "message": "Default License"
+  },
+  "options_default_license_desc": {
+    "message": "Preferred license type when claiming free assets"
+  },
+  "options_personal": {
+    "message": "Personal"
+  },
+  "options_professional": {
+    "message": "Professional"
+  },
+  "options_delay_actions": {
+    "message": "Delay Between Actions"
+  },
+  "options_delay_actions_desc": {
+    "message": "Milliseconds between each claim attempt (500–10000)"
+  },
+  "options_dialog_timeout": {
+    "message": "Dialog Timeout"
+  },
+  "options_dialog_timeout_desc": {
+    "message": "Max wait for dialog/modal to appear (3000–30000 ms)"
+  },
+  "options_hide_owned": {
+    "message": "Hide Owned Assets"
+  },
+  "options_hide_owned_desc": {
+    "message": "Automatically hide assets already saved in your library while browsing"
+  },
+  "options_claim_history": {
+    "message": "Claim History"
+  },
+  "options_claim_history_desc": {
+    "message": "Track claimed assets with searchable history, counters, and direct links"
+  },
+  "options_fab_auto_claim": {
+    "message": "Auto-Claim Monthly Free"
+  },
+  "options_fab_auto_claim_desc": {
+    "message": "Automatically claim FAB limited-time free assets when detected (3x per month)"
+  },
+  "options_section_unity": {
+    "message": "Unity Asset Store"
+  },
+  "options_unity_delay": {
+    "message": "Delay Between Products"
+  },
+  "options_unity_delay_desc": {
+    "message": "Milliseconds between each API claim (200–10000)"
+  },
+  "options_unity_auto_paginate": {
+    "message": "Auto-Paginate"
+  },
+  "options_unity_auto_paginate_desc": {
+    "message": "Automatically navigate to next page after processing"
+  },
+  "options_unity_page_delay": {
+    "message": "Page Navigation Delay"
+  },
+  "options_unity_page_delay_desc": {
+    "message": "Wait time before moving to next page (3000–60000 ms)"
+  },
+  "options_monthly_title": {
+    "message": "FAB Monthly Free Assets"
+  },
+  "options_monthly_loading": {
+    "message": "Fetching this month's free assets..."
+  },
+  "options_monthly_retry": {
+    "message": "Retry"
+  },
+  "options_monthly_view_all": {
+    "message": "View All on FAB"
+  },
+  "options_monthly_refresh": {
+    "message": "Refresh"
+  },
+  "options_weekly_title": {
+    "message": "Unity Weekly Free Asset"
+  },
+  "options_weekly_loading": {
+    "message": "Fetching this week's free asset..."
+  },
+  "options_weekly_coupon_label": {
+    "message": "Coupon Code:"
+  },
+  "options_weekly_copy": {
+    "message": "Copy"
+  },
+  "options_weekly_copied": {
+    "message": "Copied!"
+  },
+  "options_weekly_get": {
+    "message": "Get Free Asset"
+  },
+  "options_weekly_retry": {
+    "message": "Retry"
+  },
+  "options_weekly_refresh": {
+    "message": "Refresh"
+  },
+  "options_save": {
+    "message": "Save Settings"
+  },
+  "options_saved": {
+    "message": "✓ Saved"
+  },
+  "options_history_title": {
+    "message": "Claim History"
+  },
+  "options_history_export": {
+    "message": "Export"
+  },
+  "options_history_clear": {
+    "message": "Clear All"
+  },
+  "options_history_total": {
+    "message": "Total"
+  },
+  "options_history_fab": {
+    "message": "FAB"
+  },
+  "options_history_unity": {
+    "message": "Unity"
+  },
+  "options_history_search": {
+    "message": "Search claimed assets..."
+  },
+  "options_history_loading": {
+    "message": "Loading history..."
+  },
+  "options_history_empty": {
+    "message": "No claimed assets yet. Start claiming to build your history."
+  },
+  "options_history_no_results": {
+    "message": "No results for \"$1\""
+  },
+  "options_support_message": {
+    "message": "Support education & future development"
+  },
+  "options_support_submessage": {
+    "message": "Created with ❤️ and countless hours of dedication. Your support helps us continue building amazing tools for everyone."
+  },
+  "options_footer": {
+    "message": "Game Asset Auto Redeemer by CreosB"
+  },
+  "premium_title": {
+    "message": "Premium"
+  },
+  "premium_subtitle": {
+    "message": "Unlock premium features and support development."
+  },
+  "premium_feature_history": {
+    "message": "Claim History — Track and search all your claimed assets"
+  },
+  "premium_feature_monthly": {
+    "message": "FAB Monthly Free Assets — View and claim limited-time free assets"
+  },
+  "premium_feature_weekly": {
+    "message": "Unity Weekly Free Asset — See this week's free asset with coupon codes"
+  },
+  "premium_feature_support": {
+    "message": "Support ongoing development & future features"
+  },
+  "premium_email_placeholder": {
+    "message": "Email used at checkout"
+  },
+  "premium_code_placeholder": {
+    "message": "License key (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+  },
+  "premium_buy": {
+    "message": "Go Premium"
+  },
+  "premium_verify": {
+    "message": "Verify"
+  },
+  "premium_status_info": {
+    "message": "Enter your email and license key to verify."
+  },
+  "premium_status_active": {
+    "message": "Premium active. Thank you!"
+  },
+  "premium_status_not_verified": {
+    "message": "License not verified yet."
+  },
+  "premium_status_not_verified_check": {
+    "message": "License not verified. Please check your key."
+  },
+  "premium_status_granted": {
+    "message": "Access granted. Welcome to Premium!"
+  },
+  "premium_error_required": {
+    "message": "Email and license are required."
+  },
+  "premium_error_email": {
+    "message": "Invalid email format."
+  },
+  "premium_error_code": {
+    "message": "Invalid license key format."
+  },
+  "premium_error_rate_limit": {
+    "message": "Too many attempts. Try again later."
+  },
+  "premium_error_verify": {
+    "message": "Verification failed."
+  },
+  "premium_error_unexpected": {
+    "message": "Unexpected error. Please try again."
+  },
+  "premium_gate_label": {
+    "message": "Premium feature"
+  },
+  "premium_gate_unlock": {
+    "message": "Unlock with Premium"
+  },
+  "premium_active_title": {
+    "message": "Premium Active"
+  },
+  "onboarding_skip": {
+    "message": "Skip"
+  },
+  "onboarding_next": {
+    "message": "Next"
+  },
+  "onboarding_go_premium": {
+    "message": "Go Premium"
+  },
+  "onboarding_get_started": {
+    "message": "Get Started"
+  },
+  "onboarding_opensource_note": {
+    "message": "This extension is completely open source."
+  },
+  "onboarding_step_label": {
+    "message": "Step $1 of $2"
+  },
+  "onboarding_step1_headline": {
+    "message": "Welcome to\nGame Asset Redeemer"
+  },
+  "onboarding_step1_body": {
+    "message": "Automatically claim <strong>free game assets</strong> from FAB (Epic Games) and Unity Asset Store. Set it up once, and let the extension do the work."
+  },
+  "onboarding_step1_chip": {
+    "message": "Works on FAB & Unity Asset Store"
+  },
+  "onboarding_step2_headline": {
+    "message": "FAB Monthly\nFree Assets"
+  },
+  "onboarding_step2_body": {
+    "message": "Every month, FAB offers <strong>limited-time free assets</strong>. The extension detects and can auto-claim them for you — up to 3 times per month."
+  },
+  "onboarding_step2_chip": {
+    "message": "Auto-claim runs every 6 hours"
+  },
+  "onboarding_step3_headline": {
+    "message": "Unity Weekly\nFree Asset"
+  },
+  "onboarding_step3_body": {
+    "message": "Each week, Unity gives away a <strong>free premium asset</strong> with a coupon code. The extension fetches it automatically so you never miss one."
+  },
+  "onboarding_step3_chip": {
+    "message": "Coupon code copied with one click"
+  },
+  "onboarding_step4_headline": {
+    "message": "Track Every\nClaim"
+  },
+  "onboarding_step4_body": {
+    "message": "Keep a <strong>searchable history</strong> of every asset you've claimed. Filter by FAB or Unity, export to JSON, and never lose track."
+  },
+  "onboarding_step4_chip": {
+    "message": "Up to 500 records saved locally"
+  },
+  "onboarding_step5_headline": {
+    "message": "Unlock\nPremium"
+  },
+  "onboarding_step5_body": {
+    "message": "Upgrade to <strong>Premium</strong> to unlock these features and support development."
+  },
+  "onboarding_step5_feature1": {
+    "message": "Claim History with search & export"
+  },
+  "onboarding_step5_feature2": {
+    "message": "FAB Monthly Free Assets viewer & claimer"
+  },
+  "onboarding_step5_feature3": {
+    "message": "Unity Weekly Free Asset with coupon codes"
+  },
+  "panel_auto_redeem": {
+    "message": "Auto Redeem"
+  },
+  "panel_fab_auto_redeem": {
+    "message": "FAB Auto Redeem"
+  },
+  "panel_unity_auto_redeem": {
+    "message": "Unity Auto Redeem"
+  },
+  "panel_start": {
+    "message": "▶ Start"
+  },
+  "panel_stop": {
+    "message": "⏹ Stop"
+  },
+  "panel_refresh": {
+    "message": "↻ Refresh"
+  },
+  "panel_autostart": {
+    "message": "Auto-Start"
+  },
+  "panel_max_retries": {
+    "message": "Max Retries"
+  },
+  "panel_dialog_timeout": {
+    "message": "Dialog Timeout (ms)"
+  },
+  "panel_license_pref": {
+    "message": "License Preference"
+  },
+  "panel_delay": {
+    "message": "Delay (ms)"
+  },
+  "panel_hide_owned": {
+    "message": "Hide Owned"
+  },
+  "panel_claim_history": {
+    "message": "Claim History"
+  },
+  "panel_product_delay": {
+    "message": "Product Delay (ms)"
+  },
+  "panel_auto_paginate": {
+    "message": "Auto-Paginate"
+  },
+  "panel_page_delay": {
+    "message": "Page Delay (ms)"
+  },
+  "panel_search_placeholder": {
+    "message": "Search assets..."
+  },
+  "panel_free_assets": {
+    "message": "Free Assets"
+  },
+  "panel_scanning": {
+    "message": "Scanning for free assets..."
+  },
+  "panel_tip_drag": {
+    "message": "Tip: Drag anywhere on this panel to move it"
+  },
+  "controller_idle": {
+    "message": "Idle"
+  },
+  "controller_scanning": {
+    "message": "Scanning..."
+  },
+  "controller_done": {
+    "message": "Done"
+  },
+  "controller_done_summary": {
+    "message": "Done: $1"
+  },
+  "controller_error": {
+    "message": "Error — check console"
+  },
+  "controller_stopping": {
+    "message": "Stopping..."
+  },
+  "assets_none_found": {
+    "message": "No free assets found on this page."
+  },
+  "assets_unknown": {
+    "message": "Unknown Asset"
+  },
+  "error_communication": {
+    "message": "Extension communication error."
+  },
+  "error_no_response": {
+    "message": "No response from background."
+  },
+  "error_fetch_weekly": {
+    "message": "Failed to fetch weekly asset."
+  },
+  "error_fetch_monthly": {
+    "message": "Failed to fetch monthly free assets."
+  },
+  "error_network": {
+    "message": "Network error"
+  },
+  "error_http": {
+    "message": "HTTP $1"
+  },
+  "notif_claimed_title": {
+    "message": "FAB Asset Claimed"
+  },
+  "notif_claimed_message": {
+    "message": "$1 added to your library!"
+  },
+  "notif_complete_title": {
+    "message": "$1 Auto Redeem Complete"
+  },
+  "notif_error_title": {
+    "message": "$1 Auto Redeem Error"
+  },
+  "notif_error_default": {
+    "message": "An error occurred during processing."
+  },
+  "notif_monthly_title": {
+    "message": "FAB Free Assets Available"
+  },
+  "notif_monthly_message": {
+    "message": "$1 — $2 free asset(s) this month!"
+  },
+  "monthly_saved_library": {
+    "message": "Saved in My Library"
+  },
+  "monthly_claimed": {
+    "message": "Claimed"
+  },
+  "monthly_claiming": {
+    "message": "Claiming..."
+  },
+  "monthly_claim_free": {
+    "message": "Claim Free"
+  },
+  "monthly_expired": {
+    "message": "Expired"
+  },
+  "monthly_days_left": {
+    "message": "$1d left"
+  },
+  "monthly_hours_left": {
+    "message": "$1h left"
+  },
+  "monthly_asset_count": {
+    "message": "$1 asset"
+  },
+  "monthly_assets_count": {
+    "message": "$1 assets"
+  },
+  "monthly_default_title": {
+    "message": "FAB Limited-Time Free"
+  },
+  "monthly_no_assets": {
+    "message": "No limited-time free assets found."
+  },
+  "weekly_not_found": {
+    "message": "Could not find free asset section on page."
+  },
+  "premium_error_missing": {
+    "message": "Missing email or code"
+  },
+  "premium_error_invalid_email": {
+    "message": "Invalid email"
+  },
+  "premium_error_invalid_key": {
+    "message": "Invalid license key format"
+  },
+  "premium_error_too_many": {
+    "message": "Too many attempts"
+  },
+  "premium_error_api_response": {
+    "message": "Unexpected API response"
+  },
+  "premium_error_mismatch": {
+    "message": "Email and license key mismatch"
+  },
+  "premium_error_check_failed": {
+    "message": "Failed to check premium status"
+  },
+  "premium_error_integrity": {
+    "message": "Data integrity check failed"
+  },
+  "error_no_url": {
+    "message": "No URL provided"
+  },
+  "controller_summary": {
+    "message": "$1 claimed, $2 failed out of $3"
+  },
+  "controller_summary_simple": {
+    "message": "Done: $1 claimed, $2 failed"
+  },
+  "controller_claiming_n": {
+    "message": "Claiming $1/$2..."
+  },
+  "controller_stopped": {
+    "message": "Stopped"
+  },
+  "controller_waiting_page": {
+    "message": "Waiting for next page..."
+  },
+  "controller_assets_found": {
+    "message": "$1 free asset(s) found"
+  },
+  "controller_no_assets_page": {
+    "message": "No free assets on this page"
+  },
+  "premium_buy_coffee": {
+    "message": "☕ Buy Me a Coffee"
+  }
+}

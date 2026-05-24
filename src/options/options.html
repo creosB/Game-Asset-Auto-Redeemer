@@ -1,337 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Asset Auto Redeemer — Options</title>
-  <link rel="stylesheet" href="options.css">
-</head>
-<body>
-  <!-- Onboarding Overlay -->
-  <div id="onboarding-overlay" role="dialog" aria-modal="true" aria-label="Welcome tour">
-    <iframe id="onboarding-frame" src="../onboarding/onboarding.html" title="Welcome tour" sandbox="allow-scripts"></iframe>
-  </div>
-
-  <div class="options-container">
-    <header class="options-header">
-      <div class="options-logo">
-        <img src="../../icons/icon-128.png" alt="Logo" class="logo-img">
-        <h1 data-i18n="manifest_name">Game Asset Auto Redeemer</h1>
-      </div>
-      <div class="header-right">
-        <button class="header-premium-btn" id="header-premium-btn" data-i18n-title="options_go_premium">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.18 22 12 18.8 5.82 22 7 14.15l-5-4.88 6.91-1.01L12 2z"/></svg>
-          <span data-i18n="popup_premium">Premium</span>
-        </button>
-        <span class="options-version">v1.0.0</span>
-      </div>
-    </header>
-
-    <!-- General Section -->
-    <section class="options-section">
-      <h2 class="section-title" data-i18n="options_section_general">General</h2>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" data-i18n="options_autostart">Auto-Start</label>
-          <span class="option-desc" data-i18n="options_autostart_desc">Automatically start claiming when visiting supported sites</span>
-        </div>
-        <div class="option-control">
-          <label class="toggle">
-            <input type="checkbox" id="opt-autostart">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" for="opt-retries" data-i18n="options_max_retries">Max Retries</label>
-          <span class="option-desc" data-i18n="options_max_retries_desc">Number of retry attempts on failure (0–5)</span>
-        </div>
-        <div class="option-control">
-          <input type="number" id="opt-retries" class="option-input" min="0" max="5" step="1" value="2">
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" data-i18n="options_feature_tour">Feature Tour</label>
-          <span class="option-desc" data-i18n="options_feature_tour_desc">Replay the welcome tour to learn about all features</span>
-        </div>
-        <div class="option-control">
-          <button class="btn-save" id="show-onboarding-btn" style="padding:6px 14px;font-size:12px;" data-i18n="options_show_tour">Show Tour</button>
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" for="opt-language" data-i18n="options_language">Language</label>
-          <span class="option-desc" data-i18n="options_language_desc">Change the display language of the extension</span>
-        </div>
-        <div class="option-control">
-          <select id="opt-language" class="option-select">
-            <option value="auto" data-i18n="options_language_auto">Default (Browser)</option>
-            <option value="en">English</option>
-            <option value="de">Deutsch</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="it">Italiano</option>
-            <option value="ru">Русский</option>
-            <option value="tr">Türkçe</option>
-            <option value="zh_CN">简体中文</option>
-          </select>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAB / Epic Games Section -->
-    <section class="options-section">
-      <h2 class="section-title" data-i18n="options_section_fab">FAB / Epic Games</h2>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" data-i18n="options_default_license">Default License</label>
-          <span class="option-desc" data-i18n="options_default_license_desc">Preferred license type when claiming free assets</span>
-        </div>
-        <div class="option-control">
-          <label class="radio-option">
-            <input type="radio" name="license" value="personal"> <span data-i18n="options_personal">Personal</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="license" value="professional" checked> <span data-i18n="options_professional">Professional</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" for="opt-delay" data-i18n="options_delay_actions">Delay Between Actions</label>
-          <span class="option-desc" data-i18n="options_delay_actions_desc">Milliseconds between each claim attempt (500–10000)</span>
-        </div>
-        <div class="option-control">
-          <input type="number" id="opt-delay" class="option-input" min="500" max="10000" step="500" value="2000">
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" for="opt-timeout" data-i18n="options_dialog_timeout">Dialog Timeout</label>
-          <span class="option-desc" data-i18n="options_dialog_timeout_desc">Max wait for dialog/modal to appear (3000–30000 ms)</span>
-        </div>
-        <div class="option-control">
-          <input type="number" id="opt-timeout" class="option-input" min="3000" max="30000" step="1000" value="10000">
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" data-i18n="options_hide_owned">Hide Owned Assets</label>
-          <span class="option-desc" data-i18n="options_hide_owned_desc">Automatically hide assets already saved in your library while browsing</span>
-        </div>
-        <div class="option-control">
-          <label class="toggle">
-            <input type="checkbox" id="opt-hide-owned" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" data-i18n="options_claim_history">Claim History</label>
-          <span class="option-desc" data-i18n="options_claim_history_desc">Track claimed assets with searchable history, counters, and direct links</span>
-        </div>
-        <div class="option-control">
-          <label class="toggle">
-            <input type="checkbox" id="opt-claim-history" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" data-i18n="options_fab_auto_claim">Auto-Claim Monthly Free</label>
-          <span class="option-desc" data-i18n="options_fab_auto_claim_desc">Automatically claim FAB limited-time free assets when detected (3x per month)</span>
-        </div>
-        <div class="option-control">
-          <label class="toggle">
-            <input type="checkbox" id="opt-fab-auto-claim">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-    </section>
-
-    <!-- Unity Asset Store Section -->
-    <section class="options-section">
-      <h2 class="section-title" data-i18n="options_section_unity">Unity Asset Store</h2>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" for="opt-unity-delay" data-i18n="options_unity_delay">Delay Between Products</label>
-          <span class="option-desc" data-i18n="options_unity_delay_desc">Milliseconds between each API claim (200–10000)</span>
-        </div>
-        <div class="option-control">
-          <input type="number" id="opt-unity-delay" class="option-input" min="200" max="10000" step="100" value="500">
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" data-i18n="options_unity_auto_paginate">Auto-Paginate</label>
-          <span class="option-desc" data-i18n="options_unity_auto_paginate_desc">Automatically navigate to next page after processing</span>
-        </div>
-        <div class="option-control">
-          <label class="toggle">
-            <input type="checkbox" id="opt-unity-auto-paginate" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <div class="option-row">
-        <div class="option-info">
-          <label class="option-label" for="opt-unity-page-delay" data-i18n="options_unity_page_delay">Page Navigation Delay</label>
-          <span class="option-desc" data-i18n="options_unity_page_delay_desc">Wait time before moving to next page (3000–60000 ms)</span>
-        </div>
-        <div class="option-control">
-          <input type="number" id="opt-unity-page-delay" class="option-input" min="3000" max="60000" step="1000" value="10000">
-        </div>
-      </div>
-    </section>
-
-    <!-- FAB Monthly Free Assets -->
-    <section class="options-section monthly-free-section" id="monthly-free-section">
-      <h2 class="section-title" data-i18n="options_monthly_title">FAB Monthly Free Assets</h2>
-      <div class="monthly-free-card" id="monthly-free-card">
-        <div class="monthly-free-loading" id="monthly-free-loading">
-          <div class="monthly-free-spinner"></div>
-          <span data-i18n="options_monthly_loading">Fetching this month's free assets...</span>
-        </div>
-        <div class="monthly-free-content" id="monthly-free-content" style="display:none;">
-          <div class="monthly-free-header">
-            <h3 class="monthly-free-title" id="monthly-free-title"></h3>
-            <span class="monthly-free-badge" id="monthly-free-badge"></span>
-          </div>
-          <div class="monthly-free-grid" id="monthly-free-grid"></div>
-        </div>
-        <div class="monthly-free-error" id="monthly-free-error" style="display:none;">
-          <span id="monthly-free-error-msg"></span>
-          <button class="monthly-free-btn secondary" id="monthly-free-retry" data-i18n="options_monthly_retry">Retry</button>
-        </div>
-        <div class="monthly-free-actions">
-          <a class="monthly-free-btn primary" href="https://www.fab.com/limited-time-free" target="_blank" rel="noopener" data-i18n="options_monthly_view_all">View All on FAB</a>
-          <button class="monthly-free-btn secondary" id="monthly-free-refresh" data-i18n-title="options_monthly_refresh" data-i18n="options_monthly_refresh">Refresh</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Unity Weekly Free Asset -->
-    <section class="options-section weekly-asset-section" id="weekly-asset-section">
-      <h2 class="section-title" data-i18n="options_weekly_title">Unity Weekly Free Asset</h2>
-      <div class="weekly-asset-card" id="weekly-asset-card">
-        <div class="weekly-asset-loading" id="weekly-asset-loading">
-          <div class="weekly-asset-spinner"></div>
-          <span data-i18n="options_weekly_loading">Fetching this week's free asset...</span>
-        </div>
-        <div class="weekly-asset-content" id="weekly-asset-content" style="display:none;">
-          <div class="weekly-asset-image-wrap">
-            <img id="weekly-asset-image" src="" alt="Free Asset">
-          </div>
-          <div class="weekly-asset-info">
-            <span class="weekly-asset-subheading" id="weekly-asset-subheading"></span>
-            <h3 class="weekly-asset-name" id="weekly-asset-name"></h3>
-            <p class="weekly-asset-desc" id="weekly-asset-desc"></p>
-            <div class="weekly-asset-code-row" id="weekly-asset-code-row" style="display:none;">
-              <span class="weekly-asset-code-label" data-i18n="options_weekly_coupon_label">Coupon Code:</span>
-              <code class="weekly-asset-code" id="weekly-asset-code"></code>
-              <button class="weekly-asset-copy-btn" id="weekly-asset-copy-btn" data-i18n-title="options_weekly_copy" data-i18n="options_weekly_copy">Copy</button>
-            </div>
-            <p class="weekly-asset-disclaimer" id="weekly-asset-disclaimer"></p>
-            <div class="weekly-asset-actions">
-              <a class="weekly-asset-btn primary" id="weekly-asset-link" href="#" target="_blank" rel="noopener" data-i18n="options_weekly_get">Get Free Asset</a>
-              <button class="weekly-asset-btn secondary" id="weekly-asset-refresh" data-i18n-title="options_weekly_refresh" data-i18n="options_weekly_refresh">Refresh</button>
-            </div>
-          </div>
-        </div>
-        <div class="weekly-asset-error" id="weekly-asset-error" style="display:none;">
-          <span id="weekly-asset-error-msg"></span>
-          <button class="weekly-asset-btn secondary" id="weekly-asset-retry" data-i18n="options_weekly_retry">Retry</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Save -->
-    <div class="save-row">
-      <button class="btn-save" id="btn-save" data-i18n="options_save">Save Settings</button>
-      <span class="save-status" id="save-status" data-i18n="options_saved">✓ Saved</span>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Asset Auto Redeemer — Options</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <!-- Onboarding Overlay -->
+    <div id="onboarding-overlay" role="dialog" aria-modal="true"
+      aria-label="Welcome tour">
+      <iframe id="onboarding-frame" src="../onboarding/onboarding.html"
+        title="Welcome tour" sandbox="allow-scripts"></iframe>
     </div>
 
-    <!-- Claim History -->
-    <section class="claim-history-section" id="claim-history-section">
-      <div class="claim-history-header">
-        <span class="claim-history-title" data-i18n="options_history_title">Claim History</span>
-        <div class="claim-history-actions">
-          <button class="claim-history-btn" id="ch-export" data-i18n-title="options_history_export" data-i18n="options_history_export">Export</button>
-          <button class="claim-history-btn danger" id="ch-clear" data-i18n-title="options_history_clear" data-i18n="options_history_clear">Clear All</button>
+    <div class="options-container">
+      <header class="options-header">
+        <div class="options-logo">
+          <img src="../../icons/icon-128.png" alt="Logo" class="logo-img">
+          <h1 data-i18n="manifest_name">Game Asset Auto Redeemer</h1>
         </div>
-      </div>
-
-      <div class="claim-history-counters" id="ch-counters">
-        <div class="claim-history-counter">
-          <span class="claim-history-counter-value total" id="ch-total">0</span>
-          <span class="claim-history-counter-label" data-i18n="options_history_total">Total</span>
+        <div class="header-right">
+          <button class="header-premium-btn" id="header-premium-btn"
+            data-i18n-title="options_go_premium">
+            <svg width="16" height="16" viewBox="0 0 24 24"
+              fill="currentColor"><path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.18 22 12 18.8 5.82 22 7 14.15l-5-4.88 6.91-1.01L12 2z" /></svg>
+            <span data-i18n="popup_premium">Premium</span>
+          </button>
+          <span class="options-version">v1.0.0</span>
         </div>
-        <div class="claim-history-counter">
-          <span class="claim-history-counter-value fab" id="ch-fab">0</span>
-          <span class="claim-history-counter-label" data-i18n="options_history_fab">FAB</span>
+      </header>
+
+      <!-- General Section -->
+      <section class="options-section">
+        <h2 class="section-title"
+          data-i18n="options_section_general">General</h2>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label"
+              data-i18n="options_autostart">Auto-Start</label>
+            <span class="option-desc"
+              data-i18n="options_autostart_desc">Automatically start claiming
+              when visiting supported sites</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-autostart">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
         </div>
-        <div class="claim-history-counter">
-          <span class="claim-history-counter-value unity" id="ch-unity">0</span>
-          <span class="claim-history-counter-label" data-i18n="options_history_unity">Unity</span>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-retries"
+              data-i18n="options_max_retries">Max Retries</label>
+            <span class="option-desc"
+              data-i18n="options_max_retries_desc">Number of retry attempts on
+              failure (0–5)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-retries" class="option-input" min="0"
+              max="5" step="1" value="2">
+          </div>
         </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" data-i18n="options_feature_tour">Feature
+              Tour</label>
+            <span class="option-desc"
+              data-i18n="options_feature_tour_desc">Replay the welcome tour to
+              learn about all features</span>
+          </div>
+          <div class="option-control">
+            <button class="btn-save" id="show-onboarding-btn"
+              style="padding:6px 14px;font-size:12px;"
+              data-i18n="options_show_tour">Show Tour</button>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-language"
+              data-i18n="options_language">Language</label>
+            <span class="option-desc" data-i18n="options_language_desc">Change
+              the display language of the extension</span>
+          </div>
+          <div class="option-control">
+            <select id="opt-language" class="option-select">
+              <option value="auto" data-i18n="options_language_auto">Default
+                (Browser)</option>
+              <option value="en">English</option>
+              <option value="de">Deutsch</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="it">Italiano</option>
+              <option value="ru">Русский</option>
+              <option value="tr">Türkçe</option>
+              <option value="zh_CN">简体中文</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAB / Epic Games Section -->
+      <section class="options-section">
+        <h2 class="section-title" data-i18n="options_section_fab">FAB / Epic
+          Games</h2>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label"
+              data-i18n="options_default_license">Default License</label>
+            <span class="option-desc"
+              data-i18n="options_default_license_desc">Preferred license type
+              when claiming free assets</span>
+          </div>
+          <div class="option-control">
+            <label class="radio-option">
+              <input type="radio" name="license" value="personal"> <span
+                data-i18n="options_personal">Personal</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="license" value="professional" checked>
+              <span data-i18n="options_professional">Professional</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-delay"
+              data-i18n="options_delay_actions">Delay Between Actions</label>
+            <span class="option-desc"
+              data-i18n="options_delay_actions_desc">Milliseconds between each
+              claim attempt (500–10000)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-delay" class="option-input" min="500"
+              max="10000" step="500" value="2000">
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-timeout"
+              data-i18n="options_dialog_timeout">Dialog Timeout</label>
+            <span class="option-desc"
+              data-i18n="options_dialog_timeout_desc">Max wait for dialog/modal
+              to appear (3000–30000 ms)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-timeout" class="option-input"
+              min="3000" max="30000" step="1000" value="10000">
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" data-i18n="options_hide_owned">Hide
+              Owned Assets</label>
+            <span class="option-desc"
+              data-i18n="options_hide_owned_desc">Automatically hide assets
+              already saved in your library while browsing</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-hide-owned" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" data-i18n="options_claim_history">Claim
+              History</label>
+            <span class="option-desc"
+              data-i18n="options_claim_history_desc">Track claimed assets with
+              searchable history, counters, and direct links</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-claim-history" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label"
+              data-i18n="options_fab_auto_claim">Auto-Claim Monthly Free</label>
+            <span class="option-desc"
+              data-i18n="options_fab_auto_claim_desc">Automatically claim FAB
+              limited-time free assets when detected (3x per month)</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-fab-auto-claim">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Unity Asset Store Section -->
+      <section class="options-section">
+        <h2 class="section-title" data-i18n="options_section_unity">Unity Asset
+          Store</h2>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-unity-delay"
+              data-i18n="options_unity_delay">Delay Between Products</label>
+            <span class="option-desc"
+              data-i18n="options_unity_delay_desc">Milliseconds between each API
+              claim (200–10000)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-unity-delay" class="option-input"
+              min="200" max="10000" step="100" value="500">
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label"
+              data-i18n="options_unity_auto_paginate">Auto-Paginate</label>
+            <span class="option-desc"
+              data-i18n="options_unity_auto_paginate_desc">Automatically
+              navigate to next page after processing</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-unity-auto-paginate" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-unity-page-delay"
+              data-i18n="options_unity_page_delay">Page Navigation Delay</label>
+            <span class="option-desc"
+              data-i18n="options_unity_page_delay_desc">Wait time before moving
+              to next page (3000–60000 ms)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-unity-page-delay" class="option-input"
+              min="3000" max="60000" step="1000" value="10000">
+          </div>
+        </div>
+      </section>
+
+      <!-- FAB Monthly Free Assets -->
+      <section class="options-section monthly-free-section"
+        id="monthly-free-section">
+        <h2 class="section-title" data-i18n="options_monthly_title">FAB Monthly
+          Free Assets</h2>
+        <div class="monthly-free-card" id="monthly-free-card">
+          <div class="monthly-free-loading" id="monthly-free-loading">
+            <div class="monthly-free-spinner"></div>
+            <span data-i18n="options_monthly_loading">Fetching this month's free
+              assets...</span>
+          </div>
+          <div class="monthly-free-content" id="monthly-free-content"
+            style="display:none;">
+            <div class="monthly-free-header">
+              <h3 class="monthly-free-title" id="monthly-free-title"></h3>
+              <span class="monthly-free-badge" id="monthly-free-badge"></span>
+            </div>
+            <div class="monthly-free-grid" id="monthly-free-grid"></div>
+          </div>
+          <div class="monthly-free-error" id="monthly-free-error"
+            style="display:none;">
+            <span id="monthly-free-error-msg"></span>
+            <button class="monthly-free-btn secondary" id="monthly-free-retry"
+              data-i18n="options_monthly_retry">Retry</button>
+          </div>
+          <div class="monthly-free-actions">
+            <a class="monthly-free-btn primary"
+              href="https://www.fab.com/limited-time-free" target="_blank"
+              rel="noopener" data-i18n="options_monthly_view_all">View All on
+              FAB</a>
+            <button class="monthly-free-btn secondary" id="monthly-free-refresh"
+              data-i18n-title="options_monthly_refresh"
+              data-i18n="options_monthly_refresh">Refresh</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Unity Weekly Free Asset -->
+      <section class="options-section weekly-asset-section"
+        id="weekly-asset-section">
+        <h2 class="section-title" data-i18n="options_weekly_title">Unity Weekly
+          Free Asset</h2>
+        <div class="weekly-asset-card" id="weekly-asset-card">
+          <div class="weekly-asset-loading" id="weekly-asset-loading">
+            <div class="weekly-asset-spinner"></div>
+            <span data-i18n="options_weekly_loading">Fetching this week's free
+              asset...</span>
+          </div>
+          <div class="weekly-asset-content" id="weekly-asset-content"
+            style="display:none;">
+            <div class="weekly-asset-image-wrap">
+              <img id="weekly-asset-image" src alt="Free Asset">
+            </div>
+            <div class="weekly-asset-info">
+              <span class="weekly-asset-subheading"
+                id="weekly-asset-subheading"></span>
+              <h3 class="weekly-asset-name" id="weekly-asset-name"></h3>
+              <p class="weekly-asset-desc" id="weekly-asset-desc"></p>
+              <div class="weekly-asset-code-row" id="weekly-asset-code-row"
+                style="display:none;">
+                <span class="weekly-asset-code-label"
+                  data-i18n="options_weekly_coupon_label">Coupon Code:</span>
+                <code class="weekly-asset-code" id="weekly-asset-code"></code>
+                <button class="weekly-asset-copy-btn" id="weekly-asset-copy-btn"
+                  data-i18n-title="options_weekly_copy"
+                  data-i18n="options_weekly_copy">Copy</button>
+              </div>
+              <p class="weekly-asset-disclaimer"
+                id="weekly-asset-disclaimer"></p>
+              <div class="weekly-asset-actions">
+                <a class="weekly-asset-btn primary" id="weekly-asset-link"
+                  href="#" target="_blank" rel="noopener"
+                  data-i18n="options_weekly_get">Get Free Asset</a>
+                <button class="weekly-asset-btn secondary"
+                  id="weekly-asset-refresh"
+                  data-i18n-title="options_weekly_refresh"
+                  data-i18n="options_weekly_refresh">Refresh</button>
+              </div>
+            </div>
+          </div>
+          <div class="weekly-asset-error" id="weekly-asset-error"
+            style="display:none;">
+            <span id="weekly-asset-error-msg"></span>
+            <button class="weekly-asset-btn secondary" id="weekly-asset-retry"
+              data-i18n="options_weekly_retry">Retry</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Save -->
+      <div class="save-row">
+        <button class="btn-save" id="btn-save" data-i18n="options_save">Save
+          Settings</button>
+        <span class="save-status" id="save-status" data-i18n="options_saved">✓
+          Saved</span>
       </div>
 
-      <div class="claim-history-search">
-        <span class="claim-history-search-icon">🔍</span>
-        <input type="text" data-i18n-placeholder="options_history_search" placeholder="Search claimed assets..." id="ch-search">
-      </div>
+      <!-- Claim History -->
+      <section class="claim-history-section" id="claim-history-section">
+        <div class="claim-history-header">
+          <span class="claim-history-title"
+            data-i18n="options_history_title">Claim History</span>
+          <div class="claim-history-actions">
+            <button class="claim-history-btn" id="ch-export"
+              data-i18n-title="options_history_export"
+              data-i18n="options_history_export">Export</button>
+            <button class="claim-history-btn danger" id="ch-clear"
+              data-i18n-title="options_history_clear"
+              data-i18n="options_history_clear">Clear All</button>
+          </div>
+        </div>
 
-      <div class="claim-history-list" id="ch-list">
-        <div class="claim-history-empty" data-i18n="options_history_loading">Loading history...</div>
-      </div>
-    </section>
+        <div class="claim-history-counters" id="ch-counters">
+          <div class="claim-history-counter">
+            <span class="claim-history-counter-value total"
+              id="ch-total">0</span>
+            <span class="claim-history-counter-label"
+              data-i18n="options_history_total">Total</span>
+          </div>
+          <div class="claim-history-counter">
+            <span class="claim-history-counter-value fab" id="ch-fab">0</span>
+            <span class="claim-history-counter-label"
+              data-i18n="options_history_fab">FAB</span>
+          </div>
+          <div class="claim-history-counter">
+            <span class="claim-history-counter-value unity"
+              id="ch-unity">0</span>
+            <span class="claim-history-counter-label"
+              data-i18n="options_history_unity">Unity</span>
+          </div>
+        </div>
 
-    <!-- Support Section -->
-    <section class="support-section">
-      <p class="support-message" data-i18n="options_support_message">Support education &amp; future development</p>
-      <p class="support-submessage" data-i18n="options_support_submessage">Created with ❤️ and countless hours of dedication. Your support helps us continue building amazing tools for everyone.</p>
-      <div class="social-buttons">
-        <a class="social-btn" href="https://buymeacoffee.com/creos" target="_blank" rel="noopener" title="Buy me a coffee">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 64 64"><style><![CDATA[.C{clip-rule:evenodd}.D{fill:#100f0d}]]></style><defs><clipPath id="A"><path d="M2332.45 5723.53v37c0 20.44-16.57 37-37 37h-12.33c-20.44 0-37-16.57-37-37v-37h-37c-20.44 0-37-16.57-37-37v-12.33c0-20.44 16.57-37 37-37h37v-37c0-20.44 16.57-37 37-37h12.33c20.44 0 37 16.57 37 37v37h37c20.44 0 37 16.57 37 37v12.33c0 20.44-16.57 37-37 37z" class="C"/></clipPath><clipPath id="B"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="C"><path d="M1534.22 5533.96l-387.92 2.36 190.5-1210.2h464.12l190.5 1210.2z" class="C"/></clipPath><clipPath id="D"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="E"><path d="M1534.22 5533.96l-387.92 2.36 190.5-1210.2h367.14l190.5 1210.2z" class="C"/></clipPath><clipPath id="F"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="G"><path d="M1035.47 5536.32h1000.97v111.602H1035.47z"/></clipPath><clipPath id="H"><path d="M1842.48 5829.28H1222.5l-72.73-167.4h765.44z" class="C"/></clipPath><clipPath id="I"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="J"><path d="M2005.26 5194.53H1059.7l85.37-481.3 387.4 4.2 387.4-4.2z" class="C"/></clipPath><clipPath id="K"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="L"><path d="M707.297 5228.36c78.582 0 142.293 63.7 142.293 142.3s-63.7 142.3-142.293 142.3S565 5449.24 565 5370.65c0-78.58 63.7-142.3 142.297-142.3z" class="C"/></clipPath><clipPath id="M"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="N"><path d="M2188.83 4876.8c36.98 0 66.96 29.98 66.96 66.96s-29.98 66.96-66.96 66.96-66.95-29.98-66.95-66.96 29.97-66.96 66.95-66.96z" class="C"/></clipPath><clipPath id="O"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath><clipPath id="P"><path d="M933.293 4491.78c36.98 0 66.957 29.98 66.957 66.96s-29.977 66.96-66.957 66.96-66.957-29.98-66.957-66.96 29.977-66.96 66.957-66.96z" class="C"/></clipPath><clipPath id="Q"><path d="M-2297.97 261.46H12137.2v9623.42H-2297.97z"/></clipPath></defs><g transform="translate(-760 -5300)"><g clip-path="url(#A)"><g clip-path="url(#B)"><path d="M2295 5787h-38v-60h38c20 0 37 17 37 37v-7c0-20-17-37-37-37h-38v-23h38c20 0 37 17 37 37v-7c0-20-17-37-37-37h-38v-23h38c20 0 37 17 37 37v60c0 20-17 37-37 37z" class="D"/></g></g><g clip-path="url(#C)"><g clip-path="url(#D)"><path d="M1534 5534l-388 2 191-1210h464l191 1210z" fill="#fff"/></g></g><g clip-path="url(#E)"><g clip-path="url(#F)"><path d="M1534 5534l-388 2 191-1210h367l191 1210z" fill="#282828"/></g></g><g clip-path="url(#G)"><g clip-path="url(#H)"><path d="M1035 5536h1001v112H1035z" fill="#0065ff"/></g></g><g clip-path="url(#I)"><g clip-path="url(#J)"><path d="M2005 5195H1060l85-481 387 4 387-4z" fill="#0065ff"/></g></g><g clip-path="url(#K)"><g clip-path="url(#L)"><circle cx="778" cy="5371" r="142" fill="#fff"/></g></g><g clip-path="url(#M)"><g clip-path="url(#N)"><circle cx="2256" cy="4944" r="67" fill="#282828"/></g></g><g clip-path="url(#O)"><g clip-path="url(#P)"><circle cx="1000" cy="4559" r="67" fill="#282828"/></g></g></g></svg>
-        </a>
-        <a class="social-btn" href="https://github.com/creosb" target="_blank" rel="noopener" title="GitHub">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-        </a>
-        <a class="social-btn" href="https://x.com/CreosB" target="_blank" rel="noopener" title="X (Twitter)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-        </a>
-        <a class="social-btn" href="https://www.youtube.com/@CreosB" target="_blank" rel="noopener" title="YouTube">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-      </div>
-    </section>
+        <div class="claim-history-search">
+          <span class="claim-history-search-icon">🔍</span>
+          <input type="text" data-i18n-placeholder="options_history_search"
+            placeholder="Search claimed assets..." id="ch-search">
+        </div>
 
-    <!-- Footer -->
-    <footer class="options-footer">
-      <span data-i18n="options_footer">Game Asset Auto Redeemer by CreosB</span>
-    </footer>
-  </div>
+        <div class="claim-history-list" id="ch-list">
+          <div class="claim-history-empty"
+            data-i18n="options_history_loading">Loading history...</div>
+        </div>
+      </section>
 
-  <script src="../shared/i18n.js"></script>
-  <script src="premium.js"></script>
-  <script src="options.js"></script>
-</body>
+      <!-- Support Section -->
+      <section class="support-section">
+        <p class="support-message" data-i18n="options_support_message">Support
+          education &amp; future development</p>
+        <p class="support-submessage"
+          data-i18n="options_support_submessage">Created with ❤️ and countless
+          hours of dedication. Your support helps us continue building amazing
+          tools for everyone.</p>
+        <div class="social-buttons">
+          <a class="social-btn" href="https://buymeacoffee.com/creos"
+            target="_blank" rel="noopener" title="Buy me a coffee">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+              viewBox="0 0 64 64"><style>.C{clip-rule:evenodd}.D{fill:#100f0d}</style><defs><clippath
+                  id="A"><path
+                    d="M2332.45 5723.53v37c0 20.44-16.57 37-37 37h-12.33c-20.44 0-37-16.57-37-37v-37h-37c-20.44 0-37-16.57-37-37v-12.33c0-20.44 16.57-37 37-37h37v-37c0-20.44 16.57-37 37-37h12.33c20.44 0 37 16.57 37 37v37h37c20.44 0 37 16.57 37 37v12.33c0 20.44-16.57 37-37 37z"
+                    class="C" /></clippath><clippath id="B"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath><clippath
+                  id="C"><path
+                    d="m1534.22 5533.96-387.92 2.36 190.5-1210.2h464.12l190.5 1210.2z"
+                    class="C" /></clippath><clippath id="D"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath><clippath
+                  id="E"><path
+                    d="m1534.22 5533.96-387.92 2.36 190.5-1210.2h367.14l190.5 1210.2z"
+                    class="C" /></clippath><clippath id="F"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath><clippath
+                  id="G"><path
+                    d="M1035.47 5536.32h1000.97v111.602H1035.47z" /></clippath><clippath
+                  id="H"><path d="M1842.48 5829.28H1222.5l-72.73-167.4h765.44z"
+                    class="C" /></clippath><clippath id="I"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath><clippath
+                  id="J"><path
+                    d="M2005.26 5194.53H1059.7l85.37-481.3 387.4 4.2 387.4-4.2z"
+                    class="C" /></clippath><clippath id="K"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath><clippath
+                  id="L"><path
+                    d="M707.297 5228.36c78.582 0 142.293 63.7 142.293 142.3s-63.7 142.3-142.293 142.3S565 5449.24 565 5370.65c0-78.58 63.7-142.3 142.297-142.3z"
+                    class="C" /></clippath><clippath id="M"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath><clippath
+                  id="N"><path
+                    d="M2188.83 4876.8c36.98 0 66.96 29.98 66.96 66.96s-29.98 66.96-66.96 66.96-66.95-29.98-66.95-66.96 29.97-66.96 66.95-66.96"
+                    class="C" /></clippath><clippath id="O"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath><clippath
+                  id="P"><path
+                    d="M933.293 4491.78c36.98 0 66.957 29.98 66.957 66.96s-29.977 66.96-66.957 66.96-66.965-29.98-66.965-66.96 29.98-66.96 66.965-66.96"
+                    class="C" /></clippath><clippath id="Q"><path
+                    d="M-2297.97 261.46H12137.2v9623.42H-2297.97z" /></clippath></defs><g
+                clip-path="url(#A)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#B)"><path fill="#f9dd05"
+                    d="M2111.94 5503.03h354.66v354.66h-354.66z" /></g></g><g
+                clip-path="url(#C)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#D)"><path fill="#f68313"
+                    d="M1086.15 4265.97h965.402v1330.5H1086.15z" /></g></g><g
+                clip-path="url(#E)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#F)"><path fill="#f9dd05"
+                    d="M1086.15 4265.97h868.43v1330.5h-868.43z" /></g></g><g
+                clip-path="url(#G)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><path
+                  fill="#fff"
+                  d="M975.32 5476.17h1121.26v231.898H975.32z" /></g><path
+                d="M17.254 17.646h32.982v-2.072H17.254zm34.79 1.807H15.446v-5.686h36.596z"
+                class="D" /><g clip-path="url(#H)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#I)"><path fill="#fff"
+                    d="M1089.62 5601.72h885.738v287.703H1089.62z" /></g></g><path
+                fill="#12110f"
+                d="M21.7 13.283h23.852L43.807 9.27H23.44zm26.602 1.804H18.947l3.314-7.627h22.73l3.314 7.627" /><path
+                d="M25.187 59.708h16.995l6.334-40.247-14.838.076-14.828-.076zm18.539 1.804h-20.08L16.74 17.641l16.946.086 16.948-.086-6.905 43.871"
+                class="D" /><g clip-path="url(#J)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#K)"><path fill="#fff"
+                    d="M999.563 4653.1h1065.85v601.578H999.563z" /></g></g><path
+                d="m33.615 46.109 12.718.135L48.98 31.33H18.27l2.645 14.914zm14.228 1.958-14.228-.154-14.21.154-3.29-18.541h35.02l-3.29 18.541"
+                class="D" /><g clip-path="url(#L)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#M)"><path fill="#f1f1f1"
+                    d="M707.297 5429.25c-32.3 0-58.598-26.3-58.598-58.6s26.3-58.6 58.598-58.6 58.594 26.3 58.594 58.6-26.3 58.6-58.594 58.6m0-284.6c-124.62 0-225.996 101.38-225.996 226s101.375 226 225.996 226 225.996-101.38 225.996-226c0-124.6-101.38-226-225.996-226" /></g></g><g
+                clip-path="url(#N)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#O)"><path fill="#f1f1f1"
+                    d="M2061.73 4816.66h254.2v254.22h-254.2z" /></g></g><g
+                clip-path="url(#P)"
+                transform="matrix(.03475 0 0 -.03475 -19.636 210.964)"><g
+                  clip-path="url(#Q)"><path fill="#f46c35"
+                    d="M806.184 4431.63H1060.4v254.223H806.184z" /></g></g></svg>
+          </a>
+          <a class="social-btn" href="https://github.com/creosb" target="_blank"
+            rel="noopener" title="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24"
+              fill="currentColor"><path
+                d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" /></svg>
+          </a>
+          <a class="social-btn" href="https://x.com/CreosB" target="_blank"
+            rel="noopener" title="X (Twitter)">
+            <svg width="20" height="20" viewBox="0 0 24 24"
+              fill="currentColor"><path
+                d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" /></svg>
+          </a>
+          <a class="social-btn" href="https://www.youtube.com/@CreosB"
+            target="_blank" rel="noopener" title="YouTube">
+            <svg width="20" height="20" viewBox="0 0 24 24"
+              fill="currentColor"><path
+                d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93-.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="options-footer">
+        <span data-i18n="options_footer">Game Asset Auto Redeemer by
+          CreosB</span>
+      </footer>
+    </div>
+
+    <script src="../shared/i18n.js"></script>
+    <script src="premium.js"></script>
+    <script src="options.js"></script>
+  </body>
 </html>

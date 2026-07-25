@@ -673,5 +673,8 @@
   },
   "premium_buy_coffee": {
     "message": "☕ Купить мне кофе"
+  },
+  "status_skipped": {
+    "message": "Пропущено"
   }
 }

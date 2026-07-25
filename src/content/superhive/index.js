@@ -41,27 +41,40 @@
 
     state.currentSite = 'superhive';
 
-    var checkInterval = setInterval(function() {
-      if (!isListingPage()) return;
-      var cards = ns.assetProcessor.getFreeAssetCards();
-      if (cards.length > 0) {
-        clearInterval(checkInterval);
-        state.assetsFound = cards;
-        state.assetsTotal = cards.length;
-        ns.assetProcessor.applyHideNonFree();
-        createIslandOnce();
-        utils.log('[Superhive] Found ' + cards.length + ' listing card(s).');
+    // First try an immediate scan; if no cards yet, watch the document for the
+    // first card appearance via MutationObserver (preferred over a fixed 1s
+    // poll that would run forever on every listing page). 60s safety timeout.
+    if (tryScanAndCreate()) return;
+
+    var observer = new MutationObserver(function() {
+      if (tryScanAndCreate()) {
+        if (observer) observer.disconnect();
       }
-    }, 1000);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
 
     setTimeout(function() {
-      clearInterval(checkInterval);
-      if (!isListingPage()) return;
-      createIslandOnce();
-      if (state.assetsFound.length === 0) {
-        utils.log('[Superhive] No listing cards detected on initial scan.');
+      if (observer) observer.disconnect();
+      if (!islandCreated && isListingPage()) {
+        createIslandOnce();
+        if (state.assetsFound.length === 0) {
+          utils.log('[Superhive] No listing cards detected on initial scan.');
+        }
       }
     }, 60000);
+  }
+
+  function tryScanAndCreate() {
+    if (islandCreated) return true;
+    if (!isListingPage()) return false;
+    var cards = ns.assetProcessor.getFreeAssetCards();
+    if (cards.length === 0) return false;
+    state.assetsFound = cards;
+    state.assetsTotal = cards.length;
+    ns.assetProcessor.applyHideNonFree();
+    createIslandOnce();
+    utils.log('[Superhive] Found ' + cards.length + ' listing card(s).');
+    return true;
   }
 
   function createIslandOnce() {

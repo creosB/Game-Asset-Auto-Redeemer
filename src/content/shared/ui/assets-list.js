@@ -24,6 +24,7 @@
       var statusClass = '';
       if (asset.status === 'claimed') statusClass = ' claimed';
       else if (asset.status === 'failed') statusClass = ' failed';
+      else if (asset.status === 'skipped') statusClass = ' skipped';
       else if (asset.status === 'processing') statusClass = ' pending';
 
       item.innerHTML =

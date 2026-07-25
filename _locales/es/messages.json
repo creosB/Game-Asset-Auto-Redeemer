@@ -672,6 +672,9 @@
     "message": "No hay assets gratuitos en esta página"
   },
   "premium_buy_coffee": {
-    "message": "☕ Invítame a un café"
+    "message": "☕ Cómprame un café"
+  },
+  "status_skipped": {
+    "message": "Omitido"
   }
 }

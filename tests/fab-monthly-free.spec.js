@@ -1,4 +1,92 @@
 const { test, expect } = require('@playwright/test');
+const fs = require('fs');
+const path = require('path');
+
+// Load the English messages bundle so the file://-loaded options/popup pages
+// see real translations instead of raw i18n keys (which is what the chrome.i18n
+// runtime would do in a real extension).
+const EN_MESSAGES = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '..', '_locales', 'en', 'messages.json'), 'utf8')
+);
+
+// Inject a chrome.* mock sufficient for options.js + popup.js + i18n.js to boot
+// under file://. i18n.getMessage resolves against EN_MESSAGES so labels render.
+async function installChromeMock(page, overrides) {
+  return page.addInitScript((opts) => {
+    const isPremiumDefault = opts && opts.isPremium !== undefined ? opts.isPremium : true;
+    const messages = opts && opts.messages ? opts.messages : {};
+    const mockData = opts && opts.mockData ? opts.mockData : {};
+
+    window.chrome = window.chrome || {};
+    window.chrome.storage = window.chrome.storage || {};
+    window.chrome.storage.sync = {
+      get: (keys) => {
+        const out = {};
+        const want = (typeof keys === 'object' && keys !== null) ? Object.keys(keys) : (keys ? [keys] : []);
+        for (const k of want) out[k] = keys[k];
+        return Promise.resolve(out);
+      },
+      set: () => Promise.resolve()
+    };
+    window.chrome.storage.local = {
+      get: () => Promise.resolve({}),
+      set: () => Promise.resolve()
+    };
+    window.chrome.storage.onChanged = { addListener: () => {} };
+    window.chrome.permissions = {
+      contains: (o, cb) => { if (cb) cb(true); return Promise.resolve(true); },
+      request: (o, cb) => { if (cb) cb(true); return Promise.resolve(true); },
+      remove: (o, cb) => { if (cb) cb(true); return Promise.resolve(true); },
+      onRemoved: { addListener: () => {} }
+    };
+    window.chrome.runtime = {
+      id: 'test-extension-id',
+      onMessage: { addListener: () => {}, removeListener: () => {} },
+      sendMessage: (msg, cb) => {
+        const t = (msg && msg.type) || '';
+        let res;
+        if (t === 'FETCH_MONTHLY_FREE') {
+          if (mockData.pending) {
+            return new Promise(() => {});
+          }
+          res = mockData.monthlyFree ? mockData.monthlyFree : { success: false, error: 'skip' };
+        } else if (t === 'GET_CLAIMED_STATUS') {
+          res = mockData.claimedStatus ? mockData.claimedStatus : {};
+        } else if (t === 'CLAIM_MONTHLY_FREE') {
+          window.__claimMsg = msg;
+          res = mockData.claimMonthlyFree || { success: true, tabId: 123 };
+        } else if (t === 'GET_PREMIUM_STATUS') {
+          res = { isPremium: isPremiumDefault };
+        } else if (t === 'FETCH_WEEKLY_ASSET') {
+          res = { success: false, error: 'skip' };
+        } else {
+          res = { ok: true };
+        }
+        if (cb) cb(res);
+        return Promise.resolve(res);
+      },
+      connect: () => ({ onMessage: { addListener: () => {} }, disconnect: () => {}, postMessage: () => {} }),
+      openOptionsPage: () => {},
+      lastError: null,
+      getURL: (p) => 'chrome-extension://test-extension-id/' + (p || '')
+    };
+    window.chrome.i18n = {
+      getUILanguage: () => 'en',
+      getMessage: (key, subs) => {
+        const entry = messages[key];
+        if (!entry || !entry.message) return '';
+        let msg = entry.message;
+        if (subs) {
+          const arr = Array.isArray(subs) ? subs : [subs];
+          for (let i = 0; i < arr.length; i++) {
+            msg = msg.split('$' + (i + 1)).join(String(arr[i] != null ? arr[i] : ''));
+          }
+        }
+        return msg;
+      }
+    };
+  }, { messages: EN_MESSAGES, ...(overrides || {}) });
+}
 
 function stripHtml(html) {
   return (html || '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ').trim();
@@ -515,6 +603,7 @@ test.describe('FAB API integration', () => {
 
 test.describe('Options page - FAB Monthly Free section', () => {
   test('monthly free section exists in options HTML', async ({ page }) => {
+    await installChromeMock(page);
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
 
     const section = page.locator('#monthly-free-section');
@@ -529,6 +618,7 @@ test.describe('Options page - FAB Monthly Free section', () => {
   });
 
   test('monthly free section has loading state', async ({ page }) => {
+    await installChromeMock(page, { mockData: { pending: true } });
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
 
     const loading = page.locator('#monthly-free-loading');
@@ -539,6 +629,7 @@ test.describe('Options page - FAB Monthly Free section', () => {
   });
 
   test('monthly free section has refresh and retry buttons', async ({ page }) => {
+    await installChromeMock(page);
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
 
     const refreshBtn = page.locator('#monthly-free-refresh');
@@ -549,67 +640,47 @@ test.describe('Options page - FAB Monthly Free section', () => {
   });
 
   test('renders assets when data is available', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.chrome = window.chrome || {};
-      window.chrome.storage = window.chrome.storage || {};
-      window.chrome.storage.sync = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.local = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.onChanged = { addListener: () => {} };
-      window.chrome.runtime = {
-        sendMessage: (msg, callback) => {
-          if (msg.type === 'FETCH_MONTHLY_FREE') {
-            callback({
-              success: true,
-              data: {
-                title: 'Limited-Time Free (Until May 19)',
-                isLimitedFreeContent: true,
-                assets: [
-                  {
-                    uid: 'test-uid-1',
-                    title: 'Amazing 3D Asset',
-                    description: 'A beautiful 3D model for your project',
-                    image: 'https://media.fab.com/test-image.jpg',
-                    url: 'https://www.fab.com/listings/test-uid-1',
-                    sellerName: 'Test Creator',
-                    listingType: '3d-model',
-                    averageRating: 4.5,
-                    totalRatings: 10,
-                    originalPrice: 49.99,
-                    discountEndDate: new Date(Date.now() + 86400000 * 3).toISOString(),
-                    assetFormats: ['Unreal Engine', 'Unity']
-                  },
-                  {
-                    uid: 'test-uid-2',
-                    title: 'VFX Pack Pro',
-                    description: 'Professional VFX particle system',
-                    image: '',
-                    url: 'https://www.fab.com/listings/test-uid-2',
-                    sellerName: 'VFX Studio',
-                    listingType: 'vfx',
-                    averageRating: 5,
-                    totalRatings: 20,
-                    originalPrice: 29.99,
-                    discountEndDate: new Date(Date.now() + 86400000 * 5).toISOString(),
-                    assetFormats: ['Unreal Engine']
-                  }
-                ],
-                fetchedAt: Date.now()
+    await installChromeMock(page, {
+      mockData: {
+        monthlyFree: {
+          success: true,
+          data: {
+            title: 'Limited-Time Free (Until May 19)',
+            isLimitedFreeContent: true,
+            assets: [
+              {
+                uid: 'test-uid-1',
+                title: 'Amazing 3D Asset',
+                description: 'A beautiful 3D model for your project',
+                image: 'https://media.fab.com/test-image.jpg',
+                url: 'https://www.fab.com/listings/test-uid-1',
+                sellerName: 'Test Creator',
+                listingType: '3d-model',
+                averageRating: 4.5,
+                totalRatings: 10,
+                originalPrice: 49.99,
+                discountEndDate: new Date(Date.now() + 86400000 * 3).toISOString(),
+                assetFormats: ['Unreal Engine', 'Unity']
+              },
+              {
+                uid: 'test-uid-2',
+                title: 'VFX Pack Pro',
+                description: 'Professional VFX particle system',
+                image: '',
+                url: 'https://www.fab.com/listings/test-uid-2',
+                sellerName: 'VFX Studio',
+                listingType: 'vfx',
+                averageRating: 5,
+                totalRatings: 20,
+                originalPrice: 29.99,
+                discountEndDate: new Date(Date.now() + 86400000 * 5).toISOString(),
+                assetFormats: ['Unreal Engine']
               }
-            });
-          } else if (msg.type === 'FETCH_WEEKLY_ASSET') {
-            callback({ success: false, error: 'skip' });
-          } else if (msg.type === 'GET_CLAIMED_STATUS') {
-            callback({});
+            ],
+            fetchedAt: Date.now()
           }
-        },
-        lastError: null,
-      };
+        }
+      }
     });
 
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
@@ -650,28 +721,10 @@ test.describe('Options page - FAB Monthly Free section', () => {
   });
 
   test('shows error state when fetch fails', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.chrome = window.chrome || {};
-      window.chrome.storage = window.chrome.storage || {};
-      window.chrome.storage.sync = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.local = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.onChanged = { addListener: () => {} };
-      window.chrome.runtime = {
-        sendMessage: (msg, callback) => {
-          if (msg.type === 'FETCH_MONTHLY_FREE') {
-            callback({ success: false, error: 'Network timeout' });
-          } else if (msg.type === 'FETCH_WEEKLY_ASSET') {
-            callback({ success: false, error: 'skip' });
-          }
-        },
-        lastError: null,
-      };
+    await installChromeMock(page, {
+      mockData: {
+        monthlyFree: { success: false, error: 'Network timeout' }
+      }
     });
 
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
@@ -684,57 +737,34 @@ test.describe('Options page - FAB Monthly Free section', () => {
   });
 
   test('shows ownership badge for claimed assets', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.chrome = window.chrome || {};
-      window.chrome.storage = window.chrome.storage || {};
-      window.chrome.storage.sync = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.local = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.onChanged = { addListener: () => {} };
-      window.chrome.runtime = {
-        sendMessage: (msg, callback) => {
-          if (msg.type === 'FETCH_MONTHLY_FREE') {
-            callback({
-              success: true,
-              data: {
-                title: 'Limited-Time Free',
-                isLimitedFreeContent: true,
-                assets: [
-                  {
-                    uid: 'claimed-uid', title: 'Already Owned Asset', description: 'Done',
-                    image: '', url: 'https://www.fab.com/listings/claimed-uid',
-                    sellerName: 'Seller', listingType: '3d-model', averageRating: 5, totalRatings: 10,
-                    originalPrice: 49.99, discountEndDate: new Date(Date.now() + 86400000).toISOString(),
-                    assetFormats: ['Unreal Engine']
-                  },
-                  {
-                    uid: 'unclaimed-uid', title: 'New Free Asset', description: 'Get it',
-                    image: '', url: 'https://www.fab.com/listings/unclaimed-uid',
-                    sellerName: 'Creator', listingType: 'vfx', averageRating: 4, totalRatings: 5,
-                    originalPrice: 29.99, discountEndDate: new Date(Date.now() + 86400000 * 5).toISOString(),
-                    assetFormats: ['Unity']
-                  }
-                ],
-                fetchedAt: Date.now()
+    await installChromeMock(page, {
+      mockData: {
+        monthlyFree: {
+          success: true,
+          data: {
+            title: 'Limited-Time Free',
+            isLimitedFreeContent: true,
+            assets: [
+              {
+                uid: 'claimed-uid', title: 'Already Owned Asset', description: 'Done',
+                image: '', url: 'https://www.fab.com/listings/claimed-uid',
+                sellerName: 'Seller', listingType: '3d-model', averageRating: 5, totalRatings: 10,
+                originalPrice: 49.99, discountEndDate: new Date(Date.now() + 86400000).toISOString(),
+                assetFormats: ['Unreal Engine']
+              },
+              {
+                uid: 'unclaimed-uid', title: 'New Free Asset', description: 'Get it',
+                image: '', url: 'https://www.fab.com/listings/unclaimed-uid',
+                sellerName: 'Creator', listingType: 'vfx', averageRating: 4, totalRatings: 5,
+                originalPrice: 29.99, discountEndDate: new Date(Date.now() + 86400000 * 5).toISOString(),
+                assetFormats: ['Unity']
               }
-            });
-          } else if (msg.type === 'GET_CLAIMED_STATUS') {
-            const map = {};
-            for (const uid of msg.assetUids) {
-              map[uid] = uid === 'claimed-uid';
-            }
-            callback(map);
-          } else if (msg.type === 'FETCH_WEEKLY_ASSET') {
-            callback({ success: false, error: 'skip' });
+            ],
+            fetchedAt: Date.now()
           }
         },
-        lastError: null,
-      };
+        claimedStatus: { 'claimed-uid': true }
+      }
     });
 
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
@@ -761,49 +791,25 @@ test.describe('Options page - FAB Monthly Free section', () => {
   });
 
   test('claim button triggers claim flow', async ({ page }) => {
-    let claimMsgSent = null;
-
-    await page.addInitScript(() => {
-      window.chrome = window.chrome || {};
-      window.chrome.storage = window.chrome.storage || {};
-      window.chrome.storage.sync = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.local = {
-        get: () => Promise.resolve({}),
-        set: () => Promise.resolve(),
-      };
-      window.chrome.storage.onChanged = { addListener: () => {} };
-      window.chrome.runtime = {
-        sendMessage: (msg, callback) => {
-          if (msg.type === 'FETCH_MONTHLY_FREE') {
-            callback({
-              success: true,
-              data: {
-                title: 'Free Assets',
-                isLimitedFreeContent: true,
-                assets: [{
-                  uid: 'test-claim-uid', title: 'Claim Test Asset', description: 'Test',
-                  image: '', url: 'https://www.fab.com/listings/test-claim-uid',
-                  sellerName: 'Seller', listingType: '3d-model', averageRating: 5, totalRatings: 10,
-                  originalPrice: 19.99, discountEndDate: new Date(Date.now() + 86400000).toISOString(),
-                  assetFormats: []
-                }],
-                fetchedAt: Date.now()
-              }
-            });
-          } else if (msg.type === 'GET_CLAIMED_STATUS') {
-            callback({ 'test-claim-uid': false });
-          } else if (msg.type === 'CLAIM_MONTHLY_FREE') {
-            window.__claimMsg = msg;
-            callback({ success: true, tabId: 123 });
-          } else if (msg.type === 'FETCH_WEEKLY_ASSET') {
-            callback({ success: false, error: 'skip' });
+    await installChromeMock(page, {
+      mockData: {
+        monthlyFree: {
+          success: true,
+          data: {
+            title: 'Free Assets',
+            isLimitedFreeContent: true,
+            assets: [{
+              uid: 'test-claim-uid', title: 'Claim Test Asset', description: 'Test',
+              image: '', url: 'https://www.fab.com/listings/test-claim-uid',
+              sellerName: 'Seller', listingType: '3d-model', averageRating: 5, totalRatings: 10,
+              originalPrice: 19.99, discountEndDate: new Date(Date.now() + 86400000).toISOString(),
+              assetFormats: []
+            }],
+            fetchedAt: Date.now()
           }
         },
-        lastError: null,
-      };
+        claimedStatus: { 'test-claim-uid': false }
+      }
     });
 
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
@@ -811,6 +817,8 @@ test.describe('Options page - FAB Monthly Free section', () => {
     const claimBtn = page.locator('.monthly-free-claim-btn');
     await expect(claimBtn).toBeVisible({ timeout: 5000 });
     await expect(claimBtn).toHaveText('Claim Free');
+
+    await expect(page.locator('#monthly-free-section .premium-gate-overlay')).toHaveCount(0);
 
     await claimBtn.click();
 
@@ -826,6 +834,7 @@ test.describe('Options page - FAB Monthly Free section', () => {
   });
 
   test('auto-claim toggle exists in FAB section', async ({ page }) => {
+    await installChromeMock(page);
     await page.goto('file://' + __dirname.replace(/\\/g, '/') + '/../src/options/options.html');
 
     const toggle = page.locator('#opt-fab-auto-claim');

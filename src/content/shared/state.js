@@ -9,6 +9,7 @@
     assetsFound: [],
     assetsClaimed: 0,
     assetsFailed: 0,
+    assetsSkipped: 0,
     assetsTotal: 0,
     statusText: '',
     hasError: false,
@@ -21,6 +22,7 @@
       this.assetsFound = [];
       this.assetsClaimed = 0;
       this.assetsFailed = 0;
+      this.assetsSkipped = 0;
       this.assetsTotal = 0;
       this.statusText = '';
       this.hasError = false;

@@ -30,6 +30,24 @@ function installChromeMock(page, overrides) {
       set: () => Promise.resolve()
     };
     window.chrome.storage.onChanged = { addListener: () => {} };
+    window.chrome.permissions = {
+      contains: (opts, cb) => {
+        const res = true;
+        if (cb) cb(res);
+        return Promise.resolve(res);
+      },
+      request: (opts, cb) => {
+        const res = true;
+        if (cb) cb(res);
+        return Promise.resolve(res);
+      },
+      remove: (opts, cb) => {
+        const res = true;
+        if (cb) cb(res);
+        return Promise.resolve(res);
+      },
+      onRemoved: { addListener: () => {} }
+    };
     window.chrome.runtime = {
       id: 'test-extension-id',
       sendMessage: (msg, cb) => {
@@ -41,6 +59,10 @@ function installChromeMock(page, overrides) {
           (cb || (() => {}))({});
         } else if (msg && msg.type === 'GET_PREMIUM_STATUS') {
           (cb || (() => {}))({ isPremium: false });
+        } else if (msg && msg.type === 'SUPERHIVE_PERMISSION_STATUS') {
+          (cb || (() => {}))({ granted: true });
+        } else if (msg && msg.type === 'SUPERHIVE_REQUEST_PERMISSION') {
+          (cb || (() => {}))({ granted: true });
         } else {
           (cb || (() => {}))({ ok: true });
         }
@@ -69,8 +91,6 @@ test.describe('Superhive — options page section', () => {
     const title = page.locator('.section-title', { hasText: 'Superhive (Blender Market)' });
     await expect(title).toBeVisible();
 
-    // Seven settings inputs. Toggles wrap the checkbox in a <label class="toggle">,
-    // so we assert the inputs are attached (the visible control is the slider).
     for (const id of [
       '#opt-superhive-enable', '#opt-superhive-free-only', '#opt-superhive-endless',
       '#opt-superhive-hide-non-free', '#opt-superhive-delay',
@@ -82,7 +102,6 @@ test.describe('Superhive — options page section', () => {
 
   test('Superhive defaults load into the form', async ({ page }) => {
     await page.goto(OPTIONS_URL);
-    // Wait for loadConfig() to run.
     await expect(page.locator('#opt-superhive-enable')).toBeChecked();
     await expect(page.locator('#opt-superhive-free-only')).toBeChecked();
     await expect(page.locator('#opt-superhive-endless')).not.toBeChecked();
@@ -95,14 +114,10 @@ test.describe('Superhive — options page section', () => {
   test('save persists Superhive config into chrome.storage.sync', async ({ page }) => {
     await page.goto(OPTIONS_URL);
 
-    // The checkbox itself is visually hidden behind the toggle slider CSS, so
-    // flip it via its <label class="toggle"> wrapper, then fill the number fields.
-    await page.locator('label:has(#opt-superhive-endless)').click();
     await page.locator('#opt-superhive-delay').fill('2500');
     await page.locator('#opt-superhive-retries').fill('3');
     await page.locator('#btn-save').click();
 
-    // Sanity: page did not crash and save status shows.
     await expect(page.locator('#save-status')).toBeVisible();
   });
 
@@ -115,37 +130,14 @@ test.describe('Superhive — options page section', () => {
 });
 
 test.describe('Superhive — manifest wiring', () => {
-  test('content_scripts include the Superhive match pattern and module files', async () => {
+  test('optional_host_permissions and web_accessible_resources cover Superhive without static content_scripts', async () => {
     const fs = require('fs');
     const path = require('path');
     const manifest = JSON.parse(
       fs.readFileSync(path.join(__dirname, '..', 'manifest.json'), 'utf8')
     );
 
-    const superhiveBlock = manifest.content_scripts.find((b) =>
-      b.matches && b.matches.some((m) => m.indexOf('superhivemarket.com') !== -1)
-    );
-    expect(superhiveBlock).toBeTruthy();
-    expect(superhiveBlock.js).toEqual(expect.arrayContaining([
-      'src/content/superhive/asset-processor.js',
-      'src/content/superhive/index.js'
-    ]));
-
-    // Shared layer precedes the marketplace files.
-    const idxStyles = superhiveBlock.js.indexOf('src/content/shared/ui/styles.js');
-    const idxProc = superhiveBlock.js.indexOf('src/content/superhive/asset-processor.js');
-    expect(idxStyles).toBeGreaterThan(-1);
-    expect(idxProc).toBeGreaterThan(idxStyles);
-  });
-
-  test('host_permissions and web_accessible_resources cover Superhive', async () => {
-    const fs = require('fs');
-    const path = require('path');
-    const manifest = JSON.parse(
-      fs.readFileSync(path.join(__dirname, '..', 'manifest.json'), 'utf8')
-    );
-
-    expect(manifest.host_permissions).toEqual(expect.arrayContaining([
+    expect(manifest.optional_host_permissions).toEqual(expect.arrayContaining([
       'https://superhivemarket.com/*',
       'https://*.superhivemarket.com/*'
     ]));
@@ -154,6 +146,11 @@ test.describe('Superhive — manifest wiring', () => {
       'https://superhivemarket.com/*',
       'https://*.superhivemarket.com/*'
     ]));
+
+    // Static content_scripts MUST NOT match Superhive to prevent update permission warnings
+    const contentScriptMatches = manifest.content_scripts.flatMap(cs => cs.matches || []);
+    expect(contentScriptMatches).not.toEqual(expect.arrayContaining(['https://superhivemarket.com/*']));
+    expect(contentScriptMatches).not.toEqual(expect.arrayContaining(['https://*.superhivemarket.com/*']));
   });
 });
 
@@ -175,7 +172,7 @@ test.describe('Superhive — i18n key coverage', () => {
     'superhive_status_rate_limited', 'superhive_status_loading_page',
     'superhive_status_page_failed', 'superhive_status_pages_done',
     'superhive_status_waiting_pages', 'superhive_status_pages_incomplete',
-    'superhive_status_carting'
+    'superhive_status_carting', 'status_skipped'
   ];
   const LOCALES = ['en', 'de', 'es', 'fr', 'it', 'ru', 'tr', 'zh_CN'];
 

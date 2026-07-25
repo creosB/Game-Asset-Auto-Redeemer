@@ -64,7 +64,21 @@
 
   if (btnOpenSuperhive) {
     btnOpenSuperhive.addEventListener('click', function() {
-      chrome.tabs.create({ url: 'https://superhivemarket.com/products?price=free' });
+      // Superhive access is optional: request it on user click gesture directly.
+      var origins = ['https://superhivemarket.com/*', 'https://*.superhivemarket.com/*'];
+      chrome.permissions.contains({ origins: origins }, function(granted) {
+        if (granted) {
+          chrome.tabs.create({ url: 'https://superhivemarket.com/products?price=free' });
+          return;
+        }
+        chrome.permissions.request({ origins: origins }, function(granted) {
+          if (granted) {
+            chrome.runtime.sendMessage({ type: 'SUPERHIVE_PERMISSION_GRANTED' }, function() {
+              chrome.tabs.create({ url: 'https://superhivemarket.com/products?price=free' });
+            });
+          }
+        });
+      });
     });
   }
 

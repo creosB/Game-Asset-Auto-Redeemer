@@ -222,6 +222,47 @@
 
   loadConfig();
 
+  // ── Superhive optional-permission gate ──────────────────────
+  // Superhive ships as optional_host_permissions. The settings section is
+  // gated behind the runtime grant: when not granted we show a single CTA
+  // button (which triggers the SW-side permission request); when granted we
+  // show the seven settings and a Revoke link.
+  var shGateCta = document.getElementById('sh-permission-cta');
+  var shGateWrap = document.getElementById('sh-permission-gate');
+  var shSettingsWrap = document.getElementById('sh-settings-wrap');
+  var shRevokeBtn = document.getElementById('sh-permission-revoke');
+
+  function showShGate(granted) {
+    if (shGateWrap) shGateWrap.style.display = granted ? 'none' : '';
+    if (shSettingsWrap) shSettingsWrap.style.display = granted ? '' : 'none';
+    // The "Enable Superhive Support" toggle (#opt-superhive-enable) lives inside
+    // shSettingsWrap and only makes sense once permission is granted.
+  }
+
+  function refreshShPermission() {
+    if (!chrome.runtime || !chrome.runtime.sendMessage) return;
+    chrome.runtime.sendMessage({ type: 'SUPERHIVE_PERMISSION_STATUS' }, function(res) {
+      var granted = !!(res && res.granted);
+      showShGate(granted);
+    });
+  }
+
+  if (shGateCta) {
+    shGateCta.addEventListener('click', function() {
+      chrome.runtime.sendMessage({ type: 'SUPERHIVE_REQUEST_PERMISSION' }, function(res) {
+        showShGate(!!(res && res.granted));
+      });
+    });
+  }
+  if (shRevokeBtn) {
+    shRevokeBtn.addEventListener('click', function() {
+      chrome.runtime.sendMessage({ type: 'SUPERHIVE_REVOKE_PERMISSION' }, function(res) {
+        showShGate(!!(res && res.granted));
+      });
+    });
+  }
+  refreshShPermission();
+
   // ── Premium gating ──────────────────────────────────────────
   if (window.PremiumGate) {
     window.PremiumGate.check();

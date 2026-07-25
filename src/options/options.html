@@ -263,110 +263,143 @@
         <h2 class="section-title" data-i18n="options_section_superhive">Superhive
           (Blender Market)</h2>
 
-        <div class="option-row">
-          <div class="option-info">
-            <label class="option-label" data-i18n="options_superhive_enable">Enable
-              Superhive Support</label>
-            <span class="option-desc"
-              data-i18n="options_superhive_enable_desc">Show the in-page panel on
-              Superhive listings. Add-to-cart only — no purchase.</span>
-          </div>
-          <div class="option-control">
-            <label class="toggle">
-              <input type="checkbox" id="opt-superhive-enable" checked>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-
-        <div class="option-row">
-          <div class="option-info">
-            <label class="option-label" data-i18n="options_superhive_free_only">Free
-              Assets Only</label>
-            <span class="option-desc"
-              data-i18n="options_superhive_free_only_desc">Only treat $0 / Free
-              products as eligible for bulk add-to-cart</span>
-          </div>
-          <div class="option-control">
-            <label class="toggle">
-              <input type="checkbox" id="opt-superhive-free-only" checked>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-
-        <div class="option-row">
+        <!-- Optional-permission gate: shown only when Superhive access not yet granted -->
+        <div class="option-row" id="sh-permission-gate">
           <div class="option-info">
             <label class="option-label"
-              data-i18n="options_superhive_endless">Endless Pagination</label>
+              data-i18n="options_superhive_access">Enable Superhive Access</label>
             <span class="option-desc"
-              data-i18n="options_superhive_endless_desc">Load every result page
-              before bulk adding (recommended)</span>
+              data-i18n="options_superhive_access_desc">Grant read/write access to
+              superhivemarket.com to enable in-page bulk add-to-cart. No purchase,
+              no checkout. The extension is not disabled for other users.</span>
           </div>
           <div class="option-control">
-            <label class="toggle">
-              <input type="checkbox" id="opt-superhive-endless">
-              <span class="toggle-slider"></span>
-            </label>
+            <button class="btn-save" id="sh-permission-cta" style="padding:6px 14px;font-size:12px;"
+              data-i18n="options_superhive_grant">Grant Access</button>
           </div>
         </div>
 
-        <div class="option-row">
-          <div class="option-info">
-            <label class="option-label"
-              data-i18n="options_superhive_hide_non_free">Hide Non-Free
-              Cards</label>
-            <span class="option-desc"
-              data-i18n="options_superhive_hide_non_free_desc">Visually hide paid
-              products on the listing when Free-Only is on</span>
+        <!-- The seven settings live behind the gate and are shown only when access granted -->
+        <div id="sh-settings-wrap" style="display:none;">
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label"
+                data-i18n="options_superhive_enable">Enable Superhive Support</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_enable_desc">Show the in-page panel on
+                Superhive listings. Add-to-cart only — no purchase.</span>
+            </div>
+            <div class="option-control">
+              <label class="toggle">
+                <input type="checkbox" id="opt-superhive-enable" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
-          <div class="option-control">
-            <label class="toggle">
-              <input type="checkbox" id="opt-superhive-hide-non-free">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
 
-        <div class="option-row">
-          <div class="option-info">
-            <label class="option-label" for="opt-superhive-delay"
-              data-i18n="options_superhive_delay">Delay Between Assets</label>
-            <span class="option-desc"
-              data-i18n="options_superhive_delay_desc">Milliseconds between each
-              add-to-cart POST (500–10000)</span>
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" data-i18n="options_superhive_free_only">Free
+                Assets Only</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_free_only_desc">Only treat $0 / Free
+                products as eligible for bulk add-to-cart</span>
+            </div>
+            <div class="option-control">
+              <label class="toggle">
+                <input type="checkbox" id="opt-superhive-free-only" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
-          <div class="option-control">
-            <input type="number" id="opt-superhive-delay" class="option-input"
-              min="500" max="10000" step="100" value="1200">
-          </div>
-        </div>
 
-        <div class="option-row">
-          <div class="option-info">
-            <label class="option-label" for="opt-superhive-page-delay"
-              data-i18n="options_superhive_page_delay">Delay Between Pages</label>
-            <span class="option-desc"
-              data-i18n="options_superhive_page_delay_desc">Milliseconds between
-              page fetches during endless pagination (200–10000)</span>
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label"
+                data-i18n="options_superhive_endless">Endless Pagination</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_endless_desc">Load every result page
+                before bulk adding (recommended)</span>
+            </div>
+            <div class="option-control">
+              <label class="toggle">
+                <input type="checkbox" id="opt-superhive-endless">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
-          <div class="option-control">
-            <input type="number" id="opt-superhive-page-delay"
-              class="option-input" min="200" max="10000" step="100" value="700">
-          </div>
-        </div>
 
-        <div class="option-row">
-          <div class="option-info">
-            <label class="option-label" for="opt-superhive-retries"
-              data-i18n="options_superhive_retries">Max Retries</label>
-            <span class="option-desc"
-              data-i18n="options_superhive_retries_desc">Retry attempts on rate
-              limit (429/503) or server error (0–5)</span>
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label"
+                data-i18n="options_superhive_hide_non_free">Hide Non-Free
+                Cards</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_hide_non_free_desc">Visually hide paid
+                products on the listing when Free-Only is on</span>
+            </div>
+            <div class="option-control">
+              <label class="toggle">
+                <input type="checkbox" id="opt-superhive-hide-non-free">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
-          <div class="option-control">
-            <input type="number" id="opt-superhive-retries" class="option-input"
-              min="0" max="5" step="1" value="4">
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-superhive-delay"
+                data-i18n="options_superhive_delay">Delay Between Assets</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_delay_desc">Milliseconds between each
+                add-to-cart POST (500–10000)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-superhive-delay" class="option-input"
+                min="500" max="10000" step="100" value="1200">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-superhive-page-delay"
+                data-i18n="options_superhive_page_delay">Delay Between Pages</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_page_delay_desc">Milliseconds between
+                page fetches during endless pagination (200–10000)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-superhive-page-delay"
+                class="option-input" min="200" max="10000" step="100" value="700">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-superhive-retries"
+                data-i18n="options_superhive_retries">Max Retries</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_retries_desc">Retry attempts on rate
+                limit (429/503) or server error (0–5)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-superhive-retries" class="option-input"
+                min="0" max="5" step="1" value="4">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label"
+                data-i18n="options_superhive_revoke">Revoke Superhive Access</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_revoke_desc">Remove Superhive site
+                access. The content script stops running on superhivemarket.com.</span>
+            </div>
+            <div class="option-control">
+              <button class="btn-save" id="sh-permission-revoke" style="padding:6px 14px;font-size:12px;"
+                data-i18n="options_superhive_revoke_btn">Revoke</button>
+            </div>
           </div>
         </div>
       </section>

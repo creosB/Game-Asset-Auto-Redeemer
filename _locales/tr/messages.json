@@ -672,6 +672,9 @@
     "message": "Bu sayfada ücretsiz varlık yok"
   },
   "premium_buy_coffee": {
-    "message": "☕ Bana Bir Kahve Ismarla"
+    "message": "☕ Kahve Ismarla"
+  },
+  "status_skipped": {
+    "message": "Atlandı"
   }
 }

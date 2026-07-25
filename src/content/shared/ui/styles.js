@@ -385,6 +385,7 @@
     '.fab-grab-asset-status.claimed { background: #34c759; }',
     '.fab-grab-asset-status.failed { background: #ff453a; }',
     '.fab-grab-asset-status.pending { background: #ff9f0a; }',
+    '.fab-grab-asset-status.skipped { background: #ffcc00; }',
     
     '.fab-grab-asset-name {',
     '  font-size: 12px;',

@@ -53,6 +53,7 @@
     state.statusText = t('controller_scanning');
     state.assetsClaimed = 0;
     state.assetsFailed = 0;
+    state.assetsSkipped = 0;
     utils.log('Starting auto-grab on ' + site + '...');
 
     notifyServiceWorker('PROCESSING_STARTED', { site: site });
@@ -62,11 +63,19 @@
       await processAssetsFn();
 
       if (!state.shouldStop) {
-        var summary = t(summaryKey(site), String(state.assetsClaimed), String(state.assetsFailed), String(state.assetsTotal));
+        var summary = t(summaryKey(site),
+          String(state.assetsClaimed),
+          String(state.assetsSkipped),
+          String(state.assetsFailed),
+          String(state.assetsTotal));
         state.statusText = t('controller_done_summary', summary);
         notifyServiceWorker('PROCESSING_COMPLETE', {
           site: site,
-          summary: summary
+          summary: summary,
+          claimed: state.assetsClaimed,
+          skipped: state.assetsSkipped,
+          failed: state.assetsFailed,
+          total: state.assetsTotal
         });
       } else {
         notifyServiceWorker('PROCESSING_STOPPED', { site: site });

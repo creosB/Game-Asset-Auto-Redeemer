@@ -191,6 +191,27 @@
   "options_superhive_retries_desc": {
     "message": "Retry attempts on rate limit (429/503) or server error (0–5)"
   },
+  "options_superhive_access": {
+    "message": "Enable Superhive Access"
+  },
+  "options_superhive_access_desc": {
+    "message": "Grant read/write access to superhivemarket.com to enable in-page bulk add-to-cart. No purchase, no checkout. The extension is not disabled for other users."
+  },
+  "options_superhive_grant": {
+    "message": "Grant Access"
+  },
+  "options_superhive_revoke": {
+    "message": "Revoke Superhive Access"
+  },
+  "options_superhive_revoke_desc": {
+    "message": "Remove Superhive site access. The content script stops running on superhivemarket.com."
+  },
+  "options_superhive_revoke_btn": {
+    "message": "Revoke"
+  },
+  "panel_superhive_go_to_cart": {
+    "message": "🛒 Go to cart"
+  },
   "options_monthly_title": {
     "message": "FAB Monthly Free Assets"
   },
@@ -633,7 +654,7 @@
     "message": "Done: $1 claimed, $2 failed"
   },
   "controller_superhive_summary": {
-    "message": "$1 added to cart, $2 skipped/failed out of $3"
+    "message": "Added $1 to cart · $2 skipped · $3 failed of $4"
   },
   "superhive_status_rate_limited": {
     "message": "Rate limited · waiting $1s"
@@ -654,7 +675,7 @@
     "message": "Pages incomplete — run again to resume"
   },
   "superhive_status_carting": {
-    "message": "Carting $1/$2 · ✓$3 ✕$4"
+    "message": "Carting $1/$2 · ✓$3 ⊘$4 ✕$5"
   },
   "controller_claiming_n": {
     "message": "Claiming $1/$2..."
@@ -673,5 +694,8 @@
   },
   "premium_buy_coffee": {
     "message": "☕ Buy Me a Coffee"
+  },
+  "status_skipped": {
+    "message": "Skipped"
   }
 }

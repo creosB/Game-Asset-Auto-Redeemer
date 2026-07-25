@@ -673,5 +673,8 @@
   },
   "premium_buy_coffee": {
     "message": "☕ 请我喝杯咖啡"
+  },
+  "status_skipped": {
+    "message": "已跳过"
   }
 }

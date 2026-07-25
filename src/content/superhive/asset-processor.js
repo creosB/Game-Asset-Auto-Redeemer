@@ -352,13 +352,13 @@
       var name = asset.name;
       state.statusText = t('superhive_status_carting',
         String(j + 1), String(cards.length),
-        String(state.assetsClaimed), String(state.assetsFailed));
+        String(state.assetsClaimed), String(state.assetsSkipped), String(state.assetsFailed));
 
       try {
         var r = await addOneToCart(href);
         if (r && r.skip) {
-          asset.status = 'failed';
-          state.assetsFailed++;
+          asset.status = 'skipped';
+          state.assetsSkipped++;
           utils.log('[Superhive] Skipped "' + name + '": ' + r.skip, 'warn');
         } else {
           asset.status = 'claimed';

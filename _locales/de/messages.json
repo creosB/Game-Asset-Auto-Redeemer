@@ -672,6 +672,9 @@
     "message": "Keine kostenlosen Assets auf dieser Seite"
   },
   "premium_buy_coffee": {
-    "message": "☕ Kauf mir einen Kaffee"
+    "message": "☕ Spendier mir einen Kaffee"
+  },
+  "status_skipped": {
+    "message": "Übersprungen"
   }
 }

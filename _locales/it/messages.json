@@ -673,5 +673,8 @@
   },
   "premium_buy_coffee": {
     "message": "☕ Offrimi un caffè"
+  },
+  "status_skipped": {
+    "message": "Saltato"
   }
 }

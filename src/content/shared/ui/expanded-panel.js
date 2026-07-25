@@ -21,6 +21,7 @@
     return SITE_LABEL_KEYS[state.currentSite] || 'panel_fab_auto_redeem';
   }
   function siteLabel() { return t(siteLabelKey()); }
+  function cartUrl() { return 'https://superhivemarket.com/cart'; }
 
   function createExpandedContent() {
     var panel = document.createElement('div');
@@ -41,6 +42,10 @@
           '<button class="fab-grab-btn fab-grab-btn-primary" id="fab-grab-start">' + t('panel_start') + '</button>' +
           '<button class="fab-grab-btn fab-grab-btn-danger" id="fab-grab-stop" disabled>' + t('panel_stop') + '</button>' +
           '<button class="fab-grab-btn fab-grab-btn-secondary" id="fab-grab-refresh">' + t('panel_refresh') + '</button>' +
+        '</div>' +
+
+        '<div class="fab-grab-controls fab-grab-superhive-only" id="fab-grab-superhive-postcart" style="display:none;">' +
+          '<a class="fab-grab-btn fab-grab-btn-primary" id="fab-grab-superhive-cart" href="' + cartUrl() + '" target="_blank" rel="noopener">' + t('panel_superhive_go_to_cart') + '</a>' +
         '</div>' +
 
         '<div class="fab-grab-config">' +
@@ -465,6 +470,15 @@
   function updateButtonStates() {
     if (_startBtn) _startBtn.disabled = state.isRunning;
     if (_stopBtn) _stopBtn.disabled = !state.isRunning;
+    // Superhive "Go to cart" link: show only after a run with at least one
+    // item added, while not currently running. The host visibility is also
+    // gated by the .fab-grab-superhive-only class handled above.
+    var postCart = _panelRef ? _panelRef.querySelector('#fab-grab-superhive-postcart') : null;
+    if (postCart) {
+      var siteVisible = (state.currentSite === 'superhive');
+      var show = siteVisible && !state.isRunning && state.assetsClaimed > 0;
+      postCart.style.display = show ? '' : 'none';
+    }
   }
 
   function _reRenderPanel() {

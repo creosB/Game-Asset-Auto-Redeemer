@@ -170,6 +170,110 @@ chrome.runtime.onInstalled.addListener(function(details) {
   }
 });
 
+// ── Superhive: optional host permission + lazy content script ──────
+// Superhive ships as optional_host_permissions so existing users don't get
+// the extension disabled on update. The content script is registered at
+// runtime (via chrome.scripting) only after the user grants the permission
+// from the popup or options page. This is the no-disruption path.
+var SUPERHIVE_SCRIPT_ID = 'superhive-content-script';
+var SUPERHIVE_MATCHES = [
+  'https://superhivemarket.com/*',
+  'https://*.superhivemarket.com/*'
+];
+
+async function ensureSuperhiveScriptRegistered(shouldRegister) {
+  try {
+    var existing = await chrome.scripting.getRegisteredContentScripts();
+    var isRegistered = existing.some(function(s) { return s.id === SUPERHIVE_SCRIPT_ID; });
+    if (shouldRegister) {
+      if (isRegistered) {
+        await chrome.scripting.unregisterContentScripts({ ids: [SUPERHIVE_SCRIPT_ID] });
+      }
+      await chrome.scripting.registerContentScripts([{
+        id: SUPERHIVE_SCRIPT_ID,
+        matches: SUPERHIVE_MATCHES,
+        js: [
+          'src/shared/i18n.js',
+          'src/content/shared/utils.js',
+          'src/content/shared/state.js',
+          'src/content/shared/config.js',
+          'src/content/shared/ui/styles.js',
+          'src/content/shared/ui/drag.js',
+          'src/content/shared/ui/search.js',
+          'src/content/shared/ui/assets-list.js',
+          'src/content/shared/ui/expanded-panel.js',
+          'src/content/shared/ui/claim-history.js',
+          'src/content/shared/ui/dynamic-island.js',
+          'src/content/shared/controller.js',
+          'src/content/superhive/asset-processor.js',
+          'src/content/superhive/index.js'
+        ],
+        runAt: 'document_idle'
+      }]);
+    } else if (isRegistered) {
+      await chrome.scripting.unregisterContentScripts({ ids: [SUPERHIVE_SCRIPT_ID] });
+    }
+  } catch (e) {
+    console.warn('[Service Worker] Superhive script registration error:', e);
+  }
+}
+
+// Sync registration state with the optional permission at SW startup (covers
+// SW restarts while the user already granted the permission earlier).
+chrome.permissions.contains({ origins: SUPERHIVE_MATCHES }).then(function(granted) {
+  ensureSuperhiveScriptRegistered(granted);
+}).catch(function() {});
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.type === 'SUPERHIVE_PERMISSION_GRANTED') {
+    ensureSuperhiveScriptRegistered(true).then(function() {
+      sendResponse({ granted: true });
+    }).catch(function() { sendResponse({ granted: false }); });
+    return true;
+  }
+  if (message.type === 'SUPERHIVE_PERMISSION_STATUS') {
+    chrome.permissions.contains({ origins: SUPERHIVE_MATCHES }).then(function(g) {
+      sendResponse({ granted: g });
+    }).catch(function() { sendResponse({ granted: false }); });
+    return true;
+  }
+  if (message.type === 'SUPERHIVE_REQUEST_PERMISSION') {
+    chrome.permissions.request({ origins: SUPERHIVE_MATCHES }).then(function(granted) {
+      return ensureSuperhiveScriptRegistered(granted).then(function() {
+        sendResponse({ granted: granted });
+      });
+    }).catch(function() {
+      sendResponse({ granted: false, error: 'request_failed' });
+    });
+    return true;
+  }
+  if (message.type === 'SUPERHIVE_REVOKE_PERMISSION') {
+    ensureSuperhiveScriptRegistered(false).then(function() {
+      return chrome.permissions.remove({ origins: SUPERHIVE_MATCHES });
+    }).then(function() {
+      sendResponse({ granted: false });
+    }).catch(function() {
+      sendResponse({ granted: true, error: 'revoke_failed' });
+    });
+    return true;
+  }
+  return false;
+});
+
+// Keep registration in sync if the optional permission is granted or revoked
+// from the Chrome extensions detail page directly.
+chrome.permissions.onAdded.addListener(function() {
+  chrome.permissions.contains({ origins: SUPERHIVE_MATCHES }).then(function(g) {
+    if (g) ensureSuperhiveScriptRegistered(true);
+  });
+});
+
+chrome.permissions.onRemoved.addListener(function() {
+  chrome.permissions.contains({ origins: SUPERHIVE_MATCHES }).then(function(g) {
+    if (!g) ensureSuperhiveScriptRegistered(false);
+  });
+});
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.type === 'FETCH_WEEKLY_ASSET') {
     fetchWeeklyAsset(!!message.forceRefresh).then(function(result) {

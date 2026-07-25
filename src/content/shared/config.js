@@ -12,7 +12,15 @@
     claimHistoryEnabled: true,
     unityDelayBetweenProducts: 500,
     unityAutoPaginate: true,
-    unityDelayBeforeNextPage: 10000
+    unityDelayBeforeNextPage: 10000,
+    // Superhive (Blender Market) — add-to-cart only, no purchase.
+    superhiveEnabled: true,
+    superhiveFreeOnly: true,
+    superhiveEndlessPagination: false,
+    superhiveHideNonFree: false,
+    superhiveDelayBetweenAssets: 1200,
+    superhivePageDelay: 700,
+    superhiveMaxRetries: 4
   };
 
   ns.config = Object.assign({}, DEFAULTS);

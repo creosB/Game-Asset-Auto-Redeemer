@@ -27,7 +27,9 @@
   "host_permissions": [
     "https://www.fab.com/*",
     "https://assetstore.unity.com/*",
-    "https://api.lemonsqueezy.com/*"
+    "https://api.lemonsqueezy.com/*",
+    "https://superhivemarket.com/*",
+    "https://*.superhivemarket.com/*"
   ],
   "content_scripts": [
     {
@@ -71,6 +73,29 @@
         "src/content/unity/index.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://superhivemarket.com/*",
+        "https://*.superhivemarket.com/*"
+      ],
+      "js": [
+        "src/shared/i18n.js",
+        "src/content/shared/utils.js",
+        "src/content/shared/state.js",
+        "src/content/shared/config.js",
+        "src/content/shared/ui/styles.js",
+        "src/content/shared/ui/drag.js",
+        "src/content/shared/ui/search.js",
+        "src/content/shared/ui/assets-list.js",
+        "src/content/shared/ui/expanded-panel.js",
+        "src/content/shared/ui/claim-history.js",
+        "src/content/shared/ui/dynamic-island.js",
+        "src/content/shared/controller.js",
+        "src/content/superhive/asset-processor.js",
+        "src/content/superhive/index.js"
+      ],
+      "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
@@ -80,7 +105,9 @@
       ],
       "matches": [
         "https://www.fab.com/*",
-        "https://assetstore.unity.com/*"
+        "https://assetstore.unity.com/*",
+        "https://superhivemarket.com/*",
+        "https://*.superhivemarket.com/*"
       ]
     }
   ]

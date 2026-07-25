@@ -17,6 +17,9 @@
   "popup_status_active_unity": {
     "message": "Unity üzerinde aktif"
   },
+  "popup_status_active_superhive": {
+    "message": "Superhive üzerinde aktif"
+  },
   "popup_status_unsupported": {
     "message": "Desteklenen bir sitede değil"
   },
@@ -28,6 +31,9 @@
   },
   "popup_open_unity": {
     "message": "Unity'yi Aç"
+  },
+  "popup_open_superhive": {
+    "message": "Superhive'ı aç"
   },
   "popup_premium": {
     "message": "Premium"
@@ -140,6 +146,51 @@
   "options_unity_page_delay_desc": {
     "message": "Sonraki sayfaya geçmeden önceki bekleme süresi (3000–60000 ms)"
   },
+  "options_section_superhive": {
+    "message": "Superhive (Blender Market)"
+  },
+  "options_superhive_enable": {
+    "message": "Superhive desteğini etkinleştir"
+  },
+  "options_superhive_enable_desc": {
+    "message": "Superhive listelerinde paneli göster. Yalnızca sepete ekle — satın alma yok."
+  },
+  "options_superhive_free_only": {
+    "message": "Yalnızca ücretsiz varlıklar"
+  },
+  "options_superhive_free_only_desc": {
+    "message": "Yalnızca $0 / Ücretsiz ürünleri toplu sepete ekleme için uygun say"
+  },
+  "options_superhive_endless": {
+    "message": "Sonsuz sayfalama"
+  },
+  "options_superhive_endless_desc": {
+    "message": "Toplu sepete eklemeden önce tüm sonuç sayfalarını yükle (önerilir)"
+  },
+  "options_superhive_hide_non_free": {
+    "message": "Ücretli kartları gizle"
+  },
+  "options_superhive_hide_non_free_desc": {
+    "message": "Yalnızca Ücretsiz açıkken ücretli ürünleri görsel olarak gizle"
+  },
+  "options_superhive_delay": {
+    "message": "Varlıklar arası gecikme"
+  },
+  "options_superhive_delay_desc": {
+    "message": "Her sepet POST'u arasında milisaniye (500–10000)"
+  },
+  "options_superhive_page_delay": {
+    "message": "Sayfalar arası gecikme"
+  },
+  "options_superhive_page_delay_desc": {
+    "message": "Sonsuz sayfalama sırasında sayfa yüklemeleri arası milisaniye (200–10000)"
+  },
+  "options_superhive_retries": {
+    "message": "Maks. deneme"
+  },
+  "options_superhive_retries_desc": {
+    "message": "Hız sınırı (429/503) veya sunucu hatası durumunda deneme sayısı (0–5)"
+  },
   "options_monthly_title": {
     "message": "FAB Aylık Ücretsiz Varlıkları"
   },
@@ -202,6 +253,9 @@
   },
   "options_history_unity": {
     "message": "Unity"
+  },
+  "options_history_superhive": {
+    "message": "Superhive"
   },
   "options_history_search": {
     "message": "Talep edilen varlıklarda ara..."
@@ -373,6 +427,27 @@
   },
   "panel_unity_auto_redeem": {
     "message": "Unity Otomatik Talep"
+  },
+  "panel_superhive_auto_redeem": {
+    "message": "Superhive Otomatik Sepet"
+  },
+  "panel_superhive_start": {
+    "message": "🛒 Ücretsiz olanı sepete ekle"
+  },
+  "panel_superhive_free_only": {
+    "message": "Yalnızca ücretsiz"
+  },
+  "panel_superhive_endless": {
+    "message": "Sonsuz sayfalar"
+  },
+  "panel_superhive_hide_non_free": {
+    "message": "Ücretliyi gizle"
+  },
+  "panel_superhive_asset_delay": {
+    "message": "Varlık gecikmesi (ms)"
+  },
+  "panel_superhive_page_delay": {
+    "message": "Sayfa gecikmesi (ms)"
   },
   "panel_start": {
     "message": "▶ Başlat"
@@ -556,6 +631,30 @@
   },
   "controller_summary_simple": {
     "message": "Tamamlandı: $1 talep edildi, $2 başarısız oldu"
+  },
+  "controller_superhive_summary": {
+    "message": "$1 sepete, $2 atlandı/başarısız / $3 toplam"
+  },
+  "superhive_status_rate_limited": {
+    "message": "Hız sınırı · $1s bekleniyor"
+  },
+  "superhive_status_loading_page": {
+    "message": "Sayfa yükleniyor $1..."
+  },
+  "superhive_status_page_failed": {
+    "message": "Sayfa yükleme başarısız: $1"
+  },
+  "superhive_status_pages_done": {
+    "message": "Tüm sayfalar yüklendi · $1 ürün"
+  },
+  "superhive_status_waiting_pages": {
+    "message": "Sepete eklemeden önce tüm sayfalar bekleniyor..."
+  },
+  "superhive_status_pages_incomplete": {
+    "message": "Sayfalar tamamlanmadı — devam etmek için tekrar çalıştır"
+  },
+  "superhive_status_carting": {
+    "message": "Sepete $1/$2 · ✓$3 ✕$4"
   },
   "controller_claiming_n": {
     "message": "$1/$2 talep ediliyor..."

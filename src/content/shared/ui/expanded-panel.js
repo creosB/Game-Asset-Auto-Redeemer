@@ -11,6 +11,17 @@
   var _startBtn = null;
   var _stopBtn = null;
 
+  // Marketplace → "Auto Redeem" prefix label, keyed by state.currentSite.
+  var SITE_LABEL_KEYS = {
+    fab:       'panel_fab_auto_redeem',
+    unity:     'panel_unity_auto_redeem',
+    superhive: 'panel_superhive_auto_redeem'
+  };
+  function siteLabelKey() {
+    return SITE_LABEL_KEYS[state.currentSite] || 'panel_fab_auto_redeem';
+  }
+  function siteLabel() { return t(siteLabelKey()); }
+
   function createExpandedContent() {
     var panel = document.createElement('div');
     panel.id = 'fab-grab-panel';
@@ -108,6 +119,45 @@
               '<input type="number" class="fab-grab-input" id="fab-grab-page-delay" min="3000" max="60000" step="1000" value="10000">' +
             '</div>' +
           '</div>' +
+          '<div class="fab-grab-config-row fab-grab-superhive-only" style="display:none">' +
+            '<span class="fab-grab-config-label">' + t('panel_superhive_free_only') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<label class="fab-grab-toggle">' +
+                '<input type="checkbox" id="fab-grab-superhive-free-only" checked>' +
+                '<span class="fab-grab-toggle-slider"></span>' +
+              '</label>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-superhive-only" style="display:none">' +
+            '<span class="fab-grab-config-label">' + t('panel_superhive_endless') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<label class="fab-grab-toggle">' +
+                '<input type="checkbox" id="fab-grab-superhive-endless">' +
+                '<span class="fab-grab-toggle-slider"></span>' +
+              '</label>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-superhive-only" style="display:none">' +
+            '<span class="fab-grab-config-label">' + t('panel_superhive_hide_non_free') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<label class="fab-grab-toggle">' +
+                '<input type="checkbox" id="fab-grab-superhive-hide-non-free">' +
+                '<span class="fab-grab-toggle-slider"></span>' +
+              '</label>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-superhive-only" style="display:none">' +
+            '<span class="fab-grab-config-label">' + t('panel_superhive_asset_delay') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<input type="number" class="fab-grab-input" id="fab-grab-superhive-delay" min="500" max="10000" step="100" value="1200">' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-superhive-only" style="display:none">' +
+            '<span class="fab-grab-config-label">' + t('panel_superhive_page_delay') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<input type="number" class="fab-grab-input" id="fab-grab-superhive-page-delay" min="200" max="10000" step="100" value="700">' +
+            '</div>' +
+          '</div>' +
         '</div>' +
 
         '<div class="fab-grab-search">' +
@@ -163,24 +213,38 @@
     var autoPaginateCheckbox = panel.querySelector('#fab-grab-auto-paginate');
     var pageDelayInput = panel.querySelector('#fab-grab-page-delay');
     var claimHistoryCheckbox = panel.querySelector('#fab-grab-claim-history');
+    var shFreeOnlyCheckbox = panel.querySelector('#fab-grab-superhive-free-only');
+    var shEndlessCheckbox = panel.querySelector('#fab-grab-superhive-endless');
+    var shHideNonFreeCheckbox = panel.querySelector('#fab-grab-superhive-hide-non-free');
+    var shDelayInput = panel.querySelector('#fab-grab-superhive-delay');
+    var shPageDelayInput = panel.querySelector('#fab-grab-superhive-page-delay');
 
     var site = state.currentSite || 'fab';
-    var siteLabel = panel.querySelector('#fab-grab-site-label');
-    if (siteLabel) {
-      siteLabel.textContent = site === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem');
+    var siteLabelEl = panel.querySelector('#fab-grab-site-label');
+    if (siteLabelEl) {
+      siteLabelEl.textContent = siteLabel();
     }
     var footerVersion = panel.querySelector('#fab-grab-footer-version');
     if (footerVersion) {
-      footerVersion.textContent = (site === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem')) + ' v1.0.0';
+      footerVersion.textContent = siteLabel() + ' v1.0.0';
+    }
+
+    // Start button label is marketplace-specific (Superhive = "Add to cart").
+    if (_startBtn) {
+      _startBtn.textContent = (site === 'superhive') ? t('panel_superhive_start') : t('panel_start');
     }
 
     var fabOnlyEls = panel.querySelectorAll('.fab-grab-fab-only');
     var unityOnlyEls = panel.querySelectorAll('.fab-grab-unity-only');
+    var superhiveOnlyEls = panel.querySelectorAll('.fab-grab-superhive-only');
     for (var i = 0; i < fabOnlyEls.length; i++) {
       fabOnlyEls[i].style.display = site === 'fab' ? '' : 'none';
     }
     for (var j = 0; j < unityOnlyEls.length; j++) {
       unityOnlyEls[j].style.display = site === 'unity' ? '' : 'none';
+    }
+    for (var k = 0; k < superhiveOnlyEls.length; k++) {
+      superhiveOnlyEls[k].style.display = site === 'superhive' ? '' : 'none';
     }
 
     if (closeBtn) {
@@ -312,6 +376,56 @@
       });
     }
 
+    if (shFreeOnlyCheckbox) {
+      shFreeOnlyCheckbox.checked = config.superhiveFreeOnly !== false;
+      shFreeOnlyCheckbox.addEventListener('change', function() {
+        ns.saveConfig({ superhiveFreeOnly: shFreeOnlyCheckbox.checked });
+        if (ns.assetProcessor && ns.assetProcessor.applyHideNonFree) {
+          ns.assetProcessor.applyHideNonFree();
+        }
+      });
+    }
+
+    if (shEndlessCheckbox) {
+      shEndlessCheckbox.checked = !!config.superhiveEndlessPagination;
+      shEndlessCheckbox.addEventListener('change', function() {
+        ns.saveConfig({ superhiveEndlessPagination: shEndlessCheckbox.checked });
+        if (shEndlessCheckbox.checked && ns.assetProcessor && ns.assetProcessor.loadAllPages) {
+          ns.assetProcessor.loadAllPages();
+        }
+      });
+    }
+
+    if (shHideNonFreeCheckbox) {
+      shHideNonFreeCheckbox.checked = !!config.superhiveHideNonFree;
+      shHideNonFreeCheckbox.addEventListener('change', function() {
+        ns.saveConfig({ superhiveHideNonFree: shHideNonFreeCheckbox.checked });
+        if (ns.assetProcessor && ns.assetProcessor.applyHideNonFree) {
+          ns.assetProcessor.applyHideNonFree();
+        }
+      });
+    }
+
+    if (shDelayInput) {
+      shDelayInput.value = config.superhiveDelayBetweenAssets || 1200;
+      shDelayInput.addEventListener('change', function() {
+        var val = parseInt(shDelayInput.value, 10);
+        if (val >= 500 && val <= 10000) {
+          ns.saveConfig({ superhiveDelayBetweenAssets: val });
+        }
+      });
+    }
+
+    if (shPageDelayInput) {
+      shPageDelayInput.value = config.superhivePageDelay || 700;
+      shPageDelayInput.addEventListener('change', function() {
+        var val = parseInt(shPageDelayInput.value, 10);
+        if (val >= 200 && val <= 10000) {
+          ns.saveConfig({ superhivePageDelay: val });
+        }
+      });
+    }
+
     var searchInput = panel.querySelector('#fab-grab-search-input');
     var assetsList = panel.querySelector('#fab-grab-assets-list');
     if (ns.ui.search && searchInput && assetsList) {
@@ -335,6 +449,11 @@
       if (unityDelayInput) unityDelayInput.value = cfg.unityDelayBetweenProducts || 500;
       if (autoPaginateCheckbox) autoPaginateCheckbox.checked = cfg.unityAutoPaginate !== false;
       if (pageDelayInput) pageDelayInput.value = cfg.unityDelayBeforeNextPage || 10000;
+      if (shFreeOnlyCheckbox) shFreeOnlyCheckbox.checked = cfg.superhiveFreeOnly !== false;
+      if (shEndlessCheckbox) shEndlessCheckbox.checked = !!cfg.superhiveEndlessPagination;
+      if (shHideNonFreeCheckbox) shHideNonFreeCheckbox.checked = !!cfg.superhiveHideNonFree;
+      if (shDelayInput) shDelayInput.value = cfg.superhiveDelayBetweenAssets || 1200;
+      if (shPageDelayInput) shPageDelayInput.value = cfg.superhivePageDelay || 700;
       if (delayInput) {
         delayInput.value = (site === 'unity')
           ? (cfg.unityDelayBetweenProducts || 500)
@@ -353,28 +472,38 @@
     var site = state.currentSite || 'fab';
 
     // Update site label
-    var siteLabel = _panelRef.querySelector('#fab-grab-site-label');
-    if (siteLabel) {
-      siteLabel.textContent = site === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem');
+    var siteLabelEl = _panelRef.querySelector('#fab-grab-site-label');
+    if (siteLabelEl) {
+      siteLabelEl.textContent = siteLabel();
     }
 
     // Update footer version
     var footerVersion = _panelRef.querySelector('#fab-grab-footer-version');
     if (footerVersion) {
-      footerVersion.textContent = (site === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem')) + ' v1.0.0';
+      footerVersion.textContent = siteLabel() + ' v1.0.0';
     }
 
     // Update buttons
     var startBtn = _panelRef.querySelector('#fab-grab-start');
-    if (startBtn) startBtn.textContent = t('panel_start');
+    if (startBtn) startBtn.textContent = (site === 'superhive') ? t('panel_superhive_start') : t('panel_start');
     var stopBtn = _panelRef.querySelector('#fab-grab-stop');
     if (stopBtn) stopBtn.textContent = t('panel_stop');
     var refreshBtn = _panelRef.querySelector('#fab-grab-refresh');
     if (refreshBtn) refreshBtn.textContent = t('panel_refresh');
 
-    // Update config labels
+    // Update config labels. Order must match the order rows appear in the panel
+    // markup (autostart, max_retries, dialog_timeout, license_pref, delay,
+    // hide_owned, claim_history, [unity: product_delay, auto_paginate, page_delay],
+    // [superhive: free_only, endless, hide_non_free, asset_delay, page_delay]).
     var labels = _panelRef.querySelectorAll('.fab-grab-config-label');
-    var labelKeys = ['panel_autostart', 'panel_max_retries', 'panel_dialog_timeout', 'panel_license_pref', 'panel_delay', 'panel_hide_owned', 'panel_claim_history', 'panel_product_delay', 'panel_auto_paginate', 'panel_page_delay'];
+    var labelKeys = [
+      'panel_autostart', 'panel_max_retries', 'panel_dialog_timeout',
+      'panel_license_pref', 'panel_delay', 'panel_hide_owned', 'panel_claim_history',
+      'panel_product_delay', 'panel_auto_paginate', 'panel_page_delay',
+      'panel_superhive_free_only', 'panel_superhive_endless',
+      'panel_superhive_hide_non_free', 'panel_superhive_asset_delay',
+      'panel_superhive_page_delay'
+    ];
     for (var i = 0; i < labels.length && i < labelKeys.length; i++) {
       labels[i].textContent = t(labelKeys[i]);
     }

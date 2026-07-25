@@ -21,6 +21,13 @@
     unityDelayBetweenProducts: 500,
     unityAutoPaginate: true,
     unityDelayBeforeNextPage: 10000,
+    superhiveEnabled: true,
+    superhiveFreeOnly: true,
+    superhiveEndlessPagination: false,
+    superhiveHideNonFree: false,
+    superhiveDelayBetweenAssets: 1200,
+    superhivePageDelay: 700,
+    superhiveMaxRetries: 4,
     selectedLanguage: 'auto'
   };
 
@@ -35,6 +42,13 @@
   var unityDelayInput = document.getElementById('opt-unity-delay');
   var unityAutoPaginateToggle = document.getElementById('opt-unity-auto-paginate');
   var unityPageDelayInput = document.getElementById('opt-unity-page-delay');
+  var shEnableToggle = document.getElementById('opt-superhive-enable');
+  var shFreeOnlyToggle = document.getElementById('opt-superhive-free-only');
+  var shEndlessToggle = document.getElementById('opt-superhive-endless');
+  var shHideNonFreeToggle = document.getElementById('opt-superhive-hide-non-free');
+  var shDelayInput = document.getElementById('opt-superhive-delay');
+  var shPageDelayInput = document.getElementById('opt-superhive-page-delay');
+  var shRetriesInput = document.getElementById('opt-superhive-retries');
   var languageSelect = document.getElementById('opt-language');
   var saveBtn = document.getElementById('btn-save');
   var saveStatus = document.getElementById('save-status');
@@ -58,6 +72,13 @@
       unityDelayInput.value = stored.unityDelayBetweenProducts || DEFAULTS.unityDelayBetweenProducts;
       unityAutoPaginateToggle.checked = stored.unityAutoPaginate !== false;
       unityPageDelayInput.value = stored.unityDelayBeforeNextPage || DEFAULTS.unityDelayBeforeNextPage;
+      if (shEnableToggle) shEnableToggle.checked = stored.superhiveEnabled !== false;
+      if (shFreeOnlyToggle) shFreeOnlyToggle.checked = stored.superhiveFreeOnly !== false;
+      if (shEndlessToggle) shEndlessToggle.checked = !!stored.superhiveEndlessPagination;
+      if (shHideNonFreeToggle) shHideNonFreeToggle.checked = !!stored.superhiveHideNonFree;
+      if (shDelayInput) shDelayInput.value = stored.superhiveDelayBetweenAssets || DEFAULTS.superhiveDelayBetweenAssets;
+      if (shPageDelayInput) shPageDelayInput.value = stored.superhivePageDelay || DEFAULTS.superhivePageDelay;
+      if (shRetriesInput) shRetriesInput.value = stored.superhiveMaxRetries != null ? stored.superhiveMaxRetries : DEFAULTS.superhiveMaxRetries;
       if (languageSelect) languageSelect.value = stored.selectedLanguage || DEFAULTS.selectedLanguage;
       window.__currentLang = stored.selectedLanguage || DEFAULTS.selectedLanguage;
     } catch (err) {
@@ -86,6 +107,13 @@
       unityDelayBetweenProducts: clamp(parseInt(unityDelayInput.value, 10) || DEFAULTS.unityDelayBetweenProducts, 200, 10000),
       unityAutoPaginate: unityAutoPaginateToggle.checked,
       unityDelayBeforeNextPage: clamp(parseInt(unityPageDelayInput.value, 10) || DEFAULTS.unityDelayBeforeNextPage, 3000, 60000),
+      superhiveEnabled: shEnableToggle ? shEnableToggle.checked : true,
+      superhiveFreeOnly: shFreeOnlyToggle ? shFreeOnlyToggle.checked : true,
+      superhiveEndlessPagination: shEndlessToggle ? shEndlessToggle.checked : false,
+      superhiveHideNonFree: shHideNonFreeToggle ? shHideNonFreeToggle.checked : false,
+      superhiveDelayBetweenAssets: clamp(parseInt(shDelayInput && shDelayInput.value, 10) || DEFAULTS.superhiveDelayBetweenAssets, 500, 10000),
+      superhivePageDelay: clamp(parseInt(shPageDelayInput && shPageDelayInput.value, 10) || DEFAULTS.superhivePageDelay, 200, 10000),
+      superhiveMaxRetries: clamp(parseInt(shRetriesInput && shRetriesInput.value, 10) != null && parseInt(shRetriesInput.value, 10) >= 0 ? parseInt(shRetriesInput.value, 10) : DEFAULTS.superhiveMaxRetries, 0, 5),
       selectedLanguage: languageSelect ? languageSelect.value : DEFAULTS.selectedLanguage
     };
 
@@ -165,6 +193,27 @@
     }
     if ('unityDelayBeforeNextPage' in changes) {
       unityPageDelayInput.value = changes.unityDelayBeforeNextPage.newValue || DEFAULTS.unityDelayBeforeNextPage;
+    }
+    if ('superhiveEnabled' in changes && shEnableToggle) {
+      shEnableToggle.checked = changes.superhiveEnabled.newValue !== false;
+    }
+    if ('superhiveFreeOnly' in changes && shFreeOnlyToggle) {
+      shFreeOnlyToggle.checked = changes.superhiveFreeOnly.newValue !== false;
+    }
+    if ('superhiveEndlessPagination' in changes && shEndlessToggle) {
+      shEndlessToggle.checked = !!changes.superhiveEndlessPagination.newValue;
+    }
+    if ('superhiveHideNonFree' in changes && shHideNonFreeToggle) {
+      shHideNonFreeToggle.checked = !!changes.superhiveHideNonFree.newValue;
+    }
+    if ('superhiveDelayBetweenAssets' in changes && shDelayInput) {
+      shDelayInput.value = changes.superhiveDelayBetweenAssets.newValue || DEFAULTS.superhiveDelayBetweenAssets;
+    }
+    if ('superhivePageDelay' in changes && shPageDelayInput) {
+      shPageDelayInput.value = changes.superhivePageDelay.newValue || DEFAULTS.superhivePageDelay;
+    }
+    if ('superhiveMaxRetries' in changes && shRetriesInput) {
+      shRetriesInput.value = changes.superhiveMaxRetries.newValue != null ? changes.superhiveMaxRetries.newValue : DEFAULTS.superhiveMaxRetries;
     }
     if ('selectedLanguage' in changes && languageSelect) {
       languageSelect.value = changes.selectedLanguage.newValue || DEFAULTS.selectedLanguage;
@@ -272,6 +321,7 @@
   var chTotal = document.getElementById('ch-total');
   var chFab = document.getElementById('ch-fab');
   var chUnity = document.getElementById('ch-unity');
+  var chSuperhive = document.getElementById('ch-superhive');
   var chSearch = document.getElementById('ch-search');
   var chList = document.getElementById('ch-list');
   var chClear = document.getElementById('ch-clear');
@@ -300,6 +350,7 @@
     if (entry.url) return entry.url;
     if (entry.source === 'fab' && entry.id) return 'https://www.fab.com/listings/' + entry.id;
     if (entry.source === 'unity' && entry.id) return 'https://assetstore.unity.com/packages/' + entry.id;
+    if (entry.source === 'superhive' && entry.id) return 'https://superhivemarket.com' + (entry.id.charAt(0) === '/' ? '' : '/') + entry.id;
     return null;
   }
 
@@ -314,14 +365,16 @@
   }
 
   function updateCounters() {
-    var stats = { total: _history.length, fab: 0, unity: 0 };
+    var stats = { total: _history.length, fab: 0, unity: 0, superhive: 0 };
     for (var i = 0; i < _history.length; i++) {
       if (_history[i].source === 'fab') stats.fab++;
       else if (_history[i].source === 'unity') stats.unity++;
+      else if (_history[i].source === 'superhive') stats.superhive++;
     }
     if (chTotal) chTotal.textContent = stats.total;
     if (chFab) chFab.textContent = stats.fab;
     if (chUnity) chUnity.textContent = stats.unity;
+    if (chSuperhive) chSuperhive.textContent = stats.superhive;
   }
 
   function renderList(searchQuery) {
@@ -358,8 +411,12 @@
         item.rel = 'noopener';
       }
 
-      var sourceClass = entry.source === 'unity' ? 'unity' : 'fab';
-      var sourceLabel = entry.source === 'unity' ? 'Unity' : 'FAB';
+      var sourceClass = entry.source === 'unity' ? 'unity'
+                      : entry.source === 'superhive' ? 'superhive'
+                      : 'fab';
+      var sourceLabel = entry.source === 'unity' ? 'Unity'
+                      : entry.source === 'superhive' ? 'Superhive'
+                      : 'FAB';
 
       item.innerHTML =
         '<span class="claim-history-item-badge ' + sourceClass + '">' + sourceLabel + '</span>' +

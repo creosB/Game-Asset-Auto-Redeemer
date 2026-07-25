@@ -17,6 +17,9 @@
   "popup_status_active_unity": {
     "message": "Attivo su Unity"
   },
+  "popup_status_active_superhive": {
+    "message": "Attivo su Superhive"
+  },
   "popup_status_unsupported": {
     "message": "Non su un sito supportato"
   },
@@ -28,6 +31,9 @@
   },
   "popup_open_unity": {
     "message": "Apri Unity"
+  },
+  "popup_open_superhive": {
+    "message": "Apri Superhive"
   },
   "popup_premium": {
     "message": "Premium"
@@ -140,6 +146,51 @@
   "options_unity_page_delay_desc": {
     "message": "Tempo di attesa prima di passare alla pagina successiva (3000–60000 ms)"
   },
+  "options_section_superhive": {
+    "message": "Superhive (Blender Market)"
+  },
+  "options_superhive_enable": {
+    "message": "Abilita supporto Superhive"
+  },
+  "options_superhive_enable_desc": {
+    "message": "Mostra il pannello nelle liste Superhive. Solo aggiunta al carrello — nessun acquisto."
+  },
+  "options_superhive_free_only": {
+    "message": "Solo asset gratuiti"
+  },
+  "options_superhive_free_only_desc": {
+    "message": "Considera solo prodotti $0 / Gratuiti idonei per l'aggiunta massiva al carrello"
+  },
+  "options_superhive_endless": {
+    "message": "Paginazione infinita"
+  },
+  "options_superhive_endless_desc": {
+    "message": "Carica tutte le pagine prima dell'aggiunta massiva al carrello (consigliato)"
+  },
+  "options_superhive_hide_non_free": {
+    "message": "Nascondi schede a pagamento"
+  },
+  "options_superhive_hide_non_free_desc": {
+    "message": "Nascondi visivamente i prodotti a pagamento quando Solo Gratuiti è attivo"
+  },
+  "options_superhive_delay": {
+    "message": "Ritardo tra asset"
+  },
+  "options_superhive_delay_desc": {
+    "message": "Millisecondi tra ogni POST al carrello (500–10000)"
+  },
+  "options_superhive_page_delay": {
+    "message": "Ritardo tra pagine"
+  },
+  "options_superhive_page_delay_desc": {
+    "message": "Millisecondi tra i caricamenti di pagina durante la paginazione infinita (200–10000)"
+  },
+  "options_superhive_retries": {
+    "message": "Tentativi max"
+  },
+  "options_superhive_retries_desc": {
+    "message": "Tentativi su limite di frequenza (429/503) o errore server (0–5)"
+  },
   "options_monthly_title": {
     "message": "Asset gratuiti mensili FAB"
   },
@@ -202,6 +253,9 @@
   },
   "options_history_unity": {
     "message": "Unity"
+  },
+  "options_history_superhive": {
+    "message": "Superhive"
   },
   "options_history_search": {
     "message": "Cerca asset riscattati..."
@@ -373,6 +427,27 @@
   },
   "panel_unity_auto_redeem": {
     "message": "Riscatto automatico Unity"
+  },
+  "panel_superhive_auto_redeem": {
+    "message": "Superhive Auto Carrello"
+  },
+  "panel_superhive_start": {
+    "message": "🛒 Aggiungi gratis al carrello"
+  },
+  "panel_superhive_free_only": {
+    "message": "Solo gratis"
+  },
+  "panel_superhive_endless": {
+    "message": "Pagine infinite"
+  },
+  "panel_superhive_hide_non_free": {
+    "message": "Nascondi a pagamento"
+  },
+  "panel_superhive_asset_delay": {
+    "message": "Ritardo asset (ms)"
+  },
+  "panel_superhive_page_delay": {
+    "message": "Ritardo pagina (ms)"
   },
   "panel_start": {
     "message": "▶ Avvia"
@@ -556,6 +631,30 @@
   },
   "controller_summary_simple": {
     "message": "Fatto: $1 riscattati, $2 falliti"
+  },
+  "controller_superhive_summary": {
+    "message": "$1 al carrello, $2 saltati/falliti su $3"
+  },
+  "superhive_status_rate_limited": {
+    "message": "Limitato · attesa $1s"
+  },
+  "superhive_status_loading_page": {
+    "message": "Caricamento pagina $1..."
+  },
+  "superhive_status_page_failed": {
+    "message": "Caricamento pagina fallito: $1"
+  },
+  "superhive_status_pages_done": {
+    "message": "Tutte le pagine caricate · $1 prodotti"
+  },
+  "superhive_status_waiting_pages": {
+    "message": "In attesa di tutte le pagine prima di aggiungere al carrello..."
+  },
+  "superhive_status_pages_incomplete": {
+    "message": "Pagine incomplete — ripeti per riprendere"
+  },
+  "superhive_status_carting": {
+    "message": "Al carrello $1/$2 · ✓$3 ✕$4"
   },
   "controller_claiming_n": {
     "message": "Riscatto $1/$2..."

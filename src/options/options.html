@@ -258,6 +258,119 @@
         </div>
       </section>
 
+      <!-- Superhive / Blender Market Section -->
+      <section class="options-section">
+        <h2 class="section-title" data-i18n="options_section_superhive">Superhive
+          (Blender Market)</h2>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" data-i18n="options_superhive_enable">Enable
+              Superhive Support</label>
+            <span class="option-desc"
+              data-i18n="options_superhive_enable_desc">Show the in-page panel on
+              Superhive listings. Add-to-cart only — no purchase.</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-superhive-enable" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" data-i18n="options_superhive_free_only">Free
+              Assets Only</label>
+            <span class="option-desc"
+              data-i18n="options_superhive_free_only_desc">Only treat $0 / Free
+              products as eligible for bulk add-to-cart</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-superhive-free-only" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label"
+              data-i18n="options_superhive_endless">Endless Pagination</label>
+            <span class="option-desc"
+              data-i18n="options_superhive_endless_desc">Load every result page
+              before bulk adding (recommended)</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-superhive-endless">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label"
+              data-i18n="options_superhive_hide_non_free">Hide Non-Free
+              Cards</label>
+            <span class="option-desc"
+              data-i18n="options_superhive_hide_non_free_desc">Visually hide paid
+              products on the listing when Free-Only is on</span>
+          </div>
+          <div class="option-control">
+            <label class="toggle">
+              <input type="checkbox" id="opt-superhive-hide-non-free">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-superhive-delay"
+              data-i18n="options_superhive_delay">Delay Between Assets</label>
+            <span class="option-desc"
+              data-i18n="options_superhive_delay_desc">Milliseconds between each
+              add-to-cart POST (500–10000)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-superhive-delay" class="option-input"
+              min="500" max="10000" step="100" value="1200">
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-superhive-page-delay"
+              data-i18n="options_superhive_page_delay">Delay Between Pages</label>
+            <span class="option-desc"
+              data-i18n="options_superhive_page_delay_desc">Milliseconds between
+              page fetches during endless pagination (200–10000)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-superhive-page-delay"
+              class="option-input" min="200" max="10000" step="100" value="700">
+          </div>
+        </div>
+
+        <div class="option-row">
+          <div class="option-info">
+            <label class="option-label" for="opt-superhive-retries"
+              data-i18n="options_superhive_retries">Max Retries</label>
+            <span class="option-desc"
+              data-i18n="options_superhive_retries_desc">Retry attempts on rate
+              limit (429/503) or server error (0–5)</span>
+          </div>
+          <div class="option-control">
+            <input type="number" id="opt-superhive-retries" class="option-input"
+              min="0" max="5" step="1" value="4">
+          </div>
+        </div>
+      </section>
+
       <!-- FAB Monthly Free Assets -->
       <section class="options-section monthly-free-section"
         id="monthly-free-section">
@@ -387,6 +500,12 @@
               id="ch-unity">0</span>
             <span class="claim-history-counter-label"
               data-i18n="options_history_unity">Unity</span>
+          </div>
+          <div class="claim-history-counter">
+            <span class="claim-history-counter-value superhive"
+              id="ch-superhive">0</span>
+            <span class="claim-history-counter-label"
+              data-i18n="options_history_superhive">Superhive</span>
           </div>
         </div>
 

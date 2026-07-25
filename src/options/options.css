@@ -430,6 +430,10 @@ body {
   color: #5ac8fa;
 }
 
+.claim-history-counter-value.superhive {
+  color: #f9748f;
+}
+
 .claim-history-counter-value.total {
   color: #ff9f0a;
 }
@@ -528,6 +532,11 @@ body {
 .claim-history-item-badge.unity {
   background: rgba(90, 200, 250, 0.15);
   color: #5ac8fa;
+}
+
+.claim-history-item-badge.superhive {
+  background: rgba(249, 116, 143, 0.15);
+  color: #f9748f;
 }
 
 .claim-history-item-name {

@@ -17,6 +17,9 @@
   "popup_status_active_unity": {
     "message": "Active on Unity"
   },
+  "popup_status_active_superhive": {
+    "message": "Active on Superhive"
+  },
   "popup_status_unsupported": {
     "message": "Not on a supported site"
   },
@@ -28,6 +31,9 @@
   },
   "popup_open_unity": {
     "message": "Open Unity"
+  },
+  "popup_open_superhive": {
+    "message": "Open Superhive"
   },
   "popup_premium": {
     "message": "Premium"
@@ -140,6 +146,51 @@
   "options_unity_page_delay_desc": {
     "message": "Wait time before moving to next page (3000–60000 ms)"
   },
+  "options_section_superhive": {
+    "message": "Superhive (Blender Market)"
+  },
+  "options_superhive_enable": {
+    "message": "Enable Superhive Support"
+  },
+  "options_superhive_enable_desc": {
+    "message": "Show the in-page panel on Superhive listings. Add-to-cart only — no purchase."
+  },
+  "options_superhive_free_only": {
+    "message": "Free Assets Only"
+  },
+  "options_superhive_free_only_desc": {
+    "message": "Only treat $0 / Free products as eligible for bulk add-to-cart"
+  },
+  "options_superhive_endless": {
+    "message": "Endless Pagination"
+  },
+  "options_superhive_endless_desc": {
+    "message": "Load every result page before bulk adding (recommended)"
+  },
+  "options_superhive_hide_non_free": {
+    "message": "Hide Non-Free Cards"
+  },
+  "options_superhive_hide_non_free_desc": {
+    "message": "Visually hide paid products on the listing when Free-Only is on"
+  },
+  "options_superhive_delay": {
+    "message": "Delay Between Assets"
+  },
+  "options_superhive_delay_desc": {
+    "message": "Milliseconds between each add-to-cart POST (500–10000)"
+  },
+  "options_superhive_page_delay": {
+    "message": "Delay Between Pages"
+  },
+  "options_superhive_page_delay_desc": {
+    "message": "Milliseconds between page fetches during endless pagination (200–10000)"
+  },
+  "options_superhive_retries": {
+    "message": "Max Retries"
+  },
+  "options_superhive_retries_desc": {
+    "message": "Retry attempts on rate limit (429/503) or server error (0–5)"
+  },
   "options_monthly_title": {
     "message": "FAB Monthly Free Assets"
   },
@@ -202,6 +253,9 @@
   },
   "options_history_unity": {
     "message": "Unity"
+  },
+  "options_history_superhive": {
+    "message": "Superhive"
   },
   "options_history_search": {
     "message": "Search claimed assets..."
@@ -373,6 +427,27 @@
   },
   "panel_unity_auto_redeem": {
     "message": "Unity Auto Redeem"
+  },
+  "panel_superhive_auto_redeem": {
+    "message": "Superhive Auto Add"
+  },
+  "panel_superhive_start": {
+    "message": "🛒 Add free to cart"
+  },
+  "panel_superhive_free_only": {
+    "message": "Free Only"
+  },
+  "panel_superhive_endless": {
+    "message": "Endless Pages"
+  },
+  "panel_superhive_hide_non_free": {
+    "message": "Hide Paid"
+  },
+  "panel_superhive_asset_delay": {
+    "message": "Asset Delay (ms)"
+  },
+  "panel_superhive_page_delay": {
+    "message": "Page Delay (ms)"
   },
   "panel_start": {
     "message": "▶ Start"
@@ -556,6 +631,30 @@
   },
   "controller_summary_simple": {
     "message": "Done: $1 claimed, $2 failed"
+  },
+  "controller_superhive_summary": {
+    "message": "$1 added to cart, $2 skipped/failed out of $3"
+  },
+  "superhive_status_rate_limited": {
+    "message": "Rate limited · waiting $1s"
+  },
+  "superhive_status_loading_page": {
+    "message": "Loading page $1..."
+  },
+  "superhive_status_page_failed": {
+    "message": "Page load failed: $1"
+  },
+  "superhive_status_pages_done": {
+    "message": "All pages loaded · $1 products"
+  },
+  "superhive_status_waiting_pages": {
+    "message": "Waiting for all pages before carting..."
+  },
+  "superhive_status_pages_incomplete": {
+    "message": "Pages incomplete — run again to resume"
+  },
+  "superhive_status_carting": {
+    "message": "Carting $1/$2 · ✓$3 ✕$4"
   },
   "controller_claiming_n": {
     "message": "Claiming $1/$2..."

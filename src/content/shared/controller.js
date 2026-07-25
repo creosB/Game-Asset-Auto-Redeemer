@@ -10,6 +10,13 @@
 
   var _keepAliveInterval = null;
 
+  // Marketplace → completion summary i18n key. Defaults to the claim-style
+  // summary used by FAB/Unity; Superhive gets its own "added to cart" wording.
+  var SUMMARY_KEYS = {
+    superhive: 'controller_superhive_summary'
+  };
+  function summaryKey(site) { return SUMMARY_KEYS[site] || 'controller_summary'; }
+
   function notifyServiceWorker(type, data) {
     try {
       var message = Object.assign({ type: type }, data || {});
@@ -55,7 +62,7 @@
       await processAssetsFn();
 
       if (!state.shouldStop) {
-        var summary = t('controller_summary', String(state.assetsClaimed), String(state.assetsFailed), String(state.assetsTotal));
+        var summary = t(summaryKey(site), String(state.assetsClaimed), String(state.assetsFailed), String(state.assetsTotal));
         state.statusText = t('controller_done_summary', summary);
         notifyServiceWorker('PROCESSING_COMPLETE', {
           site: site,

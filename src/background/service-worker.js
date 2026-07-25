@@ -285,7 +285,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       }
     }
 
-    var siteName = (info && info.site === 'unity') ? 'Unity' : 'FAB';
+    var siteName = (info && info.site === 'unity') ? 'Unity'
+                 : (info && info.site === 'superhive') ? 'Superhive'
+                 : 'FAB';
     var summary = message.summary || 'Processing finished.';
 
     try {
@@ -317,7 +319,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     activeTabs.delete(tabId);
     claimTabs.delete(tabId);
 
-    var errSiteName = (errInfo && errInfo.site === 'unity') ? 'Unity' : 'FAB';
+    var errSiteName = (errInfo && errInfo.site === 'unity') ? 'Unity'
+                    : (errInfo && errInfo.site === 'superhive') ? 'Superhive'
+                    : 'FAB';
 
     try {
       chrome.notifications.create('grab-error-' + tabId, {
@@ -392,8 +396,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var url = changeInfo.url;
     var isFab = url.indexOf('fab.com') !== -1;
     var isUnity = url.indexOf('assetstore.unity.com') !== -1;
+    var isSuperhive = url.indexOf('superhivemarket.com') !== -1;
 
-    if (!isFab && !isUnity) {
+    if (!isFab && !isUnity && !isSuperhive) {
       activeTabs.delete(tabId);
     }
   }

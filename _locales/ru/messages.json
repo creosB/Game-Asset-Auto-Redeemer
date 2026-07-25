@@ -17,6 +17,9 @@
   "popup_status_active_unity": {
     "message": "Активно на Unity"
   },
+  "popup_status_active_superhive": {
+    "message": "Активен на Superhive"
+  },
   "popup_status_unsupported": {
     "message": "Сайт не поддерживается"
   },
@@ -28,6 +31,9 @@
   },
   "popup_open_unity": {
     "message": "Открыть Unity"
+  },
+  "popup_open_superhive": {
+    "message": "Открыть Superhive"
   },
   "popup_premium": {
     "message": "Премиум"
@@ -140,6 +146,51 @@
   "options_unity_page_delay_desc": {
     "message": "Время ожидания перед переходом на следующую страницу (3000–60000 мс)"
   },
+  "options_section_superhive": {
+    "message": "Superhive (Blender Market)"
+  },
+  "options_superhive_enable": {
+    "message": "Включить поддержку Superhive"
+  },
+  "options_superhive_enable_desc": {
+    "message": "Показывать панель на страницах Superhive. Только добавление в корзину — без покупки."
+  },
+  "options_superhive_free_only": {
+    "message": "Только бесплатные ассеты"
+  },
+  "options_superhive_free_only_desc": {
+    "message": "Считать подходящими для массового добавления только продукты $0 / Бесплатно"
+  },
+  "options_superhive_endless": {
+    "message": "Бесконечная пагинация"
+  },
+  "options_superhive_endless_desc": {
+    "message": "Загрузить все страницы результатов перед массовым добавлением (рекомендуется)"
+  },
+  "options_superhive_hide_non_free": {
+    "message": "Скрывать платные карточки"
+  },
+  "options_superhive_hide_non_free_desc": {
+    "message": "Визуально скрывать платные продукты, когда включено «Только бесплатные»"
+  },
+  "options_superhive_delay": {
+    "message": "Задержка между ассетами"
+  },
+  "options_superhive_delay_desc": {
+    "message": "Миллисекунды между POST-запросами корзины (500–10000)"
+  },
+  "options_superhive_page_delay": {
+    "message": "Задержка между страницами"
+  },
+  "options_superhive_page_delay_desc": {
+    "message": "Миллисекунды между загрузками страниц при бесконечной пагинации (200–10000)"
+  },
+  "options_superhive_retries": {
+    "message": "Макс. попыток"
+  },
+  "options_superhive_retries_desc": {
+    "message": "Повторы при ограничении частоты (429/503) или ошибке сервера (0–5)"
+  },
   "options_monthly_title": {
     "message": "Ежемесячные бесплатные ассеты FAB"
   },
@@ -202,6 +253,9 @@
   },
   "options_history_unity": {
     "message": "Unity"
+  },
+  "options_history_superhive": {
+    "message": "Superhive"
   },
   "options_history_search": {
     "message": "Поиск полученных ассетов..."
@@ -373,6 +427,27 @@
   },
   "panel_unity_auto_redeem": {
     "message": "Автополучение Unity"
+  },
+  "panel_superhive_auto_redeem": {
+    "message": "Superhive Авто-корзина"
+  },
+  "panel_superhive_start": {
+    "message": "🛒 Добавить бесплатное в корзину"
+  },
+  "panel_superhive_free_only": {
+    "message": "Только бесплатно"
+  },
+  "panel_superhive_endless": {
+    "message": "Бесконечные страницы"
+  },
+  "panel_superhive_hide_non_free": {
+    "message": "Скрыть платные"
+  },
+  "panel_superhive_asset_delay": {
+    "message": "Задержка ассета (мс)"
+  },
+  "panel_superhive_page_delay": {
+    "message": "Задержка страницы (мс)"
   },
   "panel_start": {
     "message": "▶ Старт"
@@ -556,6 +631,30 @@
   },
   "controller_summary_simple": {
     "message": "Готово: получено $1, не удалось $2"
+  },
+  "controller_superhive_summary": {
+    "message": "$1 в корзине, $2 пропущено/ошибок из $3"
+  },
+  "superhive_status_rate_limited": {
+    "message": "Ограничение · ожидание $1с"
+  },
+  "superhive_status_loading_page": {
+    "message": "Загрузка страницы $1..."
+  },
+  "superhive_status_page_failed": {
+    "message": "Ошибка загрузки страницы: $1"
+  },
+  "superhive_status_pages_done": {
+    "message": "Все страницы загружены · $1 продуктов"
+  },
+  "superhive_status_waiting_pages": {
+    "message": "Ожидание всех страниц перед добавлением в корзину..."
+  },
+  "superhive_status_pages_incomplete": {
+    "message": "Страницы загружены не полностью — запустите снова"
+  },
+  "superhive_status_carting": {
+    "message": "В корзину $1/$2 · ✓$3 ✕$4"
   },
   "controller_claiming_n": {
     "message": "Получение $1/$2..."

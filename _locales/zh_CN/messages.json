@@ -17,6 +17,9 @@
   "popup_status_active_unity": {
     "message": "已在 Unity 激活"
   },
+  "popup_status_active_superhive": {
+    "message": "在 Superhive 上激活"
+  },
   "popup_status_unsupported": {
     "message": "当前页面不在支持的网站上"
   },
@@ -28,6 +31,9 @@
   },
   "popup_open_unity": {
     "message": "打开 Unity"
+  },
+  "popup_open_superhive": {
+    "message": "打开 Superhive"
   },
   "popup_premium": {
     "message": "高级版"
@@ -140,6 +146,51 @@
   "options_unity_page_delay_desc": {
     "message": "跳转到下一页前的等待时间 (3000–60000 毫秒)"
   },
+  "options_section_superhive": {
+    "message": "Superhive（Blender Market）"
+  },
+  "options_superhive_enable": {
+    "message": "启用 Superhive 支持"
+  },
+  "options_superhive_enable_desc": {
+    "message": "在 Superhive 列表页显示面板。仅加入购物车 — 不购买。"
+  },
+  "options_superhive_free_only": {
+    "message": "仅免费资产"
+  },
+  "options_superhive_free_only_desc": {
+    "message": "仅将 $0 / 免费产品视为可批量加入购物车"
+  },
+  "options_superhive_endless": {
+    "message": "无限分页"
+  },
+  "options_superhive_endless_desc": {
+    "message": "在批量加入购物车前加载所有结果页（推荐）"
+  },
+  "options_superhive_hide_non_free": {
+    "message": "隐藏付费卡片"
+  },
+  "options_superhive_hide_non_free_desc": {
+    "message": "开启仅免费时在列表中视觉隐藏付费产品"
+  },
+  "options_superhive_delay": {
+    "message": "资产间隔"
+  },
+  "options_superhive_delay_desc": {
+    "message": "每次购物车 POST 之间的毫秒数（500–10000）"
+  },
+  "options_superhive_page_delay": {
+    "message": "页面间隔"
+  },
+  "options_superhive_page_delay_desc": {
+    "message": "无限分页期间页面抓取之间的毫秒数（200–10000）"
+  },
+  "options_superhive_retries": {
+    "message": "最大重试"
+  },
+  "options_superhive_retries_desc": {
+    "message": "速率限制（429/503）或服务器错误时的重试次数（0–5）"
+  },
   "options_monthly_title": {
     "message": "FAB 每月免费资源"
   },
@@ -202,6 +253,9 @@
   },
   "options_history_unity": {
     "message": "Unity"
+  },
+  "options_history_superhive": {
+    "message": "Superhive"
   },
   "options_history_search": {
     "message": "搜索已领取的资源..."
@@ -373,6 +427,27 @@
   },
   "panel_unity_auto_redeem": {
     "message": "Unity 自动领取"
+  },
+  "panel_superhive_auto_redeem": {
+    "message": "Superhive 自动加购"
+  },
+  "panel_superhive_start": {
+    "message": "🛒 免费加入购物车"
+  },
+  "panel_superhive_free_only": {
+    "message": "仅免费"
+  },
+  "panel_superhive_endless": {
+    "message": "无限页"
+  },
+  "panel_superhive_hide_non_free": {
+    "message": "隐藏付费"
+  },
+  "panel_superhive_asset_delay": {
+    "message": "资产延迟（毫秒）"
+  },
+  "panel_superhive_page_delay": {
+    "message": "页面延迟（毫秒）"
   },
   "panel_start": {
     "message": "▶ 开始"
@@ -556,6 +631,30 @@
   },
   "controller_summary_simple": {
     "message": "完成：已领取 $1 个，失败 $2 个"
+  },
+  "controller_superhive_summary": {
+    "message": "$1 已加入购物车，$2 跳过/失败，共 $3"
+  },
+  "superhive_status_rate_limited": {
+    "message": "速率限制 · 等待 $1s"
+  },
+  "superhive_status_loading_page": {
+    "message": "正在加载第 $1 页..."
+  },
+  "superhive_status_page_failed": {
+    "message": "页面加载失败：$1"
+  },
+  "superhive_status_pages_done": {
+    "message": "所有页面已加载 · $1 个产品"
+  },
+  "superhive_status_waiting_pages": {
+    "message": "加入购物车前正在等待所有页面..."
+  },
+  "superhive_status_pages_incomplete": {
+    "message": "页面未完成 — 再次运行以继续"
+  },
+  "superhive_status_carting": {
+    "message": "加入购物车 $1/$2 · ✓$3 ✕$4"
   },
   "controller_claiming_n": {
     "message": "正在领取 $1/$2..."

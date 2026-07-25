@@ -6,6 +6,7 @@
   var statusText = document.getElementById('status-text');
   var btnOpenFab = document.getElementById('btn-open-fab');
   var btnOpenUnity = document.getElementById('btn-open-unity');
+  var btnOpenSuperhive = document.getElementById('btn-open-superhive');
   var btnOptions = document.getElementById('btn-options');
   var btnPremium = document.getElementById('btn-premium');
 
@@ -28,6 +29,8 @@
         setStatus('active', t('popup_status_active_fab'));
       } else if (url.indexOf('assetstore.unity.com') !== -1) {
         setStatus('active', t('popup_status_active_unity'));
+      } else if (url.indexOf('superhivemarket.com') !== -1) {
+        setStatus('active', t('popup_status_active_superhive'));
       } else {
         setStatus('inactive', t('popup_status_unsupported'));
       }
@@ -58,6 +61,12 @@
   btnOpenUnity.addEventListener('click', function() {
     chrome.tabs.create({ url: 'https://assetstore.unity.com/?free=true&exclude=true&orderBy=1&rows=96' });
   });
+
+  if (btnOpenSuperhive) {
+    btnOpenSuperhive.addEventListener('click', function() {
+      chrome.tabs.create({ url: 'https://superhivemarket.com/products?price=free' });
+    });
+  }
 
   btnOptions.addEventListener('click', function() {
     chrome.runtime.openOptionsPage();

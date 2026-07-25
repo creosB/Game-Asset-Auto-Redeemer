@@ -2,7 +2,7 @@
 
 ![Promo Tile](new%20images/promo%20tile.png)
 
-Chrome/Edge Manifest V3 browser extension that automatically detects and claims free game assets on **FAB (Epic Games)** and **Unity Asset Store**. Features a Dynamic Island-style overlay UI with real-time status tracking.
+Chrome/Edge Manifest V3 browser extension that automatically detects and claims free game assets on **FAB (Epic Games)**, **Unity Asset Store**, and **Superhive (Blender Market)**. Features a Dynamic Island-style overlay UI with real-time status tracking.
 
 [![Chrome](https://raw.githubusercontent.com/creosB/creosB/refs/heads/main/assets/Chrome%20Web%20Store.svg)](https://chromewebstore.google.com/detail/game-asset-auto-redeemer/fbjceplloidnllfkmngbopibinmcbcaj)
 [![Edge](https://raw.githubusercontent.com/creosB/creosB/2ca982c79eff856e6bf5bf8f647e8e9eaaab7cb4/assets/Edge.svg)](https://microsoftedge.microsoft.com/addons/detail/iocighnmjkjefcnaeboakllpmfgcmjda)
@@ -10,10 +10,11 @@ Chrome/Edge Manifest V3 browser extension that automatically detects and claims 
 
 ## Supported Platforms
 
-| Platform                                       | Status          | Method                                               |
-| ---------------------------------------------- | --------------- | ---------------------------------------------------- |
-| [FAB (Epic Games)](https://www.fab.com)           | Fully supported | DOM-based card detection + license dialog automation |
-| [Unity Asset Store](https://assetstore.unity.com) | Supported       | GraphQL API redemption with CSRF token handling      |
+| Platform                                       | Status          | Method                                                                |
+| ---------------------------------------------- | --------------- | --------------------------------------------------------------------- |
+| [FAB (Epic Games)](https://www.fab.com)           | Fully supported | DOM-based card detection + license dialog automation                  |
+| [Unity Asset Store](https://assetstore.unity.com) | Supported       | GraphQL API redemption with CSRF token handling                       |
+| [Superhive (Blender Market)](https://superhivemarket.com) | Supported (add-to-cart) | Card detection + product-page form/CSRF POST + rate-limit aware pagination |
 
 ## Preview
 
@@ -28,11 +29,12 @@ Chrome/Edge Manifest V3 browser extension that automatically detects and claims 
 - **Dynamic Island UI** — iPhone-inspired draggable overlay with collapsed/expanded states, Shadow DOM isolation, frosted glass aesthetic
 - **License selection** — choose personal or professional license preference for FAB
 - **Hide owned assets** — filters out assets already in your FAB library
-- **Auto-pagination** — Unity: navigates to next page after claiming all free assets
+- **Auto-pagination** — Unity: navigates to next page after claiming all free assets. Superhive: optional endless pagination that loads every result page before bulk add-to-cart
+- **Superhive add-to-cart** — bulk adds every free Superhive product to cart using the site's real form/token flow, with rate-limit aware retries, status badges, and stop/resume. **Add-to-cart only — no checkout or purchase**
 - **Live status** — per-asset status dots (claimed/failed/pending), claimed count badge, search/filter
 - **Config persistence** — all settings synced via `chrome.storage.sync`
 - **Notifications** — native Chrome notifications on completion or error
-- **SPA-aware** — detects client-side navigation on FAB via history API interception + MutationObserver
+- **SPA-aware** — detects client-side navigation on FAB and Superhive via history API interception + MutationObserver
 
 ## Installation
 
@@ -45,11 +47,11 @@ No build step required — load directly as unpacked extension.
 
 ## Usage
 
-1. Navigate to [FAB free assets](https://www.fab.com) or [Unity Asset Store free assets](https://assetstore.unity.com)
-2. The Dynamic Island overlay appears when free assets are detected
+1. Navigate to [FAB free assets](https://www.fab.com), [Unity Asset Store free assets](https://assetstore.unity.com), or [Superhive free products](https://superhivemarket.com)
+2. The Dynamic Island overlay appears when supported assets are detected
 3. Click the island to expand the control panel
 4. Adjust settings (license type, delays, retries) as needed
-5. Press **Start** — assets are claimed automatically with live progress updates
+5. Press **Start** (on Superhive: **Add free to cart**) — assets are processed automatically with live progress updates
 
 ### Auto-start
 
@@ -70,6 +72,13 @@ Accessible via the Options page or the expanded in-page panel:
 | Unity Delay Between Products | `500ms`        | Wait between Unity claims (200–10000ms)        |
 | Unity Auto-paginate          | `true`         | Navigate to next Unity page automatically       |
 | Unity Delay Before Next Page | `10000ms`      | Wait before next Unity page (3000–60000ms)     |
+| Superhive Enable             | `true`         | Show in-page panel on Superhive listings       |
+| Superhive Free Only          | `true`         | Only treat $0/Free as eligible for bulk cart   |
+| Superhive Endless Pagination | `false`        | Load all result pages before bulk add-to-cart  |
+| Superhive Hide Non-Free      | `false`        | Visually hide paid cards when Free-Only is on  |
+| Superhive Delay Between Assets | `1200ms`     | Wait between Superhive add-to-cart POSTs (500–10000ms) |
+| Superhive Delay Between Pages | `700ms`       | Wait between page fetches during endless paging (200–10000ms) |
+| Superhive Max Retries        | `4`            | Retries on 429/503 or 5xx (0–5)               |
 
 ## Project Structure
 
@@ -100,6 +109,9 @@ Accessible via the Options page or the expanded in-page panel:
 │   │   └── unity/
 │   │       ├── index.js             # Unity init, scanning, island creation
 │   │       └── asset-processor.js   # GraphQL addToDownload mutation, auto-pagination
+│   │   └── superhive/
+│   │       ├── index.js             # Superhive init, listing detection, SPA nav, island creation
+│   │       └── asset-processor.js   # Card detection, endless pagination, rate-limit aware add-to-cart POST
 │   ├── popup/
 │   │   ├── popup.html               # Browser action popup
 │   │   ├── popup.css

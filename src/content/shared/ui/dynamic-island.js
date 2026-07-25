@@ -16,6 +16,17 @@
   var countEl = null;
   var updateInterval = null;
 
+  // Marketplace → "Auto Redeem" prefix label, keyed by state.currentSite.
+  var SITE_PREFIX_KEYS = {
+    fab:       'panel_fab_auto_redeem',
+    unity:     'panel_unity_auto_redeem',
+    superhive: 'panel_superhive_auto_redeem'
+  };
+  function sitePrefix() {
+    var key = SITE_PREFIX_KEYS[state.currentSite] || 'panel_fab_auto_redeem';
+    return t(key);
+  }
+
   var GRIP_SVG = '<svg viewBox="0 0 12 12"><circle cx="3" cy="2" r="1.2"/><circle cx="9" cy="2" r="1.2"/>' +
     '<circle cx="3" cy="6" r="1.2"/><circle cx="9" cy="6" r="1.2"/>' +
     '<circle cx="3" cy="10" r="1.2"/><circle cx="9" cy="10" r="1.2"/></svg>';
@@ -125,8 +136,7 @@
 
   function updateUI() {
     if (statusEl) {
-      var sitePrefix = state.currentSite === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem');
-      statusEl.textContent = state.statusText || sitePrefix;
+      statusEl.textContent = state.statusText || sitePrefix();
     }
 
     if (dotEl) {
@@ -158,8 +168,7 @@
       state.statusText = '';
     }
     if (statusEl) {
-      var sitePrefix = state.currentSite === 'unity' ? t('panel_unity_auto_redeem') : t('panel_fab_auto_redeem');
-      statusEl.textContent = state.statusText || sitePrefix;
+      statusEl.textContent = state.statusText || sitePrefix();
     }
     updateUI();
   });

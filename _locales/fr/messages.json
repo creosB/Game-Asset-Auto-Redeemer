@@ -17,6 +17,9 @@
   "popup_status_active_unity": {
     "message": "Actif sur Unity"
   },
+  "popup_status_active_superhive": {
+    "message": "Actif sur Superhive"
+  },
   "popup_status_unsupported": {
     "message": "Site non compatible"
   },
@@ -28,6 +31,9 @@
   },
   "popup_open_unity": {
     "message": "Ouvrir Unity"
+  },
+  "popup_open_superhive": {
+    "message": "Ouvrir Superhive"
   },
   "popup_premium": {
     "message": "Premium"
@@ -140,6 +146,51 @@
   "options_unity_page_delay_desc": {
     "message": "Temps d'attente avant de passer à la page suivante (3000–60000 ms)"
   },
+  "options_section_superhive": {
+    "message": "Superhive (Blender Market)"
+  },
+  "options_superhive_enable": {
+    "message": "Activer le support Superhive"
+  },
+  "options_superhive_enable_desc": {
+    "message": "Afficher le panneau sur les listes Superhive. Ajout au panier uniquement — sans achat."
+  },
+  "options_superhive_free_only": {
+    "message": "Assets gratuits uniquement"
+  },
+  "options_superhive_free_only_desc": {
+    "message": "Ne traiter que les produits à 0 $ / Gratuit comme éligibles à l'ajout au panier en lot"
+  },
+  "options_superhive_endless": {
+    "message": "Pagination infinie"
+  },
+  "options_superhive_endless_desc": {
+    "message": "Charger toutes les pages de résultats avant l'ajout en lot au panier (recommandé)"
+  },
+  "options_superhive_hide_non_free": {
+    "message": "Masquer les cartes payantes"
+  },
+  "options_superhive_hide_non_free_desc": {
+    "message": "Masquer visuellement les produits payants quand Gratuit uniquement est activé"
+  },
+  "options_superhive_delay": {
+    "message": "Délai entre assets"
+  },
+  "options_superhive_delay_desc": {
+    "message": "Millisecondes entre chaque POST au panier (500–10000)"
+  },
+  "options_superhive_page_delay": {
+    "message": "Délai entre pages"
+  },
+  "options_superhive_page_delay_desc": {
+    "message": "Millisecondes entre chargements de page lors de la pagination infinie (200–10000)"
+  },
+  "options_superhive_retries": {
+    "message": "Tentatives max"
+  },
+  "options_superhive_retries_desc": {
+    "message": "Tentatives de réessai sur limite de débit (429/503) ou erreur serveur (0–5)"
+  },
   "options_monthly_title": {
     "message": "Assets gratuits mensuels FAB"
   },
@@ -202,6 +253,9 @@
   },
   "options_history_unity": {
     "message": "Unity"
+  },
+  "options_history_superhive": {
+    "message": "Superhive"
   },
   "options_history_search": {
     "message": "Rechercher dans les assets récupérés..."
@@ -373,6 +427,27 @@
   },
   "panel_unity_auto_redeem": {
     "message": "Récupération automatique Unity"
+  },
+  "panel_superhive_auto_redeem": {
+    "message": "Superhive Auto Panier"
+  },
+  "panel_superhive_start": {
+    "message": "🛒 Ajouter gratuit au panier"
+  },
+  "panel_superhive_free_only": {
+    "message": "Gratuit uniquement"
+  },
+  "panel_superhive_endless": {
+    "message": "Pages infinies"
+  },
+  "panel_superhive_hide_non_free": {
+    "message": "Masquer payants"
+  },
+  "panel_superhive_asset_delay": {
+    "message": "Délai asset (ms)"
+  },
+  "panel_superhive_page_delay": {
+    "message": "Délai page (ms)"
   },
   "panel_start": {
     "message": "▶ Démarrer"
@@ -556,6 +631,30 @@
   },
   "controller_summary_simple": {
     "message": "Terminé : $1 récupéré(s), $2 échec(s)"
+  },
+  "controller_superhive_summary": {
+    "message": "$1 au panier, $2 ignorés/échoués sur $3"
+  },
+  "superhive_status_rate_limited": {
+    "message": "Limité · attente $1s"
+  },
+  "superhive_status_loading_page": {
+    "message": "Chargement page $1..."
+  },
+  "superhive_status_page_failed": {
+    "message": "Échec chargement page : $1"
+  },
+  "superhive_status_pages_done": {
+    "message": "Toutes les pages chargées · $1 produits"
+  },
+  "superhive_status_waiting_pages": {
+    "message": "Attente de toutes les pages avant l'ajout au panier..."
+  },
+  "superhive_status_pages_incomplete": {
+    "message": "Pages incomplètes — relancez pour reprendre"
+  },
+  "superhive_status_carting": {
+    "message": "Au panier $1/$2 · ✓$3 ✕$4"
   },
   "controller_claiming_n": {
     "message": "Récupération $1/$2..."

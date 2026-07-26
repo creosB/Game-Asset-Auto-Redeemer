@@ -398,6 +398,13 @@ body {
   border-color: rgba(255, 69, 58, 0.3);
 }
 
+/* Anchors reused as buttons (e.g. "Open Library" external links). */
+a.claim-history-btn {
+  display: inline-block;
+  text-decoration: none;
+  line-height: normal;
+}
+
 .claim-history-counters {
   display: flex;
   gap: 16px;

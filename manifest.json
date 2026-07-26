@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_manifest_name__",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "default_locale": "en",
   "description": "__MSG_manifest_description__",
   "author": "CreosB",
@@ -73,6 +73,7 @@
         "src/content/shared/ui/dynamic-island.js",
         "src/content/shared/controller.js",
         "src/content/unity/asset-processor.js",
+        "src/content/unity/library-relay.js",
         "src/content/unity/index.js"
       ],
       "run_at": "document_idle"

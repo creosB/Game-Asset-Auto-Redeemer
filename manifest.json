@@ -23,7 +23,7 @@
     "service_worker": "src/background/service-worker.js",
     "type": "module"
   },
-  "permissions": ["storage", "tabs", "notifications", "alarms", "scripting"],
+  "permissions": ["storage", "unlimitedStorage", "tabs", "notifications", "alarms", "scripting"],
   "host_permissions": [
     "https://www.fab.com/*",
     "https://assetstore.unity.com/*",
@@ -52,6 +52,7 @@
         "src/content/fab/license-processor.js",
         "src/content/fab/asset-processor.js",
         "src/content/fab/hide-owned.js",
+        "src/content/fab/library-relay.js",
         "src/content/fab/index.js"
       ],
       "run_at": "document_idle"

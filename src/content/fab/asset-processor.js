@@ -70,21 +70,21 @@
     btn = card.querySelector('button[aria-label="Add to library"]');
     if (btn) {
       tier = 'aria-label-exact';
-      utils.log('[Selector:Button] Tier "' + tier + '" matched type=library');
+      utils.debug('[Selector:Button] Tier "' + tier + '" matched type=library');
       return { button: btn, type: 'library' };
     }
 
     btn = card.querySelector('button[aria-label="Add listing to cart"]');
     if (btn) {
       tier = 'aria-label-exact';
-      utils.log('[Selector:Button] Tier "' + tier + '" matched type=cart');
+      utils.debug('[Selector:Button] Tier "' + tier + '" matched type=cart');
       return { button: btn, type: 'cart' };
     }
 
     btn = card.querySelector('button:has(i.edsicon-shopping-cart-plus)');
     if (btn) {
       tier = 'icon-class';
-      utils.log('[Selector:Button] Tier "' + tier + '" matched type=cart');
+      utils.debug('[Selector:Button] Tier "' + tier + '" matched type=cart');
       return { button: btn, type: 'cart' };
     }
 
@@ -93,7 +93,7 @@
     );
     if (btn) {
       tier = 'icon-class';
-      utils.log('[Selector:Button] Tier "' + tier + '" matched type=library');
+      utils.debug('[Selector:Button] Tier "' + tier + '" matched type=library');
       return { button: btn, type: 'library' };
     }
 
@@ -102,12 +102,12 @@
       var al = buttons[i].getAttribute('aria-label').toLowerCase();
       if (al.indexOf('library') !== -1) {
         tier = 'aria-label-keyword';
-        utils.log('[Selector:Button] Tier "' + tier + '" matched type=library');
+        utils.debug('[Selector:Button] Tier "' + tier + '" matched type=library');
         return { button: buttons[i], type: 'library' };
       }
       if (al.indexOf('cart') !== -1) {
         tier = 'aria-label-keyword';
-        utils.log('[Selector:Button] Tier "' + tier + '" matched type=cart');
+        utils.debug('[Selector:Button] Tier "' + tier + '" matched type=cart');
         return { button: buttons[i], type: 'cart' };
       }
     }
@@ -120,12 +120,12 @@
         var otxt = overlayBtns[k].textContent.trim().toLowerCase();
         if (oal.indexOf('library') !== -1 || otxt.indexOf('library') !== -1) {
           tier = 'overlay-container';
-          utils.log('[Selector:Button] Tier "' + tier + '" matched type=library');
+          utils.debug('[Selector:Button] Tier "' + tier + '" matched type=library');
           return { button: overlayBtns[k], type: 'library' };
         }
         if (oal.indexOf('cart') !== -1 || otxt.indexOf('cart') !== -1) {
           tier = 'overlay-container';
-          utils.log('[Selector:Button] Tier "' + tier + '" matched type=cart');
+          utils.debug('[Selector:Button] Tier "' + tier + '" matched type=cart');
           return { button: overlayBtns[k], type: 'cart' };
         }
       }
@@ -138,7 +138,7 @@
         var isLibrary = onlyAl.indexOf('library') !== -1 || onlyAl.indexOf('add') !== -1 ||
                         onlyTxt.indexOf('library') !== -1;
         var btnType = isLibrary ? 'library' : 'cart';
-        utils.log('[Selector:Button] Tier "' + tier + '" matched type=' + btnType + ' (only button in overlay)');
+        utils.debug('[Selector:Button] Tier "' + tier + '" matched type=' + btnType + ' (only button in overlay)');
         return { button: onlyBtn, type: btnType };
       }
     }
@@ -215,7 +215,7 @@
       if (!isFree) continue;
 
       if (isAlreadyOwned(card)) {
-        utils.log('[Selector:CardDetect] Skipping owned asset: ' + getAssetName(card));
+        utils.debug('[Selector:CardDetect] Skipping owned asset: ' + getAssetName(card));
         continue;
       }
 
@@ -243,11 +243,11 @@
       cards.push(cardObj);
     }
 
-    utils.log('[Selector:CardDetect] Tier "links+price-text" matched ' + cards.length + ' card(s).');
+    utils.debug('[Selector:CardDetect] Tier "links+price-text" matched ' + cards.length + ' card(s).');
 
     if (cards.length === 0) {
       var stackCount = document.querySelectorAll('.fabkit-Stack-root').length;
-      utils.log(
+      utils.debug(
         '[Selector:CardDetect] No cards found. URL: ' + window.location.href +
         ' | fabkit-Stack-root count: ' + stackCount,
         'warn'
@@ -275,7 +275,7 @@
       if (!tier.selector) return { elements: [], tier: tier.name };
       var els = root.querySelectorAll(tier.selector);
       if (els.length > 0) {
-        utils.log('[Selector] Tier "' + tier.name + '" matched ' + els.length + ' element(s).');
+        utils.debug('[Selector] Tier "' + tier.name + '" matched ' + els.length + ' element(s).');
         return { elements: Array.from(els), tier: tier.name };
       }
     }
@@ -361,7 +361,7 @@
 
       var cs = window.getComputedStyle(action.button);
       if (cs.visibility === 'hidden' || cs.display === 'none') {
-        utils.log(
+        utils.debug(
           '[Selector:Button] Button not visible (visibility=' + cs.visibility +
           ', display=' + cs.display + '), attempting click anyway.',
           'warn'
@@ -371,7 +371,7 @@
       await utils.safeClick(action.button, action.type + ' button');
 
       if (action.type === 'library') {
-        utils.log('[Asset] Direct library add for: ' + asset.name);
+        utils.debug('[Asset] Direct library add for: ' + asset.name);
         var ok = await waitForLibraryAddConfirmation(action.button, 5000);
         if (ok) {
           asset.status = 'claimed';
@@ -391,8 +391,8 @@
       );
 
       if (dialog) {
-        utils.log('License dialog detected for: ' + asset.name);
-        utils.log('[Debug] Dialog HTML (first 500 chars): ' + dialog.outerHTML.substring(0, 500));
+        utils.debug('License dialog detected for: ' + asset.name);
+        utils.debug('[Debug] Dialog HTML (first 500 chars): ' + dialog.outerHTML.substring(0, 500));
 
         if (ns.licenseProcessor) {
           await ns.licenseProcessor.selectLicenseAndAdd(config.preferredLicense);
@@ -511,13 +511,22 @@
   }
 
   window.__fabGrabDebug = {
+    /** One-off scan report, regardless of the verbose setting. */
     scan: function() {
       var cards = getFreeAssetCards();
+      console.log('[FAB Debug] Catalog page: ' + utils.isCatalogPage() +
+        ' | path: ' + utils.catalogPath());
       console.log('[FAB Debug] Found ' + cards.length + ' free card(s).');
       if (cards.length > 0) {
         console.log('[FAB Debug] First card outerHTML (500 chars): ' + cards[0].element.outerHTML.substring(0, 500));
       }
       return cards;
+    },
+    /** Persistent selector diagnostics. __fabGrabDebug.verbose(true) to enable. */
+    verbose: function(on) {
+      var next = utils.setVerbose(on !== false);
+      console.log('[FAB Debug] Verbose logging ' + (next ? 'ON' : 'OFF'));
+      return next;
     }
   };
 

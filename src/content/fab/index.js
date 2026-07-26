@@ -25,6 +25,10 @@
     state.currentSite = 'fab';
 
     var checkInterval = setInterval(function() {
+      // /library, /cart, /profile and friends never hold claimable cards.
+      // Scanning them just burns cycles and floods the console.
+      if (!utils.isCatalogPage()) return;
+
       var cards = ns.assetProcessor.getFreeAssetCards();
       if (cards.length > 0) {
         clearInterval(checkInterval);
@@ -38,7 +42,7 @@
     setTimeout(function() {
       clearInterval(checkInterval);
       createIslandOnce();
-      if (state.assetsFound.length === 0) {
+      if (state.assetsFound.length === 0 && utils.isCatalogPage()) {
         utils.log('No free assets detected on initial scan.');
       }
     }, 60000);
@@ -81,7 +85,7 @@
     }, 800);
 
     window.addEventListener('fab:navigation', function() {
-      utils.log('SPA navigation detected.');
+      utils.debug('SPA navigation detected.');
       debouncedRescan();
     });
 
@@ -90,6 +94,9 @@
     );
     if (mainContent) {
       var observer = new MutationObserver(function(mutations) {
+        // Infinite scroll on a non-catalog page (notably /library) fires this
+        // constantly. Cheapest possible bail-out.
+        if (!utils.isCatalogPage()) return;
         for (var i = 0; i < mutations.length; i++) {
           if (mutations[i].addedNodes.length > 0) {
             debouncedRescan();
@@ -98,12 +105,13 @@
         }
       });
       observer.observe(mainContent, { childList: true, subtree: true });
-      utils.log('MutationObserver attached to main content area.');
+      utils.debug('MutationObserver attached to main content area.');
     }
   }
 
   function rescanAssets() {
     if (state.isRunning) return;
+    if (!utils.isCatalogPage()) return;
 
     var cards = ns.assetProcessor.getFreeAssetCards();
     state.assetsFound = cards;
@@ -111,7 +119,7 @@
     state.assetsClaimed = 0;
     state.assetsFailed = 0;
 
-    utils.log('Re-scan complete. Found ' + cards.length + ' free asset(s) on current view.');
+    utils.debug('Re-scan complete. Found ' + cards.length + ' free asset(s) on current view.');
     state.statusText = cards.length > 0
       ? t('controller_assets_found', String(cards.length))
       : t('controller_no_assets_page');

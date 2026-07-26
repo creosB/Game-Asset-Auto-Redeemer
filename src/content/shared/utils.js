@@ -2,15 +2,66 @@
   'use strict';
   const ns = (window.__fabGrabber ??= {});
 
+  const DEBUG_KEY = 'fabGrabVerboseLogs';
+
+  let _debug = false;
+  try {
+    _debug = localStorage.getItem(DEBUG_KEY) === '1';
+  } catch (_) {}
+
+  function isVerbose() { return _debug; }
+
+  function setVerbose(on) {
+    _debug = !!on;
+    try {
+      if (_debug) localStorage.setItem(DEBUG_KEY, '1');
+      else localStorage.removeItem(DEBUG_KEY);
+    } catch (_) {}
+    return _debug;
+  }
+
   function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  function log(msg, type) {
+  // Collapse consecutive identical messages. A scan loop that fires the same
+  // line 200 times should cost one line, not 200.
+  var _lastMsg = null;
+  var _lastType = null;
+  var _repeats = 0;
+
+  function emit(type, msg) {
     const prefix = '[FAB Auto Redeem]';
     if (type === 'error') console.error(prefix, msg);
     else if (type === 'warn') console.warn(prefix, msg);
     else console.log(prefix, msg);
+  }
+
+  function flushRepeats() {
+    if (_repeats > 0 && _lastMsg !== null) {
+      emit(_lastType, _lastMsg + ' (x' + (_repeats + 1) + ')');
+    }
+    _lastMsg = null;
+    _lastType = null;
+    _repeats = 0;
+  }
+
+  function log(msg, type) {
+    var text = String(msg);
+    if (text === _lastMsg && type === _lastType) {
+      _repeats++;
+      return;
+    }
+    flushRepeats();
+    _lastMsg = text;
+    _lastType = type || 'log';
+    emit(_lastType, text);
+  }
+
+  /** Diagnostic output. Silent unless verbose logging is switched on. */
+  function debug(msg, type) {
+    if (!_debug) return;
+    log(msg, type);
   }
 
   function safeClick(el, label) {
@@ -107,10 +158,32 @@
     });
   }
 
+  // FAB serves localized paths (/de/library, /tr/search). Strip a known locale
+  // prefix before matching so the checks below are not silently bypassed.
+  var LOCALES = [
+    'en', 'de', 'es', 'fr', 'it', 'ru', 'tr', 'ja', 'ko', 'pl', 'pt', 'nl',
+    'ar', 'th', 'zh-CN', 'zh-Hans', 'zh-Hant', 'pt-BR', 'es-MX'
+  ];
+
+  // Pages that exist on fab.com but never contain claimable catalog cards.
+  var NON_CATALOG = /^\/(library|cart|checkout|orders?|downloads?|purchases?|account|settings|profile|messages|notifications|sellers?|publishers?|studio|dashboard|legal|help|support|about|careers|blog)(\/|$)/i;
+
+  function catalogPath() {
+    var path = window.location.pathname || '/';
+    for (var i = 0; i < LOCALES.length; i++) {
+      var prefix = '/' + LOCALES[i];
+      if (path === prefix) return '/';
+      if (path.indexOf(prefix + '/') === 0) {
+        return path.slice(prefix.length) || '/';
+      }
+    }
+    return path;
+  }
+
   function isCatalogPage() {
-    var path = window.location.pathname;
+    var path = catalogPath();
     if (/^\/listings\/[a-f0-9-]+$/i.test(path)) return false;
-    if (/^\/publishers?\//.test(path)) return false;
+    if (NON_CATALOG.test(path)) return false;
     return true;
   }
 
@@ -127,12 +200,16 @@
   ns.utils = {
     wait: wait,
     log: log,
+    debug: debug,
+    isVerbose: isVerbose,
+    setVerbose: setVerbose,
     safeClick: safeClick,
     waitForElement: waitForElement,
     waitForElements: waitForElements,
     retryWithBackoff: retryWithBackoff,
     waitForCondition: waitForCondition,
     isCatalogPage: isCatalogPage,
+    catalogPath: catalogPath,
     debounce: debounce
   };
 })();

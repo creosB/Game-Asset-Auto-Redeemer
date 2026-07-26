@@ -48,14 +48,15 @@
 
   function log(msg, type) {
     var text = String(msg);
-    if (text === _lastMsg && type === _lastType) {
+    var kind = type || 'log';
+    if (text === _lastMsg && kind === _lastType) {
       _repeats++;
       return;
     }
     flushRepeats();
     _lastMsg = text;
-    _lastType = type || 'log';
-    emit(_lastType, text);
+    _lastType = kind;
+    emit(kind, text);
   }
 
   /** Diagnostic output. Silent unless verbose logging is switched on. */

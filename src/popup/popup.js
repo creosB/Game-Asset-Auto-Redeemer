@@ -68,13 +68,13 @@
       var origins = ['https://superhivemarket.com/*', 'https://*.superhivemarket.com/*'];
       chrome.permissions.contains({ origins: origins }, function(granted) {
         if (granted) {
-          chrome.tabs.create({ url: 'https://superhivemarket.com/products?sort_price=asc' });
+          chrome.tabs.create({ url: 'https://superhivemarket.com/categories/addons/browse?sort_date=desc&page=1' });
           return;
         }
         chrome.permissions.request({ origins: origins }, function(granted) {
           if (granted) {
             chrome.runtime.sendMessage({ type: 'SUPERHIVE_PERMISSION_GRANTED' }, function() {
-              chrome.tabs.create({ url: 'https://superhivemarket.com/products?sort_price=asc' });
+              chrome.tabs.create({ url: 'https://superhivemarket.com/categories/addons/browse?sort_date=desc&page=1' });
             });
           }
         });

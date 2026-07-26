@@ -654,7 +654,46 @@
     "message": "Pagine incomplete — ripeti per riprendere"
   },
   "superhive_status_carting": {
-    "message": "Al carrello $1/$2 · ✓$3 ✕$4"
+    "message": "Aggiunta al carrello $1/$2 · ✓$3 ✕$4"
+  },
+  "superhive_status_not_signed_in": {
+    "message": "Non hai effettuato l'accesso a Superhive, accedi e riprova."
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "Fermato al primo prodotto a pagamento · $1 prodotti gratuiti trovati"
+  },
+  "superhive_status_budget_reached": {
+    "message": "Caricate $1 pagine ($2 prodotti) · clicca Carica altri per continuare"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "Interruttore di limite di frequenza attivato ($1 errori 429 consecutivi) · in pausa"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "L'elenco non è ordinato per prezzo crescente — caricamento fino a $1 pagina/e"
+  },
+  "superhive_status_cart_gate": {
+    "message": "Paginazione in pausa ($1 prodotti caricati) — clicca di nuovo Avvia per procedere"
+  },
+  "options_superhive_page_budget": {
+    "message": "Budget di pagine per sessione"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "Numero massimo di pagine da caricare automaticamente prima di pausare (1–20)"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "Interruttore di limite di frequenza"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "Errori 429/503 consecutivi prima di mettere in pausa la paginazione (1–10)"
+  },
+  "panel_superhive_page_budget": {
+    "message": "Budget pagine"
+  },
+  "panel_superhive_load_more": {
+    "message": "Carica altre pagine"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "Aggiungi prodotti caricati al carrello"
   },
   "controller_claiming_n": {
     "message": "Riscatto $1/$2..."

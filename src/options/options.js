@@ -28,6 +28,8 @@
     superhiveDelayBetweenAssets: 1200,
     superhivePageDelay: 700,
     superhiveMaxRetries: 4,
+    superhivePageBudget: 5,
+    superhiveMaxRateLimitStreak: 3,
     selectedLanguage: 'auto'
   };
 
@@ -49,6 +51,8 @@
   var shDelayInput = document.getElementById('opt-superhive-delay');
   var shPageDelayInput = document.getElementById('opt-superhive-page-delay');
   var shRetriesInput = document.getElementById('opt-superhive-retries');
+  var shBudgetInput = document.getElementById('opt-superhive-page-budget');
+  var shStreakInput = document.getElementById('opt-superhive-rate-limit-streak');
   var languageSelect = document.getElementById('opt-language');
   var saveBtn = document.getElementById('btn-save');
   var saveStatus = document.getElementById('save-status');
@@ -79,6 +83,8 @@
       if (shDelayInput) shDelayInput.value = stored.superhiveDelayBetweenAssets || DEFAULTS.superhiveDelayBetweenAssets;
       if (shPageDelayInput) shPageDelayInput.value = stored.superhivePageDelay || DEFAULTS.superhivePageDelay;
       if (shRetriesInput) shRetriesInput.value = stored.superhiveMaxRetries != null ? stored.superhiveMaxRetries : DEFAULTS.superhiveMaxRetries;
+      if (shBudgetInput) shBudgetInput.value = stored.superhivePageBudget != null ? stored.superhivePageBudget : DEFAULTS.superhivePageBudget;
+      if (shStreakInput) shStreakInput.value = stored.superhiveMaxRateLimitStreak != null ? stored.superhiveMaxRateLimitStreak : DEFAULTS.superhiveMaxRateLimitStreak;
       if (languageSelect) languageSelect.value = stored.selectedLanguage || DEFAULTS.selectedLanguage;
       window.__currentLang = stored.selectedLanguage || DEFAULTS.selectedLanguage;
     } catch (err) {
@@ -114,6 +120,8 @@
       superhiveDelayBetweenAssets: clamp(parseInt(shDelayInput && shDelayInput.value, 10) || DEFAULTS.superhiveDelayBetweenAssets, 500, 10000),
       superhivePageDelay: clamp(parseInt(shPageDelayInput && shPageDelayInput.value, 10) || DEFAULTS.superhivePageDelay, 200, 10000),
       superhiveMaxRetries: clamp(parseInt(shRetriesInput && shRetriesInput.value, 10) != null && parseInt(shRetriesInput.value, 10) >= 0 ? parseInt(shRetriesInput.value, 10) : DEFAULTS.superhiveMaxRetries, 0, 5),
+      superhivePageBudget: clamp(parseInt(shBudgetInput && shBudgetInput.value, 10) || DEFAULTS.superhivePageBudget, 1, 20),
+      superhiveMaxRateLimitStreak: clamp(parseInt(shStreakInput && shStreakInput.value, 10) || DEFAULTS.superhiveMaxRateLimitStreak, 1, 10),
       selectedLanguage: languageSelect ? languageSelect.value : DEFAULTS.selectedLanguage
     };
 

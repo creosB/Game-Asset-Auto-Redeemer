@@ -39,6 +39,22 @@
   function sleep(ms)    { return new Promise(function(r) { setTimeout(r, ms); }); }
 
   var throttleBump = 0;
+  var rateLimitStreak = 0;
+
+  function isPriceAscending() {
+    var search = location.search.toLowerCase();
+    if (search.indexOf('sort_price=asc') !== -1) return true;
+    var sortSelect = document.querySelector('select[name="sort"], select[id*="sort"], .js-sort-select');
+    if (sortSelect) {
+      var opt = sortSelect.options[sortSelect.selectedIndex] || sortSelect.querySelector('option[selected], option:checked');
+      if (opt) {
+        var dataType = opt.getAttribute('data-type') || opt.getAttribute('data-sort');
+        var val = opt.value || opt.getAttribute('value');
+        if (dataType === 'sort_price' && val === 'asc') return true;
+      }
+    }
+    return false;
+  }
 
   // Rate-limit aware fetch with exponential backoff + jitter (adapted from the
   // prototype). Honors Retry-After on 429/503, retries 5xx, throws when retries
@@ -49,8 +65,13 @@
   }
 
   function rlFetchInner(url, opts, attempt) {
-    return fetch(url, Object.assign({ credentials: 'same-origin' }, opts)).then(function(res) {
+    return fetch(url, Object.assign({ credentials: 'include' }, opts)).then(function(res) {
       if (res.status === 429 || res.status === 503) {
+        rateLimitStreak++;
+        var maxStreak = config.superhiveMaxRateLimitStreak || 3;
+        if (rateLimitStreak >= maxStreak) {
+          throw new Error('circuit_breaker');
+        }
         if (attempt >= maxRetries()) throw new Error('rate limited (429/503)');
         var ra = parseFloat(res.headers.get('Retry-After'));
         var wait = Number.isFinite(ra)
@@ -65,6 +86,7 @@
         throttleBump = Math.min(THROTTLE_MAX_MS, throttleBump + 400);
         return sleep(1500 * (attempt + 1)).then(function() { return rlFetchInner(url, opts, attempt + 1); });
       }
+      rateLimitStreak = 0;
       throttleBump = Math.max(0, throttleBump - 100);
       return res;
     });
@@ -171,9 +193,21 @@
       if (p && !/^\$0(\.0+)?\$?$|^free$/i.test(p)) return { skip: 'not free' };
     }
 
-    var form = doc.querySelector(SELECTORS.productForm);
-    var btn  = doc.querySelector(SELECTORS.productBtn);
-    if (!form || !btn || btn.disabled) return { skip: 'owned / no button' };
+    var form = doc.querySelector(SELECTORS.productForm) ||
+               doc.querySelector('form[action*="/cart_items"], form[action*="cart_item"], form[action*="/cart"]');
+    var btn = form ? (form.querySelector('button[type="submit"], input[type="submit"], button, .js-item-addToCart, .btn-add-to-cart') || doc.querySelector(SELECTORS.productBtn))
+                   : doc.querySelector(SELECTORS.productBtn);
+
+    if (!form || (btn && btn.disabled)) {
+      var bodyText = doc.body ? doc.body.textContent : '';
+      if (!form && (/log\s*in|sign\s*in|create\s*account/i.test(bodyText))) {
+        return { skip: 'not_signed_in' };
+      }
+      if (/you\s+own\s+this|already\s+owned|download\s+files?|purchased|in\s+cart|added\s+to\s+cart|already\s+in\s+cart/i.test(bodyText) || (btn && btn.disabled)) {
+        return { skip: 'owned' };
+      }
+      return { skip: 'no_cart_form' };
+    }
 
     var action = new URL(form.getAttribute('action'), location.origin).href;
     var token  = form.querySelector('input[name="authenticity_token"]') &&
@@ -206,8 +240,18 @@
   }
 
   /* ── Endless pagination ──────────────────────────────────────────── */
-  var paging = { running: false, stop: false, done: false, promise: null,
-                 nextUrl: undefined, pages: 1, total: null };
+  var paging = {
+    running: false,
+    stop: false,
+    done: false,
+    paused: false,
+    stoppedEarly: false,
+    promise: null,
+    nextUrl: undefined,
+    pages: 1,
+    pagesInBurst: 0,
+    total: null
+  };
 
   function nextPageUrl(doc) {
     var a = doc.querySelector(SELECTORS.pagyNextA) ||
@@ -227,17 +271,27 @@
     for (var i = 0; i < nodes.length; i++) nodes[i].style.display = hide ? 'none' : '';
   }
 
-  function loadAllPages() {
+  function loadAllPages(isResume) {
     if (paging.promise) return paging.promise;
     paging.promise = (async function() {
       paging.running = true;
       paging.stop = false;
+      paging.paused = false;
+      if (!isResume) paging.pagesInBurst = 0;
       paging.total = paging.total != null ? paging.total : readTotal(document);
       setPagyHidden(true);
       if (paging.nextUrl === undefined) paging.nextUrl = nextPageUrl(document);
       var visited = new Set([location.href]);
       var grid = getGrid();
       var n = 0;
+      var priceAsc = isPriceAscending();
+      var budget = config.superhivePageBudget || 5;
+
+      if (!priceAsc) {
+        state.statusText = t('superhive_status_unsorted_notice', String(budget));
+        utils.log('[Superhive] Listing is not price-ascending sorted. Relying on page budget (' + budget + ').');
+      }
+
       try {
         while (paging.nextUrl && !paging.stop && n < MAX_PAGES) {
           if (visited.has(paging.nextUrl)) break;
@@ -251,42 +305,99 @@
           var frag = document.createDocumentFragment();
           var added = 0;
           var nodes = doc.querySelectorAll(SELECTORS.card);
+          var hitPaidInAsc = false;
+
           for (var i = 0; i < nodes.length; i++) {
-            var key = slugOf(nodes[i]);
+            var card = nodes[i];
+            if (priceAsc && !isFree(card)) {
+              hitPaidInAsc = true;
+              utils.log('[Superhive] Price-ascending early stop: reached first non-free card.');
+              break;
+            }
+            var key = slugOf(card);
             if (seen.has(key)) continue;
             seen.add(key);
-            frag.appendChild(document.importNode(nodes[i], true));
+            frag.appendChild(document.importNode(card, true));
             added++;
           }
-          grid.appendChild(frag);
-          paging.pages++; n++;
 
-          // Refresh shared list with whatever we now see (free-only hides others later).
+          if (added > 0) grid.appendChild(frag);
+          paging.pages++;
+          paging.pagesInBurst++;
+          n++;
+
           state.assetsFound = getFreeAssetCards();
           state.assetsTotal = state.assetsFound.length;
           applyHideNonFree();
 
+          if (priceAsc && hitPaidInAsc) {
+            paging.done = true;
+            paging.stoppedEarly = true;
+            paging.nextUrl = null;
+            state.statusText = t('superhive_status_stopped_past_free', String(state.assetsFound.length));
+            utils.log('[Superhive] Early stop triggered — found ' + state.assetsFound.length + ' free products.');
+            break;
+          }
+
           paging.nextUrl = nextPageUrl(doc);
           if (!added && !paging.nextUrl) break;
+
+          if (paging.pagesInBurst >= budget && paging.nextUrl) {
+            paging.paused = true;
+            state.statusText = t('superhive_status_budget_reached', String(paging.pages), String(state.assetsFound.length));
+            utils.log('[Superhive] Page budget reached (' + budget + ' pages). Pausing pagination.');
+            break;
+          }
+
           if (paging.nextUrl && !paging.stop) {
             await sleep(pageDelay() + throttleBump + Math.random() * JITTER_MS);
           }
         }
-        paging.done = !paging.nextUrl;
+        if (!paging.paused) {
+          paging.done = !paging.nextUrl || paging.stoppedEarly;
+        }
       } catch (e) {
-        utils.log('[Superhive] pagination error: ' + e.message, 'warn');
-        state.statusText = t('superhive_status_page_failed', e.message);
+        if (e.message === 'circuit_breaker') {
+          paging.paused = true;
+          state.statusText = t('superhive_status_circuit_breaker', String(config.superhiveMaxRateLimitStreak || 3));
+          utils.log('[Superhive] Circuit breaker triggered after rate limit streak.', 'warn');
+        } else {
+          utils.log('[Superhive] pagination error: ' + e.message, 'warn');
+          state.statusText = t('superhive_status_page_failed', e.message);
+        }
       } finally {
         paging.running = false;
-        if (paging.stop || !paging.done) paging.promise = null; // allow resume
+        paging.promise = null;
         if (paging.done) {
-          state.statusText = t('superhive_status_pages_done', String(state.assetsFound.length));
+          if (!paging.stoppedEarly) {
+            state.statusText = t('superhive_status_pages_done', String(state.assetsFound.length));
+          }
           utils.log('[Superhive] Endless pagination complete.');
         }
+        updatePanelLoadMoreVisibility();
         applyHideNonFree();
       }
     })();
     return paging.promise;
+  }
+
+  function updatePanelLoadMoreVisibility() {
+    try {
+      var showGate = (paging.paused && !paging.done && paging.nextUrl);
+      var loadBtn = document.querySelector('#fab-grab-superhive-load-more');
+      if (loadBtn) loadBtn.style.display = showGate ? '' : 'none';
+      var cartBtn = document.querySelector('#fab-grab-superhive-cart-loaded');
+      if (cartBtn) cartBtn.style.display = showGate ? '' : 'none';
+    } catch (_) {}
+  }
+
+  async function cartLoadedAssets() {
+    paging.bypassGate = true;
+    if (ns.controller) {
+      await ns.controller.start('superhive', processAllAssets);
+    } else {
+      await processAllAssets();
+    }
   }
 
   /* ── Free-only / hide-non-free ───────────────────────────────────── */
@@ -306,17 +417,24 @@
     state.statusText = t('controller_scanning');
     utils.log('[Superhive] Scanning listing for free products...');
 
-    // Wait for endless pagination if enabled and unfinished, so the bulk run
-    // covers every page rather than just page 1.
+    // Handle pagination if enabled and incomplete.
     if (config.superhiveEndlessPagination && !paging.done) {
+      if (paging.paused && !paging.bypassGate) {
+        state.statusText = t('superhive_status_cart_gate', String(state.assetsFound.length));
+        utils.log('[Superhive] Paging paused (' + state.assetsFound.length + ' products loaded). Click "Cart Loaded Products" to proceed or "Load More Pages" to continue pagination.');
+        updatePanelLoadMoreVisibility();
+        return;
+      }
       state.statusText = t('superhive_status_waiting_pages');
       await loadAllPages();
-      if (!paging.done) {
-        state.statusText = t('superhive_status_pages_incomplete');
-        utils.log('[Superhive] Pagination incomplete — run again to resume.', 'warn');
+      if (!paging.done && !paging.bypassGate) {
+        state.statusText = t('superhive_status_cart_gate', String(state.assetsFound.length));
+        utils.log('[Superhive] Pagination paused — click "Cart Loaded Products" to proceed or "Load More Pages" to continue pagination.', 'warn');
+        updatePanelLoadMoreVisibility();
         return;
       }
     }
+    paging.bypassGate = false;
 
     // Re-scan the live DOM after pagination so the list reflects reality.
     var allCards = getFreeAssetCards();
@@ -334,6 +452,28 @@
       utils.log('[Superhive] No free products on this listing.');
       applyHideNonFree();
       return;
+    }
+
+    // Login guard: verify session on first card before starting bulk processing
+    if (cards.length > 0) {
+      var checkHref = slugOf(cards[0].element);
+      try {
+        var testRes = await rlFetch(checkHref);
+        if (testRes.ok) {
+          var testDoc = new DOMParser().parseFromString(await testRes.text(), 'text/html');
+          var testForm = testDoc.querySelector(SELECTORS.productForm);
+          var bodyTxt = testDoc.body ? testDoc.body.textContent : '';
+          var isLoggedOut = !testForm && (/log\s*in|sign\s*in|create\s*account/i.test(bodyTxt));
+          var isOwned = /you\s+own\s+this|already\s+owned|download\s+files?|purchased/i.test(bodyTxt);
+          if (isLoggedOut && !isOwned) {
+            state.statusText = t('superhive_status_not_signed_in');
+            utils.log('[Superhive] Not signed in to Superhive. Aborting bulk run.', 'warn');
+            return;
+          }
+        }
+      } catch (e) {
+        // Continue if single check encounters network error
+      }
     }
 
     utils.log('[Superhive] Adding ' + cards.length + ' free product(s) to cart...');
@@ -404,6 +544,7 @@
   ns.assetProcessor = {
     getFreeAssetCards: getFreeAssetCards,
     processAllAssets:  processAllAssets,
+    cartLoadedAssets:  cartLoadedAssets,
     isFree:            isFree,
     applyHideNonFree:  applyHideNonFree,
     loadAllPages:      loadAllPages,

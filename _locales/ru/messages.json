@@ -654,7 +654,46 @@
     "message": "Страницы загружены не полностью — запустите снова"
   },
   "superhive_status_carting": {
-    "message": "В корзину $1/$2 · ✓$3 ✕$4"
+    "message": "Добавление в корзину $1/$2 · ✓$3 ✕$4"
+  },
+  "superhive_status_not_signed_in": {
+    "message": "Вы не вошли в Superhive, пожалуйста, войдите и попробуйте снова."
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "Остановлено на первом платном товаре · найдено бесплатных товаров: $1"
+  },
+  "superhive_status_budget_reached": {
+    "message": "Загружено страниц: $1 ($2 товаров) · нажмите 'Загрузить ещё'"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "Сработал предохранитель ограничения частоты ($1 ошибок 429 подряд) · пауза"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "Список не отсортирован по возрастанию цены — загрузка до $1 страниц"
+  },
+  "superhive_status_cart_gate": {
+    "message": "Пагинация приостановлена ($1 товаров загружено) — нажмите Старт снова"
+  },
+  "options_superhive_page_budget": {
+    "message": "Бюджет страниц на запуск"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "Максимальное число страниц для автоматической загрузки перед паузой (1–20)"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "Предохранитель лимита запросов"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "Число подряд идущих ошибок 429/503 до приостановки пагинации (1–10)"
+  },
+  "panel_superhive_page_budget": {
+    "message": "Бюджет страниц"
+  },
+  "panel_superhive_load_more": {
+    "message": "Загрузить ещё страницы"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "Добавить загруженные товары в корзину"
   },
   "controller_claiming_n": {
     "message": "Получение $1/$2..."

@@ -390,6 +390,32 @@
 
           <div class="option-row">
             <div class="option-info">
+              <label class="option-label" for="opt-superhive-page-budget"
+                data-i18n="options_superhive_page_budget">Page Budget Per Burst</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_page_budget_desc">Maximum pages to load automatically before pausing (1–20)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-superhive-page-budget"
+                class="option-input" min="1" max="20" step="1" value="5">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-superhive-rate-limit-streak"
+                data-i18n="options_superhive_rate_limit_streak">Rate Limit Circuit Breaker</label>
+              <span class="option-desc"
+                data-i18n="options_superhive_rate_limit_streak_desc">Consecutive 429/503 errors before pausing pagination (1–10)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-superhive-rate-limit-streak"
+                class="option-input" min="1" max="10" step="1" value="3">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <div class="option-info">
               <label class="option-label"
                 data-i18n="options_superhive_revoke">Revoke Superhive Access</label>
               <span class="option-desc"

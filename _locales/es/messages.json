@@ -654,7 +654,46 @@
     "message": "Páginas incompletas — ejecuta de nuevo para reanudar"
   },
   "superhive_status_carting": {
-    "message": "Al carrito $1/$2 · ✓$3 ✕$4"
+    "message": "Añadiendo al carrito $1/$2 · ✓$3 ✕$4"
+  },
+  "superhive_status_not_signed_in": {
+    "message": "No has iniciado sesión en Superhive, por favor inicia sesión y vuelve a intentarlo."
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "Detenido en el primer producto de pago · $1 productos gratuitos encontrados"
+  },
+  "superhive_status_budget_reached": {
+    "message": "Cargadas $1 páginas ($2 productos) · haz clic en Cargar más para continuar"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "Interruptor de límite de tasa activado ($1 errores 429 seguidos) · pausado"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "La lista no está ordenada por precio ascendente — cargando hasta $1 página(s) presupuestada(s)"
+  },
+  "superhive_status_cart_gate": {
+    "message": "Paginación pausada ($1 productos cargados) — haz clic en Iniciar de nuevo para continuar"
+  },
+  "options_superhive_page_budget": {
+    "message": "Presupuesto de páginas por ráfaga"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "Número máximo de páginas para cargar automáticamente antes de pausar (1–20)"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "Interruptor de límite de tasa"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "Errores 429/503 consecutivos antes de pausar la paginación (1–10)"
+  },
+  "panel_superhive_page_budget": {
+    "message": "Presupuesto de páginas"
+  },
+  "panel_superhive_load_more": {
+    "message": "Cargar más páginas"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "Añadir productos cargados al carrito"
   },
   "controller_claiming_n": {
     "message": "Canjeando $1/$2..."

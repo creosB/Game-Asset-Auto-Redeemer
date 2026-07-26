@@ -654,7 +654,46 @@
     "message": "Sayfalar tamamlanmadı — devam etmek için tekrar çalıştır"
   },
   "superhive_status_carting": {
-    "message": "Sepete $1/$2 · ✓$3 ✕$4"
+    "message": "Sepete ekleniyor $1/$2 · ✓$3 ✕$4"
+  },
+  "superhive_status_not_signed_in": {
+    "message": "Superhive'a giriş yapılmadı, lütfen giriş yapıp tekrar deneyin."
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "İlk ücretli üründe durduruldu · $1 ücretsiz ürün bulundu"
+  },
+  "superhive_status_budget_reached": {
+    "message": "$1 sayfa yüklendi ($2 ürün) · devam etmek için Daha Fazla Yükle'ye tıklayın"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "Hız sınırı devre kesicisi tetiklendi ($1 üst üste 429 hatası) · duraklatıldı"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "Liste fiyata göre artan sırada değil — en fazla $1 bütçelenmiş sayfa yükleniyor"
+  },
+  "superhive_status_cart_gate": {
+    "message": "Sayfalama duraklatıldı ($1 ürün yüklendi) — devam etmek için tekrar Başlat'a tıklayın"
+  },
+  "options_superhive_page_budget": {
+    "message": "Her Çalıştırmadaki Sayfa Bütçesi"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "Duraklatılmadan önce otomatik yüklenecek maksimum sayfa sayısı (1–20)"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "Hız Sınırı Devre Kesicisi"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "Sayfalamayı duraklatmadan önceki ardışık 429/503 hata sayısı (1–10)"
+  },
+  "panel_superhive_page_budget": {
+    "message": "Sayfa Bütçesi"
+  },
+  "panel_superhive_load_more": {
+    "message": "Daha Fazla Sayfa Yükle"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "Yüklenen Ürünleri Sepete Ekle"
   },
   "controller_claiming_n": {
     "message": "$1/$2 talep ediliyor..."

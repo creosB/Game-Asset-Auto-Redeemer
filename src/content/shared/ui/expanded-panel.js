@@ -46,6 +46,8 @@
 
         '<div class="fab-grab-controls fab-grab-superhive-only" id="fab-grab-superhive-postcart" style="display:none;">' +
           '<a class="fab-grab-btn fab-grab-btn-primary" id="fab-grab-superhive-cart" href="' + cartUrl() + '" target="_blank" rel="noopener">' + t('panel_superhive_go_to_cart') + '</a>' +
+          '<button class="fab-grab-btn fab-grab-btn-primary" id="fab-grab-superhive-cart-loaded" style="display:none;">' + t('panel_superhive_cart_loaded') + '</button>' +
+          '<button class="fab-grab-btn fab-grab-btn-secondary" id="fab-grab-superhive-load-more" style="display:none;">' + t('panel_superhive_load_more') + '</button>' +
         '</div>' +
 
         '<div class="fab-grab-config">' +
@@ -161,6 +163,12 @@
             '<span class="fab-grab-config-label">' + t('panel_superhive_page_delay') + '</span>' +
             '<div class="fab-grab-config-value">' +
               '<input type="number" class="fab-grab-input" id="fab-grab-superhive-page-delay" min="200" max="10000" step="100" value="700">' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-superhive-only" style="display:none">' +
+            '<span class="fab-grab-config-label">' + t('panel_superhive_page_budget') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<input type="number" class="fab-grab-input" id="fab-grab-superhive-page-budget" min="1" max="20" step="1" value="5">' +
             '</div>' +
           '</div>' +
         '</div>' +
@@ -427,6 +435,35 @@
         var val = parseInt(shPageDelayInput.value, 10);
         if (val >= 200 && val <= 10000) {
           ns.saveConfig({ superhivePageDelay: val });
+        }
+      });
+    }
+
+    var shPageBudgetInput = panel.querySelector('#fab-grab-superhive-page-budget');
+    if (shPageBudgetInput) {
+      shPageBudgetInput.value = config.superhivePageBudget || 5;
+      shPageBudgetInput.addEventListener('change', function() {
+        var val = parseInt(shPageBudgetInput.value, 10);
+        if (val >= 1 && val <= 20) {
+          ns.saveConfig({ superhivePageBudget: val });
+        }
+      });
+    }
+
+    var loadMoreBtn = panel.querySelector('#fab-grab-superhive-load-more');
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', function() {
+        if (ns.assetProcessor && ns.assetProcessor.loadAllPages) {
+          ns.assetProcessor.loadAllPages(true);
+        }
+      });
+    }
+
+    var cartLoadedBtn = panel.querySelector('#fab-grab-superhive-cart-loaded');
+    if (cartLoadedBtn) {
+      cartLoadedBtn.addEventListener('click', function() {
+        if (ns.assetProcessor && ns.assetProcessor.cartLoadedAssets) {
+          ns.assetProcessor.cartLoadedAssets();
         }
       });
     }

@@ -677,6 +677,45 @@
   "superhive_status_carting": {
     "message": "Carting $1/$2 · ✓$3 ⊘$4 ✕$5"
   },
+  "superhive_status_not_signed_in": {
+    "message": "Not signed in to Superhive, please log in and retry."
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "Stopped at first paid product · $1 free products found"
+  },
+  "superhive_status_budget_reached": {
+    "message": "Loaded $1 pages ($2 products) · click Load More to continue"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "Rate limit circuit breaker triggered ($1 consecutive 429s) · paused"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "Listing is not sorted by price ascending — loading up to $1 budgeted page(s)"
+  },
+  "superhive_status_cart_gate": {
+    "message": "Paging paused ($1 products loaded) — click Start again to proceed with loaded items"
+  },
+  "options_superhive_page_budget": {
+    "message": "Page Budget Per Burst"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "Maximum pages to load automatically before pausing (1–20)"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "Rate Limit Circuit Breaker"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "Consecutive 429/503 errors before pausing pagination (1–10)"
+  },
+  "panel_superhive_page_budget": {
+    "message": "Page Budget"
+  },
+  "panel_superhive_load_more": {
+    "message": "Load More Pages"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "Cart Loaded Products"
+  },
   "controller_claiming_n": {
     "message": "Claiming $1/$2..."
   },

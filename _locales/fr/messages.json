@@ -654,7 +654,46 @@
     "message": "Pages incomplètes — relancez pour reprendre"
   },
   "superhive_status_carting": {
-    "message": "Au panier $1/$2 · ✓$3 ✕$4"
+    "message": "Ajout au panier $1/$2 · ✓$3 ✕$4"
+  },
+  "superhive_status_not_signed_in": {
+    "message": "Non connecté à Superhive, veuillez vous connecter et réessayer."
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "Arrêté au premier produit payant · $1 produits gratuits trouvés"
+  },
+  "superhive_status_budget_reached": {
+    "message": "Chargé $1 pages ($2 produits) · cliquez sur Charger plus pour continuer"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "Disjoncteur de limite de débit déclenché ($1 erreurs 429 consécutives) · en pause"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "La liste n'est pas triée par prix croissant — chargement de $1 page(s) au maximum"
+  },
+  "superhive_status_cart_gate": {
+    "message": "Pagination en pause ($1 produits chargés) — cliquez à nouveau sur Démarrer pour continuer"
+  },
+  "options_superhive_page_budget": {
+    "message": "Budget de pages par session"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "Nombre maximal de pages à charger automatiquement avant d'interrompre (1–20)"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "Disjoncteur de limite de débit"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "Erreurs 429/503 consécutives avant d'interrompre la pagination (1–10)"
+  },
+  "panel_superhive_page_budget": {
+    "message": "Budget de pages"
+  },
+  "panel_superhive_load_more": {
+    "message": "Charger plus de pages"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "Ajouter les produits chargés au panier"
   },
   "controller_claiming_n": {
     "message": "Récupération $1/$2..."

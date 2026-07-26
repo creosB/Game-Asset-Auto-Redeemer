@@ -12,9 +12,11 @@
   async function loadHistory() {
     if (_loaded) return _history;
     try {
+      if (!chrome.runtime || !chrome.runtime.id) return _history;
       var result = await chrome.storage.local.get({ [STORAGE_KEY]: [] });
       _history = result[STORAGE_KEY] || [];
     } catch (e) {
+      if (e.message && e.message.indexOf('Extension context invalidated') !== -1) return _history;
       console.warn('[FAB Auto Redeem] Could not load claim history:', e.message);
       _history = [];
     }
@@ -24,8 +26,10 @@
 
   async function saveHistory() {
     try {
+      if (!chrome.runtime || !chrome.runtime.id) return;
       await chrome.storage.local.set({ [STORAGE_KEY]: _history });
     } catch (e) {
+      if (e.message && e.message.indexOf('Extension context invalidated') !== -1) return;
       console.warn('[FAB Auto Redeem] Could not save claim history:', e.message);
     }
   }

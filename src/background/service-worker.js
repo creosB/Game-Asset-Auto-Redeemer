@@ -320,11 +320,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       try {
         chrome.notifications.create('fab-claimed-' + Date.now(), {
           type: 'basic',
-          iconUrl: 'icons/icon-128.png',
+          iconUrl: chrome.runtime.getURL('icons/icon-128.png'),
           title: chrome.i18n.getMessage('notif_claimed_title') || 'FAB Asset Claimed',
           message: chrome.i18n.getMessage('notif_claimed_message', [message.assetName || 'Asset']) || (message.assetName || 'Asset') + ' added to your library!',
           priority: 1
-        });
+        }).catch(function() {});
       } catch (e) {}
     }
     sendResponse({ ok: true });
@@ -380,11 +380,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         try {
           chrome.notifications.create('fab-claimed-' + Date.now(), {
             type: 'basic',
-            iconUrl: 'icons/icon-128.png',
+            iconUrl: chrome.runtime.getURL('icons/icon-128.png'),
             title: chrome.i18n.getMessage('notif_claimed_title') || 'FAB Asset Claimed',
             message: chrome.i18n.getMessage('notif_claimed_message', [claimInfo.assetName || 'Asset']) || (claimInfo.assetName || 'Asset') + ' added to your library!',
             priority: 1
-          });
+          }).catch(function() {});
         } catch (e) {}
       }
     }
@@ -397,12 +397,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     try {
       chrome.notifications.create('grab-complete-' + tabId, {
         type: 'basic',
-        iconUrl: 'icons/icon-128.png',
+        iconUrl: chrome.runtime.getURL('icons/icon-128.png'),
         title: chrome.i18n.getMessage('notif_complete_title', [siteName]) || siteName + ' Auto Redeem Complete',
         message: summary,
         priority: 2,
         requireInteraction: true
-      });
+      }).catch(function() {});
     } catch (e) {
       console.error('[Service Worker] Notification error:', e);
     }
@@ -430,12 +430,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     try {
       chrome.notifications.create('grab-error-' + tabId, {
         type: 'basic',
-        iconUrl: 'icons/icon-128.png',
+        iconUrl: chrome.runtime.getURL('icons/icon-128.png'),
         title: chrome.i18n.getMessage('notif_error_title', [errSiteName]) || errSiteName + ' Auto Redeem Error',
         message: message.error || chrome.i18n.getMessage('notif_error_default') || 'An error occurred during processing.',
         priority: 2,
         requireInteraction: true
-      });
+      }).catch(function() {});
     } catch (e) {
       console.error('[Service Worker] Notification error:', e);
     }
@@ -522,11 +522,11 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
           try {
             chrome.notifications.create('fab-monthly-free-' + Date.now(), {
               type: 'basic',
-              iconUrl: 'icons/icon-128.png',
+              iconUrl: chrome.runtime.getURL('icons/icon-128.png'),
               title: chrome.i18n.getMessage('notif_monthly_title') || 'FAB Free Assets Available',
               message: chrome.i18n.getMessage('notif_monthly_message', [result.data.title, String(result.data.assets.length)]) || result.data.title + ' — ' + result.data.assets.length + ' free asset(s) this month!',
               priority: 1
-            });
+            }).catch(function() {});
           } catch (e) {}
           if (cfg.fabAutoClaim) {
             autoClaimAssets(result.data.assets);

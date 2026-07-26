@@ -20,16 +20,20 @@
     superhiveHideNonFree: false,
     superhiveDelayBetweenAssets: 1200,
     superhivePageDelay: 700,
-    superhiveMaxRetries: 4
+    superhiveMaxRetries: 4,
+    superhivePageBudget: 5,
+    superhiveMaxRateLimitStreak: 3
   };
 
   ns.config = Object.assign({}, DEFAULTS);
 
   ns.loadConfig = async function() {
     try {
+      if (!chrome.runtime || !chrome.runtime.id) return;
       var stored = await chrome.storage.sync.get(DEFAULTS);
       Object.assign(ns.config, stored);
     } catch (e) {
+      if (e.message && e.message.indexOf('Extension context invalidated') !== -1) return;
       console.warn('[FAB Auto Redeem] Could not load config from storage:', e.message);
     }
   };
@@ -37,8 +41,10 @@
   ns.saveConfig = async function(patch) {
     Object.assign(ns.config, patch);
     try {
+      if (!chrome.runtime || !chrome.runtime.id) return;
       await chrome.storage.sync.set(patch);
     } catch (e) {
+      if (e.message && e.message.indexOf('Extension context invalidated') !== -1) return;
       console.warn('[FAB Auto Redeem] Could not save config:', e.message);
     }
   };

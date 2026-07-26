@@ -656,6 +656,45 @@
   "superhive_status_carting": {
     "message": "In Warenkorb $1/$2 · ✓$3 ✕$4"
   },
+  "superhive_status_not_signed_in": {
+    "message": "Nicht bei Superhive angemeldet, bitte anmelden und erneut versuchen."
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "Beim ersten kostenpflichtigen Produkt gestoppt · $1 kostenlose Produkte gefunden"
+  },
+  "superhive_status_budget_reached": {
+    "message": "$1 Seiten geladen ($2 Produkte) · auf 'Mehr laden' klicken"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "Ratenlimit-Schutzschalter ausgelöst ($1 aufeinanderfolgende 429er) · pausiert"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "Liste ist nicht nach Preis aufsteigend sortiert — lade bis zu $1 budgetierte Seite(n)"
+  },
+  "superhive_status_cart_gate": {
+    "message": "Paginierung pausiert ($1 Produkte geladen) — erneut Start klicken um fortzufahren"
+  },
+  "options_superhive_page_budget": {
+    "message": "Seitenbudget pro Durchgang"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "Maximale Seitenanzahl zum automatischen Laden vor Pause (1–20)"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "Ratenlimit-Schutzschalter"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "Aufeinanderfolgende 429/503-Fehler vor Pausieren der Paginierung (1–10)"
+  },
+  "panel_superhive_page_budget": {
+    "message": "Seitenbudget"
+  },
+  "panel_superhive_load_more": {
+    "message": "Mehr Seiten laden"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "Geladene Produkte in den Warenkorb"
+  },
   "controller_claiming_n": {
     "message": "$1/$2 wird eingelöst..."
   },

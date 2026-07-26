@@ -164,15 +164,21 @@ test.describe('Superhive — i18n key coverage', () => {
     'options_superhive_delay', 'options_superhive_delay_desc',
     'options_superhive_page_delay', 'options_superhive_page_delay_desc',
     'options_superhive_retries', 'options_superhive_retries_desc',
+    'options_superhive_page_budget', 'options_superhive_page_budget_desc',
+    'options_superhive_rate_limit_streak', 'options_superhive_rate_limit_streak_desc',
     'options_history_superhive',
     'panel_superhive_auto_redeem', 'panel_superhive_start', 'panel_superhive_free_only',
     'panel_superhive_endless', 'panel_superhive_hide_non_free',
     'panel_superhive_asset_delay', 'panel_superhive_page_delay',
+    'panel_superhive_page_budget', 'panel_superhive_load_more', 'panel_superhive_cart_loaded',
     'controller_superhive_summary',
     'superhive_status_rate_limited', 'superhive_status_loading_page',
     'superhive_status_page_failed', 'superhive_status_pages_done',
     'superhive_status_waiting_pages', 'superhive_status_pages_incomplete',
-    'superhive_status_carting', 'status_skipped'
+    'superhive_status_carting', 'superhive_status_not_signed_in',
+    'superhive_status_stopped_past_free', 'superhive_status_budget_reached',
+    'superhive_status_circuit_breaker', 'superhive_status_unsorted_notice',
+    'superhive_status_cart_gate', 'status_skipped'
   ];
   const LOCALES = ['en', 'de', 'es', 'fr', 'it', 'ru', 'tr', 'zh_CN'];
 

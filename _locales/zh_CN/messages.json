@@ -654,7 +654,46 @@
     "message": "页面未完成 — 再次运行以继续"
   },
   "superhive_status_carting": {
-    "message": "加入购物车 $1/$2 · ✓$3 ✕$4"
+    "message": "正在加入购物车 $1/$2 · ✓$3 ✕$4"
+  },
+  "superhive_status_not_signed_in": {
+    "message": "未登录 Superhive，请登录后重试。"
+  },
+  "superhive_status_stopped_past_free": {
+    "message": "在第一个付费商品处停止 · 已找到 $1 个免费商品"
+  },
+  "superhive_status_budget_reached": {
+    "message": "已加载 $1 页（$2 个商品）· 点击加载更多继续"
+  },
+  "superhive_status_circuit_breaker": {
+    "message": "已触发频率限制熔断（连续 $1 次 429 错误）· 已暂停"
+  },
+  "superhive_status_unsorted_notice": {
+    "message": "列表未按价格升序排列 — 将加载最多 $1 页预算页面"
+  },
+  "superhive_status_cart_gate": {
+    "message": "分页已暂停（已加载 $1 个商品）— 再次点击开始以处理已加载商品"
+  },
+  "options_superhive_page_budget": {
+    "message": "每次单批页数预算"
+  },
+  "options_superhive_page_budget_desc": {
+    "message": "暂停前自动加载的最大页数（1–20）"
+  },
+  "options_superhive_rate_limit_streak": {
+    "message": "频率限制熔断门槛"
+  },
+  "options_superhive_rate_limit_streak_desc": {
+    "message": "暂停分页前允许的连续 429/503 错误数（1–10）"
+  },
+  "panel_superhive_page_budget": {
+    "message": "页数预算"
+  },
+  "panel_superhive_load_more": {
+    "message": "加载更多页面"
+  },
+  "panel_superhive_cart_loaded": {
+    "message": "将已加载商品加入购物车"
   },
   "controller_claiming_n": {
     "message": "正在领取 $1/$2..."

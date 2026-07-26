@@ -659,6 +659,9 @@
   "superhive_status_not_signed_in": {
     "message": "No has iniciado sesión en Superhive, por favor inicia sesión y vuelve a intentarlo."
   },
+  "superhive_status_already_in_cart": {
+    "message": "Ya en el carrito"
+  },
   "superhive_status_stopped_past_free": {
     "message": "Detenido en el primer producto de pago · $1 productos gratuitos encontrados"
   },

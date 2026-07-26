@@ -659,6 +659,9 @@
   "superhive_status_not_signed_in": {
     "message": "Non connecté à Superhive, veuillez vous connecter et réessayer."
   },
+  "superhive_status_already_in_cart": {
+    "message": "Déjà dans le panier"
+  },
   "superhive_status_stopped_past_free": {
     "message": "Arrêté au premier produit payant · $1 produits gratuits trouvés"
   },

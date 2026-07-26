@@ -175,7 +175,7 @@ test.describe('Superhive — i18n key coverage', () => {
     'superhive_status_rate_limited', 'superhive_status_loading_page',
     'superhive_status_page_failed', 'superhive_status_pages_done',
     'superhive_status_waiting_pages', 'superhive_status_pages_incomplete',
-    'superhive_status_carting', 'superhive_status_not_signed_in',
+    'superhive_status_carting', 'superhive_status_not_signed_in', 'superhive_status_already_in_cart',
     'superhive_status_stopped_past_free', 'superhive_status_budget_reached',
     'superhive_status_circuit_breaker', 'superhive_status_unsorted_notice',
     'superhive_status_cart_gate', 'status_skipped'

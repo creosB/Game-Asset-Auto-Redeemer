@@ -193,17 +193,19 @@
       if (p && !/^\$0(\.0+)?\$?$|^free$/i.test(p)) return { skip: 'not free' };
     }
 
-    var form = doc.querySelector(SELECTORS.productForm) ||
-               doc.querySelector('form[action*="/cart_items"], form[action*="cart_item"], form[action*="/cart"]');
-    var btn = form ? (form.querySelector('button[type="submit"], input[type="submit"], button, .js-item-addToCart, .btn-add-to-cart') || doc.querySelector(SELECTORS.productBtn))
-                   : doc.querySelector(SELECTORS.productBtn);
+    var form = doc.querySelector(SELECTORS.productForm);
+    var btn  = form ? (form.querySelector('button[type="submit"], input[type="submit"], button, .js-item-addToCart, .btn-add-to-cart') || doc.querySelector(SELECTORS.productBtn))
+                    : doc.querySelector(SELECTORS.productBtn);
 
-    if (!form || (btn && btn.disabled)) {
+    if (!form || !btn || btn.disabled) {
       var bodyText = doc.body ? doc.body.textContent : '';
       if (!form && (/log\s*in|sign\s*in|create\s*account/i.test(bodyText))) {
         return { skip: 'not_signed_in' };
       }
-      if (/you\s+own\s+this|already\s+owned|download\s+files?|purchased|in\s+cart|added\s+to\s+cart|already\s+in\s+cart/i.test(bodyText) || (btn && btn.disabled)) {
+      if (/in\s+cart|added\s+to\s+cart|already\s+in\s+cart/i.test(bodyText)) {
+        return { skip: 'already_in_cart' };
+      }
+      if (/you\s+own\s+this|already\s+owned|download\s+files?|purchased/i.test(bodyText) || (btn && btn.disabled)) {
         return { skip: 'owned' };
       }
       return { skip: 'no_cart_form' };

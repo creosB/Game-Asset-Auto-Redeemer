@@ -659,6 +659,9 @@
   "superhive_status_not_signed_in": {
     "message": "Non hai effettuato l'accesso a Superhive, accedi e riprova."
   },
+  "superhive_status_already_in_cart": {
+    "message": "Già nel carrello"
+  },
   "superhive_status_stopped_past_free": {
     "message": "Fermato al primo prodotto a pagamento · $1 prodotti gratuiti trovati"
   },

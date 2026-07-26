@@ -659,6 +659,9 @@
   "superhive_status_not_signed_in": {
     "message": "未登录 Superhive，请登录后重试。"
   },
+  "superhive_status_already_in_cart": {
+    "message": "已在购物车中"
+  },
   "superhive_status_stopped_past_free": {
     "message": "在第一个付费商品处停止 · 已找到 $1 个免费商品"
   },

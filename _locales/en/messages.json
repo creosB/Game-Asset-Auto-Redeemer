@@ -680,6 +680,9 @@
   "superhive_status_not_signed_in": {
     "message": "Not signed in to Superhive, please log in and retry."
   },
+  "superhive_status_already_in_cart": {
+    "message": "Already in cart"
+  },
   "superhive_status_stopped_past_free": {
     "message": "Stopped at first paid product · $1 free products found"
   },

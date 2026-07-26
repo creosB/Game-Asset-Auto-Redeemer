@@ -54,11 +54,28 @@
     } catch (_) {}
   }
 
+  async function markUnitySeen() {
+    try {
+      var stored = await chrome.storage.local.get('unityWeeklyAssetCache');
+      var cached = stored.unityWeeklyAssetCache;
+      if (cached) {
+        var url = cached.url || '';
+        var cleanUrl = url.split('?')[0].split('#')[0].replace(/\/+$/, '').toLowerCase();
+        var unityId = cleanUrl || (cached.name ? cached.name.trim().toLowerCase() : null);
+        if (unityId) {
+          await chrome.storage.local.set({ lastSeenUnityAssetId: unityId });
+        }
+      }
+      chrome.runtime.sendMessage({ type: 'UPDATE_BADGE' }).catch(function() {});
+    } catch (_) {}
+  }
+
   btnOpenFab.addEventListener('click', function() {
     chrome.tabs.create({ url: 'https://www.fab.com/channels/unreal-engine?is_free=1&sort_by=-firstPublishedAt' });
   });
 
   btnOpenUnity.addEventListener('click', function() {
+    markUnitySeen();
     chrome.tabs.create({ url: 'https://assetstore.unity.com/?free=true&exclude=true&orderBy=1&rows=96' });
   });
 
@@ -66,15 +83,16 @@
     btnOpenSuperhive.addEventListener('click', function() {
       // Superhive access is optional: request it on user click gesture directly.
       var origins = ['https://superhivemarket.com/*', 'https://*.superhivemarket.com/*'];
+      var targetUrl = 'https://superhivemarket.com/categories/addons/browse?sort_date=desc&sort_range=0,20';
       chrome.permissions.contains({ origins: origins }, function(granted) {
         if (granted) {
-          chrome.tabs.create({ url: 'https://superhivemarket.com/categories/addons/browse?sort_date=desc&page=1' });
+          chrome.tabs.create({ url: targetUrl });
           return;
         }
         chrome.permissions.request({ origins: origins }, function(granted) {
           if (granted) {
             chrome.runtime.sendMessage({ type: 'SUPERHIVE_PERMISSION_GRANTED' }, function() {
-              chrome.tabs.create({ url: 'https://superhivemarket.com/categories/addons/browse?sort_date=desc&page=1' });
+              chrome.tabs.create({ url: targetUrl });
             });
           }
         });
@@ -94,4 +112,5 @@
 
   checkStatus();
   checkPremium();
+  chrome.runtime.sendMessage({ type: 'UPDATE_BADGE' }).catch(function() {});
 })();

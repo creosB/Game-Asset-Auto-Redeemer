@@ -718,5 +718,14 @@
   },
   "status_skipped": {
     "message": "Пропущено"
+  },
+  "badge_title_fab": {
+    "message": "$1 нереализованный(х) бесплатный(х) ассет(ов) FAB"
+  },
+  "badge_title_unity": {
+    "message": "1 новый еженедельный ассет Unity"
+  },
+  "badge_title_both": {
+    "message": "$1 нереализованный(х) ассет(ов) FAB, 1 новый ассет Unity"
   }
 }

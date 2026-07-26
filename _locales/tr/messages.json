@@ -718,5 +718,14 @@
   },
   "status_skipped": {
     "message": "Atlandı"
+  },
+  "badge_title_fab": {
+    "message": "$1 alınmamış ücretsiz FAB varlığı"
+  },
+  "badge_title_unity": {
+    "message": "1 yeni haftalık Unity varlığı"
+  },
+  "badge_title_both": {
+    "message": "$1 alınmamış FAB varlığı, 1 yeni haftalık Unity varlığı"
   }
 }

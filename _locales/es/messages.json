@@ -718,5 +718,14 @@
   },
   "status_skipped": {
     "message": "Omitido"
+  },
+  "badge_title_fab": {
+    "message": "$1 recurso(s) gratuito(s) de FAB sin reclamar"
+  },
+  "badge_title_unity": {
+    "message": "1 nuevo recurso semanal de Unity"
+  },
+  "badge_title_both": {
+    "message": "$1 recurso(s) de FAB sin reclamar, 1 nuevo recurso semanal de Unity"
   }
 }

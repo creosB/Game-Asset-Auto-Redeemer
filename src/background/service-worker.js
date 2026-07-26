@@ -166,8 +166,14 @@ function handlePremiumClear(email) {
 chrome.runtime.onInstalled.addListener(function(details) {
   if (details.reason === 'install') {
     chrome.tabs.create({ url: 'src/options/options.html' });
-    autoCheck().catch(function() {});
+    autoCheck().then(function() { updateBadge(); }).catch(function() { updateBadge(); });
+  } else {
+    updateBadge();
   }
+});
+
+chrome.runtime.onStartup.addListener(function() {
+  updateBadge();
 });
 
 // ── Superhive: optional host permission + lazy content script ──────
@@ -275,8 +281,18 @@ chrome.permissions.onRemoved.addListener(function() {
 });
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.type === 'UPDATE_BADGE') {
+    updateBadge().then(function() {
+      sendResponse({ ok: true });
+    }).catch(function() {
+      sendResponse({ ok: false });
+    });
+    return true;
+  }
+
   if (message.type === 'FETCH_WEEKLY_ASSET') {
     fetchWeeklyAsset(!!message.forceRefresh).then(function(result) {
+      updateBadge();
       sendResponse(result);
     }).catch(function(err) {
       sendResponse({ success: false, error: err.message || 'Unknown error' });
@@ -286,6 +302,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
   if (message.type === 'FETCH_MONTHLY_FREE') {
     fetchMonthlyFree(!!message.forceRefresh).then(function(result) {
+      updateBadge();
       sendResponse(result);
     }).catch(function(err) {
       sendResponse({ success: false, error: err.message || 'Unknown error' });
@@ -301,7 +318,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       sendResponse({ success: false, error: chrome.i18n.getMessage('error_no_url') || 'No URL provided' });
       return false;
     }
-    markAssetClaimed(assetUid).catch(function() {});
+    markAssetClaimed(assetUid).then(function() {
+      updateBadge();
+    }).catch(function() {});
     chrome.tabs.create({ url: assetUrl, active: false }, function(tab) {
       claimTabs.set(tab.id, {
         assetUid: assetUid,
@@ -316,7 +335,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.type === 'MONTHLY_FREE_CLAIMED') {
     var claimUid = message.assetUid;
     if (claimUid) {
-      markAssetClaimed(claimUid).catch(function() {});
+      markAssetClaimed(claimUid).then(function() {
+        updateBadge();
+      }).catch(function() { updateBadge(); });
       try {
         chrome.notifications.create('fab-claimed-' + Date.now(), {
           type: 'basic',
@@ -326,6 +347,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
           priority: 1
         }).catch(function() {});
       } catch (e) {}
+    } else {
+      updateBadge();
     }
     sendResponse({ ok: true });
     return false;
@@ -376,7 +399,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       var claimInfo = claimTabs.get(tabId);
       claimTabs.delete(tabId);
       if (claimInfo.assetUid) {
-        markAssetClaimed(claimInfo.assetUid).catch(function() {});
+        markAssetClaimed(claimInfo.assetUid).then(function() {
+          updateBadge();
+        }).catch(function() { updateBadge(); });
         try {
           chrome.notifications.create('fab-claimed-' + Date.now(), {
             type: 'basic',
@@ -386,7 +411,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             priority: 1
           }).catch(function() {});
         } catch (e) {}
+      } else {
+        updateBadge();
       }
+    } else {
+      updateBadge();
     }
 
     var siteName = (info && info.site === 'unity') ? 'Unity'
@@ -508,16 +537,141 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   }
 });
 
+function getUnityAssetId(asset) {
+  if (!asset) return null;
+  var url = asset.url || '';
+  if (url) {
+    var cleanUrl = url.split('?')[0].split('#')[0].replace(/\/+$/, '').toLowerCase();
+    if (cleanUrl) return cleanUrl;
+  }
+  return asset.name ? asset.name.trim().toLowerCase() : null;
+}
+
+async function updateBadge() {
+  try {
+    var storage = await chrome.storage.local.get([
+      'fabMonthlyFreeCache',
+      'unityWeeklyAssetCache',
+      'lastSeenUnityAssetId',
+      'lastSeenFabAssetIds'
+    ]);
+
+    var fabCache = storage.fabMonthlyFreeCache;
+    var fabCount = 0;
+    if (fabCache && Array.isArray(fabCache.assets)) {
+      var unclaimed = await getUnclaimedAssets(fabCache.assets);
+      var lastSeenFab = Array.isArray(storage.lastSeenFabAssetIds) ? storage.lastSeenFabAssetIds : [];
+      var lastSeenFabMap = {};
+      for (var s = 0; s < lastSeenFab.length; s++) {
+        lastSeenFabMap[lastSeenFab[s]] = true;
+      }
+      var newUnclaimed = [];
+      for (var f = 0; f < unclaimed.length; f++) {
+        if (!lastSeenFabMap[unclaimed[f].uid]) {
+          newUnclaimed.push(unclaimed[f]);
+        }
+      }
+      fabCount = newUnclaimed.length;
+    }
+
+    var unityCache = storage.unityWeeklyAssetCache;
+    var unityCount = 0;
+    if (unityCache) {
+      var currentUnityId = getUnityAssetId(unityCache);
+      var lastSeenId = storage.lastSeenUnityAssetId;
+      if (currentUnityId && currentUnityId !== lastSeenId) {
+        unityCount = 1;
+      }
+    }
+
+    var total = fabCount + unityCount;
+    var text = '';
+    if (total > 9) {
+      text = '9+';
+    } else if (total > 0) {
+      text = String(total);
+    }
+
+    await chrome.action.setBadgeText({ text: text });
+    await chrome.action.setBadgeBackgroundColor({ color: '#E53935' });
+    try {
+      await chrome.action.setBadgeTextColor({ color: '#FFFFFF' });
+    } catch (_) {}
+
+    if (total === 0) {
+      var defaultTitle = chrome.i18n.getMessage('manifest_name') || 'Game Asset Auto Redeemer';
+      await chrome.action.setTitle({ title: defaultTitle });
+    } else {
+      var title = '';
+      if (fabCount > 0 && unityCount > 0) {
+        title = chrome.i18n.getMessage('badge_title_both', [String(fabCount)]) || (fabCount + ' unclaimed FAB free asset(s), 1 new Unity weekly asset');
+      } else if (fabCount > 0) {
+        title = chrome.i18n.getMessage('badge_title_fab', [String(fabCount)]) || (fabCount + ' unclaimed FAB free asset(s)');
+      } else if (unityCount > 0) {
+        title = chrome.i18n.getMessage('badge_title_unity') || '1 new Unity weekly asset';
+      }
+      await chrome.action.setTitle({ title: title });
+    }
+  } catch (e) {
+    console.warn('[Service Worker] Badge update error:', e);
+  }
+}
+
+var badgeDebounceTimer = null;
+var WATCHED_BADGE_KEYS = [
+  'fabMonthlyFreeClaimed',
+  'fabGrabClaimHistory',
+  'fabMonthlyFreeCache',
+  'unityWeeklyAssetCache',
+  'lastSeenFabAssetIds',
+  'lastSeenUnityAssetId'
+];
+
+chrome.storage.onChanged.addListener(function(changes, areaName) {
+  if (areaName !== 'local') return;
+  var shouldRecompute = false;
+  var isImmediate = false;
+
+  for (var i = 0; i < WATCHED_BADGE_KEYS.length; i++) {
+    var k = WATCHED_BADGE_KEYS[i];
+    if (k in changes) {
+      shouldRecompute = true;
+      if (k === 'lastSeenFabAssetIds' || k === 'lastSeenUnityAssetId' || changes[k].newValue === undefined) {
+        isImmediate = true;
+      }
+    }
+  }
+
+  if (shouldRecompute) {
+    if (badgeDebounceTimer) {
+      clearTimeout(badgeDebounceTimer);
+      badgeDebounceTimer = null;
+    }
+    if (isImmediate) {
+      updateBadge();
+    } else {
+      badgeDebounceTimer = setTimeout(function() {
+        badgeDebounceTimer = null;
+        updateBadge();
+      }, 250);
+    }
+  }
+});
+
 var FAB_MONTHLY_CHECK_ALARM = 'fab-monthly-free-check';
 
-chrome.alarms.create(FAB_MONTHLY_CHECK_ALARM, {
-  periodInMinutes: 6 * 60
+chrome.alarms.get(FAB_MONTHLY_CHECK_ALARM, function(alarm) {
+  if (!alarm) {
+    chrome.alarms.create(FAB_MONTHLY_CHECK_ALARM, {
+      periodInMinutes: 6 * 60
+    });
+  }
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (alarm.name === FAB_MONTHLY_CHECK_ALARM) {
-    chrome.storage.sync.get({ fabAutoClaim: false }, function(cfg) {
-      autoCheck().then(function(result) {
+    var pFab = chrome.storage.sync.get({ fabAutoClaim: false }).then(function(cfg) {
+      return autoCheck().then(function(result) {
         if (result && result.success && result.data) {
           try {
             chrome.notifications.create('fab-monthly-free-' + Date.now(), {
@@ -532,10 +686,22 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
             autoClaimAssets(result.data.assets);
           }
         }
-      }).catch(function() {});
+      });
+    }).catch(function(e) {
+      console.warn('[Service Worker] Alarm autoCheck error:', e);
+    });
+
+    var pUnity = fetchWeeklyAsset(false).catch(function(e) {
+      console.warn('[Service Worker] Alarm fetchWeeklyAsset error:', e);
+    });
+
+    Promise.allSettled([pFab, pUnity]).then(function() {
+      updateBadge();
     });
   }
 });
+
+updateBadge();
 
 function autoClaimAssets(assets) {
   if (!assets || !assets.length) return;

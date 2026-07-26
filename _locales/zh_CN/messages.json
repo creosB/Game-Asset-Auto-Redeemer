@@ -718,5 +718,14 @@
   },
   "status_skipped": {
     "message": "已跳过"
+  },
+  "badge_title_fab": {
+    "message": "$1 个未领取的 FAB 免费资源"
+  },
+  "badge_title_unity": {
+    "message": "1 个新的 Unity 每周免费资源"
+  },
+  "badge_title_both": {
+    "message": "$1 个未领取的 FAB 资源，1 个新的 Unity 每周资源"
   }
 }

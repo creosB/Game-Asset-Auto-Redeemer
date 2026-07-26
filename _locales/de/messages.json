@@ -718,5 +718,14 @@
   },
   "status_skipped": {
     "message": "Übersprungen"
+  },
+  "badge_title_fab": {
+    "message": "$1 nicht beanspruchte(s) kostenlose(s) FAB-Asset(s)"
+  },
+  "badge_title_unity": {
+    "message": "1 neues wöchentliches Unity-Asset"
+  },
+  "badge_title_both": {
+    "message": "$1 nicht beanspruchte(s) FAB-Asset(s), 1 neues wöchentliches Unity-Asset"
   }
 }

@@ -844,5 +844,38 @@
     });
   }
 
+  async function markSeenOnOptionsLoad() {
+    try {
+      var storage = await chrome.storage.local.get([
+        'fabMonthlyFreeCache',
+        'unityWeeklyAssetCache'
+      ]);
+
+      var updates = {};
+
+      var fabCache = storage.fabMonthlyFreeCache;
+      if (fabCache && Array.isArray(fabCache.assets)) {
+        var uids = fabCache.assets.map(function(a) { return a.uid; }).filter(Boolean);
+        updates.lastSeenFabAssetIds = uids;
+      }
+
+      var unityCache = storage.unityWeeklyAssetCache;
+      if (unityCache) {
+        var url = unityCache.url || '';
+        var cleanUrl = url.split('?')[0].split('#')[0].replace(/\/+$/, '').toLowerCase();
+        var unityId = cleanUrl || (unityCache.name ? unityCache.name.trim().toLowerCase() : null);
+        if (unityId) {
+          updates.lastSeenUnityAssetId = unityId;
+        }
+      }
+
+      if (Object.keys(updates).length > 0) {
+        await chrome.storage.local.set(updates);
+      }
+      chrome.runtime.sendMessage({ type: 'UPDATE_BADGE' }).catch(function() {});
+    } catch (_) {}
+  }
+
   fetchAndRenderMonthly(false);
+  markSeenOnOptionsLoad();
 })();

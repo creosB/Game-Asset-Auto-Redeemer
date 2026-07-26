@@ -210,7 +210,8 @@
     var sections = [
       { id: 'claim-history-section', label: 'Claim History' },
       { id: 'monthly-free-section', label: 'FAB Monthly Free Assets' },
-      { id: 'weekly-asset-section', label: 'Unity Weekly Free Asset' }
+      { id: 'weekly-asset-section', label: 'Unity Weekly Free Asset' },
+      { id: 'library-index-section', label: 'Library Index (FAB)' }
     ];
 
     for (var i = 0; i < sections.length; i++) {

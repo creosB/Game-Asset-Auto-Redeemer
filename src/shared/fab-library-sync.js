@@ -17,7 +17,7 @@ const FAB_ORIGIN = 'https://www.fab.com';
 const START_PATH = '/i/library/search?sort_by=-createdAt&source=acquired';
 const JOB_KEY = 'fabLibrarySyncJob';
 
-const PAGE_DELAY_MS = 150;
+const PAGE_DELAY_MS = 120;
 const MAX_RETRIES = 4;
 const MAX_PAGES = 3000;
 const KNOWN_PAGE_STOP = 2; // incremental: consecutive fully-known pages before stopping
@@ -46,6 +46,7 @@ export function normalizeRow(row) {
   const thumb = (l.thumbnails && l.thumbnails[0]) || {};
   const imgs = thumb.images || [];
   const pick = imgs.find((i) => i.width >= 320) || imgs[0] || {};
+  const formats = l.assetFormats || [];
 
   const id = l.uid || row.uid || null;
   const parsed = row.createdAt ? Date.parse(row.createdAt) : NaN;
@@ -58,9 +59,14 @@ export function normalizeRow(row) {
     title: l.title || '(untitled)',
     seller: (l.publisher && l.publisher.sellerName) || '',
     type: l.listingType || '',
-    formats: (l.assetFormats || [])
+    formats: formats
       .map((f) => f.assetFormatType && f.assetFormatType.name)
       .filter(Boolean),
+    engines: Array.from(new Set(
+      formats.flatMap((f) => (
+        (f.technicalSpecs && f.technicalSpecs.unrealEngineEngineVersions) || []
+      ))
+    )),
     mature: !!l.isMature,
     url: id ? FAB_ORIGIN + '/listings/' + id : '',
     img: pick.url || thumb.mediaUrl || '',

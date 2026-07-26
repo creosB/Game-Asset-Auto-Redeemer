@@ -6,12 +6,16 @@
  * marketplace, upserted by stable id, so "what did I take in 2023" is a real
  * query instead of a guess.
  *
+ * Durable store only. The options panel holds the working set in memory and
+ * filters there: at library scale (10k+ rows) that beats round-tripping IDB on
+ * every keystroke, and it keeps the write path cheap.
+ *
  * Lives on the extension origin, so both the options page and the service
  * worker can open the same database.
  */
 
 const DB_NAME = 'gaarLibrary';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_ITEMS = 'items';
 const STORE_META = 'meta';
 
@@ -19,24 +23,44 @@ let _dbPromise = null;
 
 export function openDb() {
   if (_dbPromise) return _dbPromise;
+
   _dbPromise = new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = () => {
+
+    req.onupgradeneeded = (event) => {
       const db = req.result;
+      const tx = req.transaction;
+
+      let items;
       if (!db.objectStoreNames.contains(STORE_ITEMS)) {
-        const s = db.createObjectStore(STORE_ITEMS, { keyPath: 'uid' });
-        s.createIndex('source', 'source');
-        s.createIndex('acquiredAt', 'acquiredAt');
-        s.createIndex('acquiredYear', 'acquiredYear');
-        s.createIndex('tokens', 'tokens', { multiEntry: true });
+        items = db.createObjectStore(STORE_ITEMS, { keyPath: 'uid' });
+      } else {
+        items = tx.objectStore(STORE_ITEMS);
       }
+
+      const ensure = (name, keyPath) => {
+        if (!items.indexNames.contains(name)) items.createIndex(name, keyPath);
+      };
+      ensure('source', 'source');
+      ensure('acquiredAt', 'acquiredAt');
+      ensure('acquiredYear', 'acquiredYear');
+
+      // v1 shipped a multiEntry token index for in-DB text search. Filtering
+      // now happens in memory, so the index was pure write-amplification.
+      if (event.oldVersion < 2 && items.indexNames.contains('tokens')) {
+        items.deleteIndex('tokens');
+      }
+
       if (!db.objectStoreNames.contains(STORE_META)) {
         db.createObjectStore(STORE_META, { keyPath: 'key' });
       }
     };
+
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
+    req.onblocked = () => reject(new Error('db_blocked'));
   });
+
   return _dbPromise;
 }
 
@@ -46,24 +70,6 @@ function txDone(tx) {
     tx.onerror = () => reject(tx.error);
     tx.onabort = () => reject(tx.error || new Error('tx_aborted'));
   });
-}
-
-/** Derived search payload. Kept here so every source indexes identically. */
-function deriveSearch(item) {
-  const parts = [
-    item.title,
-    item.seller,
-    item.type,
-    (item.formats || []).join(' '),
-    item.acquiredYear ? String(item.acquiredYear) : ''
-  ].filter(Boolean).join(' ');
-
-  const searchText = parts.toLowerCase();
-  const tokens = Array.from(
-    new Set(searchText.split(/[^a-z0-9]+/).filter((t) => t.length > 1))
-  ).slice(0, 60);
-
-  return { searchText, tokens };
 }
 
 /**
@@ -85,12 +91,11 @@ export async function bulkUpsert(items, syncId) {
       getReq.onsuccess = () => {
         const prev = getReq.result;
         if (prev) updated++; else inserted++;
-        const merged = Object.assign({}, prev, item, deriveSearch(item), {
+        store.put(Object.assign({}, prev, item, {
           firstSeenAt: (prev && prev.firstSeenAt) || Date.now(),
           stale: false,
           syncId: syncId || null
-        });
-        store.put(merged);
+        }));
       };
     });
 
@@ -101,8 +106,9 @@ export async function bulkUpsert(items, syncId) {
 }
 
 /**
- * After a full sync, anything not touched by this syncId is no longer in the
- * user's library. Flag it, never delete it: a failed page must not nuke data.
+ * After a completed full sync, anything not touched by this syncId is no longer
+ * in the user's library. Flag it, never delete it: a failed page must not be
+ * able to destroy data.
  */
 export async function markMissingStale(source, syncId) {
   const db = await openDb();
@@ -126,6 +132,7 @@ export async function markMissingStale(source, syncId) {
   return flagged;
 }
 
+/** Which of these uids do we already have? Drives incremental sync early-stop. */
 export async function hasUids(uids) {
   const db = await openDb();
   const tx = db.transaction(STORE_ITEMS, 'readonly');
@@ -141,100 +148,27 @@ export async function hasUids(uids) {
   return found;
 }
 
-/**
- * Query. Text search seeks the multiEntry token index by prefix on the first
- * term, then filters candidates in memory. No full scan unless the box is
- * empty, in which case we walk acquiredAt descending and page directly.
- */
-export async function queryItems(opts = {}) {
+/** Full working set for a source, newest acquisition first. */
+export async function getAll(source) {
   const db = await openDb();
-
-  const terms = String(opts.text || '')
-    .toLowerCase()
-    .split(/\s+/)
-    .filter((t) => t.length > 1);
-  const year = opts.year ? Number(opts.year) : null;
-  const source = opts.source || null;
-  const includeStale = !!opts.includeStale;
-  const limit = opts.limit || 200;
-  const offset = opts.offset || 0;
-
-  const matches = (it) => {
-    if (!includeStale && it.stale) return false;
-    if (source && it.source !== source) return false;
-    if (year && it.acquiredYear !== year) return false;
-    if (!terms.length) return true;
-    const hay = it.searchText || '';
-    return terms.every((t) => hay.indexOf(t) !== -1);
-  };
-
   const tx = db.transaction(STORE_ITEMS, 'readonly');
   const store = tx.objectStore(STORE_ITEMS);
-
-  let req;
-  let needsSort = false;
-
-  if (terms.length) {
-    const t0 = terms[0];
-    req = store.index('tokens').openCursor(IDBKeyRange.bound(t0, t0 + '\uffff'));
-    needsSort = true;
-  } else if (year) {
-    req = store.index('acquiredYear').openCursor(IDBKeyRange.only(year));
-    needsSort = true;
-  } else {
-    req = store.index('acquiredAt').openCursor(null, 'prev');
-  }
-
-  const seen = new Set();
   const out = [];
-  let total = 0;
 
-  req.onsuccess = () => {
-    const cur = req.result;
-    if (!cur) return;
-    const it = cur.value;
-    if (!seen.has(it.uid)) {
-      seen.add(it.uid);
-      if (matches(it)) {
-        total++;
-        if (needsSort || (total > offset && out.length < limit)) out.push(it);
-      }
-    }
-    cur.continue();
-  };
+  const req = source
+    ? store.index('source').openCursor(IDBKeyRange.only(source))
+    : store.openCursor();
 
-  await txDone(tx);
-
-  if (needsSort) {
-    out.sort((a, b) => (b.acquiredAt || 0) - (a.acquiredAt || 0));
-    return { total, items: out.slice(offset, offset + limit) };
-  }
-  return { total, items: out };
-}
-
-/** Year facet counts, newest first. Undated rows land under null. */
-export async function getYearFacets(source) {
-  const db = await openDb();
-  const tx = db.transaction(STORE_ITEMS, 'readonly');
-  const store = tx.objectStore(STORE_ITEMS);
-  const counts = new Map();
-
-  store.openCursor().onsuccess = (e) => {
+  req.onsuccess = (e) => {
     const cur = e.target.result;
     if (!cur) return;
-    const v = cur.value;
-    if (!v.stale && (!source || v.source === source)) {
-      const y = v.acquiredYear || null;
-      counts.set(y, (counts.get(y) || 0) + 1);
-    }
+    out.push(cur.value);
     cur.continue();
   };
 
   await txDone(tx);
-
-  return Array.from(counts.entries())
-    .map(([year, count]) => ({ year, count }))
-    .sort((a, b) => (b.year || 0) - (a.year || 0));
+  out.sort((a, b) => (b.acquiredAt || 0) - (a.acquiredAt || 0));
+  return out;
 }
 
 export async function countBySource() {
@@ -257,24 +191,6 @@ export async function countBySource() {
 
   await txDone(tx);
   return { total, counts };
-}
-
-export async function getAll(source) {
-  const db = await openDb();
-  const tx = db.transaction(STORE_ITEMS, 'readonly');
-  const store = tx.objectStore(STORE_ITEMS);
-  const out = [];
-
-  store.openCursor().onsuccess = (e) => {
-    const cur = e.target.result;
-    if (!cur) return;
-    if (!source || cur.value.source === source) out.push(cur.value);
-    cur.continue();
-  };
-
-  await txDone(tx);
-  out.sort((a, b) => (b.acquiredAt || 0) - (a.acquiredAt || 0));
-  return out;
 }
 
 export async function clearSource(source) {

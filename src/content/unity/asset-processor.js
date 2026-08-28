@@ -78,10 +78,22 @@
 
   function isFreeAndUnowned(product) {
     var text = normalizedText(product);
+    var isCurrentCard = !!product.querySelector(SELECTORS.currentProductLink);
     var hasFreePrice = hasExactText(product, 'free');
-    var isOwned = text.indexOf('you own this asset') !== -1 ||
-      text.indexOf('open in unity') !== -1 ||
-      text.indexOf('import') !== -1;
+    var isOwned;
+
+    if (isCurrentCard) {
+      // Match current storefront status labels exactly. Substring checks such
+      // as `import` incorrectly reject products with words like Importer in
+      // their title.
+      isOwned = hasExactText(product, 'you own this asset') ||
+        hasExactText(product, 'purchased') ||
+        hasExactText(product, 'purchased seat(s)');
+    } else {
+      isOwned = text.indexOf('you own this asset') !== -1 ||
+        text.indexOf('open in unity') !== -1 ||
+        text.indexOf('import') !== -1;
+    }
 
     // Old cards used an explicit Add to My Assets action. It remains a useful
     // fallback, but the new listing cards have no claim button at all.

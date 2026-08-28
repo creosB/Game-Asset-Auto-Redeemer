@@ -50,6 +50,15 @@ test.describe('Unity current listing DOM detection', () => {
     expect(count).toBe(0);
   });
 
+  test('does not reject a free product because its title contains Importer', async ({ page }) => {
+    await bootProcessor(page, `<ul>${card({
+      id: '424242', title: 'CSV Importer', price: 'Free'
+    })}</ul>`);
+    const assets = await page.evaluate(() => window.__fabGrabber.assetProcessor.getFreeAssetCards()
+      .map(({ id, name }) => ({ id, name })));
+    expect(assets).toEqual([{ id: '424242', name: 'CSV Importer' }]);
+  });
+
   test('keeps legacy slug ID extraction working', async ({ page }) => {
     await bootProcessor(page, `<div class="_3YDeD">
       <a href="/packages/tools/runtime-file-browser-113006">Runtime File Browser</a>

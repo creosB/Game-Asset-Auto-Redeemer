@@ -22,11 +22,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Read version from manifest.json
+      - name: Read version and localized name
         id: manifest
         run: |
           VERSION=$(jq -r '.version' manifest.json)
-          NAME=$(jq -r '.name' manifest.json)
+          NAME=$(jq -er '.manifest_name.message' _locales/en/messages.json)
           echo "version=$VERSION"     >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION"        >> "$GITHUB_OUTPUT"
           echo "extension_name=$NAME" >> "$GITHUB_OUTPUT"

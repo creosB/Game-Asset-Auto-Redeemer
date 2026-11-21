@@ -66,14 +66,37 @@
               '<input type="number" class="fab-grab-input" id="fab-grab-max-retries" min="0" max="5" step="1" value="2">' +
             '</div>' +
           '</div>' +
-          '<div class="fab-grab-config-row">' +
-            '<span class="fab-grab-config-label">' + t('panel_dialog_timeout') + '</span>' +
+          '<div class="fab-grab-config-row fab-grab-fab-only">' +
+            '<span class="fab-grab-config-label" data-i18n-key="panel_fab_speed">' + t('panel_fab_speed') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<select class="fab-grab-select" id="fab-grab-speed-mode">' +
+                '<option value="fast">' + t('options_fab_speed_fast') + '</option>' +
+                '<option value="normal" selected>' + t('options_fab_speed_normal') + '</option>' +
+                '<option value="casual">' + t('options_fab_speed_casual') + '</option>' +
+                '<option value="advanced">' + t('options_fab_speed_advanced') + '</option>' +
+              '</select>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-fab-advanced" style="display:none">' +
+            '<span class="fab-grab-config-label" data-i18n-key="panel_fab_concurrency">' + t('panel_fab_concurrency') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<input type="number" class="fab-grab-input" id="fab-grab-api-concurrency" min="1" max="4" step="1" value="2">' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-fab-advanced" style="display:none">' +
+            '<span class="fab-grab-config-label" data-i18n-key="panel_fab_api_delay">' + t('panel_fab_api_delay') + '</span>' +
+            '<div class="fab-grab-config-value">' +
+              '<input type="number" class="fab-grab-input" id="fab-grab-api-delay" min="0" max="5000" step="50" value="350">' +
+            '</div>' +
+          '</div>' +
+          '<div class="fab-grab-config-row fab-grab-fab-advanced-shared">' +
+            '<span class="fab-grab-config-label" data-i18n-key="panel_dialog_timeout">' + t('panel_dialog_timeout') + '</span>' +
             '<div class="fab-grab-config-value">' +
               '<input type="number" class="fab-grab-input" id="fab-grab-dialog-timeout" min="3000" max="30000" step="1000" value="10000">' +
             '</div>' +
           '</div>' +
           '<div class="fab-grab-config-row fab-grab-fab-only">' +
-            '<span class="fab-grab-config-label">' + t('panel_license_pref') + '</span>' +
+            '<span class="fab-grab-config-label" data-i18n-key="panel_license_pref">' + t('panel_license_pref') + '</span>' +
             '<div class="fab-grab-config-value">' +
               '<select class="fab-grab-select" id="fab-grab-license">' +
                 '<option value="personal">' + t('options_personal') + '</option>' +
@@ -81,8 +104,8 @@
               '</select>' +
             '</div>' +
           '</div>' +
-          '<div class="fab-grab-config-row">' +
-            '<span class="fab-grab-config-label">' + t('panel_delay') + '</span>' +
+          '<div class="fab-grab-config-row fab-grab-fab-advanced-shared">' +
+            '<span class="fab-grab-config-label" data-i18n-key="panel_delay">' + t('panel_delay') + '</span>' +
             '<div class="fab-grab-config-value">' +
               '<input type="number" class="fab-grab-input" id="fab-grab-delay" min="500" max="10000" step="500" value="2000">' +
             '</div>' +
@@ -217,6 +240,9 @@
     _stopBtn = panel.querySelector('#fab-grab-stop');
     var refreshBtn = panel.querySelector('#fab-grab-refresh');
     var licenseSelect = panel.querySelector('#fab-grab-license');
+    var speedModeSelect = panel.querySelector('#fab-grab-speed-mode');
+    var apiConcurrencyInput = panel.querySelector('#fab-grab-api-concurrency');
+    var apiDelayInput = panel.querySelector('#fab-grab-api-delay');
     var delayInput = panel.querySelector('#fab-grab-delay');
     var autoStartCheckbox = panel.querySelector('#fab-grab-auto-start');
     var maxRetriesInput = panel.querySelector('#fab-grab-max-retries');
@@ -248,6 +274,8 @@
     }
 
     var fabOnlyEls = panel.querySelectorAll('.fab-grab-fab-only');
+    var fabAdvancedEls = panel.querySelectorAll('.fab-grab-fab-advanced');
+    var fabAdvancedSharedEls = panel.querySelectorAll('.fab-grab-fab-advanced-shared');
     var unityOnlyEls = panel.querySelectorAll('.fab-grab-unity-only');
     var superhiveOnlyEls = panel.querySelectorAll('.fab-grab-superhive-only');
     for (var i = 0; i < fabOnlyEls.length; i++) {
@@ -259,6 +287,17 @@
     for (var k = 0; k < superhiveOnlyEls.length; k++) {
       superhiveOnlyEls[k].style.display = site === 'superhive' ? '' : 'none';
     }
+
+    function syncFabAdvancedRows(mode) {
+      var showFabAdv = site === 'fab' && mode === 'advanced';
+      for (var a = 0; a < fabAdvancedEls.length; a++) {
+        fabAdvancedEls[a].style.display = showFabAdv ? '' : 'none';
+      }
+      for (var s = 0; s < fabAdvancedSharedEls.length; s++) {
+        fabAdvancedSharedEls[s].style.display = (site !== 'fab' || showFabAdv) ? '' : 'none';
+      }
+    }
+    syncFabAdvancedRows(config.fabClaimSpeed || 'normal');
 
     if (closeBtn) {
       closeBtn.addEventListener('click', function() {
@@ -321,6 +360,35 @@
         var val = parseInt(dialogTimeoutInput.value, 10);
         if (val >= 3000 && val <= 30000) {
           ns.saveConfig({ dialogTimeout: val });
+        }
+      });
+    }
+
+    if (speedModeSelect) {
+      speedModeSelect.value = config.fabClaimSpeed || 'normal';
+      speedModeSelect.addEventListener('change', function() {
+        var mode = speedModeSelect.value;
+        syncFabAdvancedRows(mode);
+        ns.saveConfig({ fabClaimSpeed: mode });
+      });
+    }
+
+    if (apiConcurrencyInput) {
+      apiConcurrencyInput.value = config.apiConcurrency != null ? config.apiConcurrency : 2;
+      apiConcurrencyInput.addEventListener('change', function() {
+        var val = parseInt(apiConcurrencyInput.value, 10);
+        if (val >= 1 && val <= 4) {
+          ns.saveConfig({ apiConcurrency: val });
+        }
+      });
+    }
+
+    if (apiDelayInput) {
+      apiDelayInput.value = config.apiClaimDelayMs != null ? config.apiClaimDelayMs : 350;
+      apiDelayInput.addEventListener('change', function() {
+        var val = parseInt(apiDelayInput.value, 10);
+        if (val >= 0 && val <= 5000) {
+          ns.saveConfig({ apiClaimDelayMs: val });
         }
       });
     }
@@ -484,6 +552,13 @@
     ns.onConfigChange = function(cfg) {
       if (autoStartCheckbox) autoStartCheckbox.checked = !!cfg.autoStart;
       if (maxRetriesInput) maxRetriesInput.value = cfg.maxRetries != null ? cfg.maxRetries : 2;
+      if (speedModeSelect) {
+        var mode = cfg.fabClaimSpeed || 'normal';
+        speedModeSelect.value = mode;
+        syncFabAdvancedRows(mode);
+      }
+      if (apiConcurrencyInput) apiConcurrencyInput.value = cfg.apiConcurrency != null ? cfg.apiConcurrency : 2;
+      if (apiDelayInput) apiDelayInput.value = cfg.apiClaimDelayMs != null ? cfg.apiClaimDelayMs : 350;
       if (dialogTimeoutInput) dialogTimeoutInput.value = cfg.dialogTimeout || 10000;
       if (licenseSelect) licenseSelect.value = cfg.preferredLicense || 'professional';
       if (hideOwnedCheckbox) hideOwnedCheckbox.checked = cfg.hideOwnedAssets !== false;
@@ -542,21 +617,22 @@
     var refreshBtn = _panelRef.querySelector('#fab-grab-refresh');
     if (refreshBtn) refreshBtn.textContent = t('panel_refresh');
 
-    // Update config labels. Order must match the order rows appear in the panel
-    // markup (autostart, max_retries, dialog_timeout, license_pref, delay,
-    // hide_owned, claim_history, [unity: product_delay, auto_paginate, page_delay],
-    // [superhive: free_only, endless, hide_non_free, asset_delay, page_delay]).
+    // Update config labels. Prefer data-i18n-key when present; otherwise fall
+    // back to the positional key list.
     var labels = _panelRef.querySelectorAll('.fab-grab-config-label');
     var labelKeys = [
-      'panel_autostart', 'panel_max_retries', 'panel_dialog_timeout',
-      'panel_license_pref', 'panel_delay', 'panel_hide_owned', 'panel_claim_history',
+      'panel_autostart', 'panel_max_retries',
+      'panel_fab_speed', 'panel_fab_concurrency', 'panel_fab_api_delay',
+      'panel_dialog_timeout', 'panel_license_pref', 'panel_delay',
+      'panel_hide_owned', 'panel_claim_history',
       'panel_product_delay', 'panel_auto_paginate', 'panel_page_delay',
       'panel_superhive_free_only', 'panel_superhive_endless',
       'panel_superhive_hide_non_free', 'panel_superhive_asset_delay',
-      'panel_superhive_page_delay'
+      'panel_superhive_page_delay', 'panel_superhive_page_budget'
     ];
-    for (var i = 0; i < labels.length && i < labelKeys.length; i++) {
-      labels[i].textContent = t(labelKeys[i]);
+    for (var i = 0; i < labels.length; i++) {
+      var key = labels[i].getAttribute('data-i18n-key') || labelKeys[i];
+      if (key) labels[i].textContent = t(key);
     }
 
     // Update select options
@@ -566,6 +642,13 @@
       for (var j = 0; j < opts.length; j++) {
         var val = opts[j].value;
         opts[j].textContent = t('options_' + val);
+      }
+    }
+    var speedSelect = _panelRef.querySelector('#fab-grab-speed-mode');
+    if (speedSelect) {
+      var sopts = speedSelect.options;
+      for (var s = 0; s < sopts.length; s++) {
+        sopts[s].textContent = t('options_fab_speed_' + sopts[s].value);
       }
     }
 

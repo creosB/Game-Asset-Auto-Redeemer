@@ -70,7 +70,8 @@
       log('[safeClick] No element provided' + (label ? ' for ' + label : ''), 'warn');
       return false;
     }
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Instant scroll: smooth animation is pure latency during batch claims.
+    el.scrollIntoView({ behavior: 'auto', block: 'center' });
     el.click();
     return true;
   }
@@ -167,7 +168,9 @@
   ];
 
   // Pages that exist on fab.com but never contain claimable catalog cards.
-  var NON_CATALOG = /^\/(library|cart|checkout|orders?|downloads?|purchases?|account|settings|profile|messages|notifications|sellers?|publishers?|studio|dashboard|legal|help|support|about|careers|blog)(\/|$)/i;
+  // Seller/publisher profiles are NOT listed here: they render listing grids
+  // with claimable free cards.
+  var NON_CATALOG = /^\/(library|cart|checkout|orders?|downloads?|purchases?|account|settings|profile|messages|notifications|studio|dashboard|legal|help|support|about|careers|blog)(\/|$)/i;
 
   function catalogPath() {
     var path = window.location.pathname || '/';

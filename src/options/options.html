@@ -131,31 +131,90 @@
           </div>
         </div>
 
-        <div class="option-row">
+        <div class="option-row option-row--stack">
           <div class="option-info">
-            <label class="option-label" for="opt-delay"
-              data-i18n="options_delay_actions">Delay Between Actions</label>
-            <span class="option-desc"
-              data-i18n="options_delay_actions_desc">Milliseconds between each
-              claim attempt (500–10000)</span>
+            <label class="option-label"
+              data-i18n="options_fab_speed">Claim Speed</label>
+            <span class="option-desc" id="fab-speed-hint"
+              data-i18n="options_fab_speed_normal_desc">Normal — 2 parallel
+              requests, 350ms pace. Balanced speed and rate-limit safety.</span>
           </div>
-          <div class="option-control">
-            <input type="number" id="opt-delay" class="option-input" min="500"
-              max="10000" step="500" value="2000">
+          <div class="option-control speed-pills" role="radiogroup"
+            aria-label="Claim Speed">
+            <label class="speed-pill speed-pill--risky">
+              <input type="radio" name="fab-speed" value="fast">
+              <span data-i18n="options_fab_speed_fast">Fast (Risky)</span>
+            </label>
+            <label class="speed-pill">
+              <input type="radio" name="fab-speed" value="normal" checked>
+              <span data-i18n="options_fab_speed_normal">Normal</span>
+            </label>
+            <label class="speed-pill">
+              <input type="radio" name="fab-speed" value="casual">
+              <span data-i18n="options_fab_speed_casual">Casual</span>
+            </label>
+            <label class="speed-pill">
+              <input type="radio" name="fab-speed" value="advanced">
+              <span data-i18n="options_fab_speed_advanced">Advanced</span>
+            </label>
           </div>
         </div>
 
-        <div class="option-row">
-          <div class="option-info">
-            <label class="option-label" for="opt-timeout"
-              data-i18n="options_dialog_timeout">Dialog Timeout</label>
-            <span class="option-desc"
-              data-i18n="options_dialog_timeout_desc">Max wait for dialog/modal
-              to appear (3000–30000 ms)</span>
+        <div id="fab-advanced-wrap" class="advanced-settings-wrap" style="display:none;">
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-fab-concurrency"
+                data-i18n="options_fab_concurrency">Parallel Requests</label>
+              <span class="option-desc"
+                data-i18n="options_fab_concurrency_desc">Concurrent API claims
+                (1–4; higher values increase 429 risk)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-fab-concurrency" class="option-input"
+                min="1" max="4" step="1" value="2">
+            </div>
           </div>
-          <div class="option-control">
-            <input type="number" id="opt-timeout" class="option-input"
-              min="3000" max="30000" step="1000" value="10000">
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-fab-api-delay"
+                data-i18n="options_fab_api_delay">API Pace Delay (ms)</label>
+              <span class="option-desc"
+                data-i18n="options_fab_api_delay_desc">Milliseconds between API
+                claim starts (0–5000)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-fab-api-delay" class="option-input"
+                min="0" max="5000" step="50" value="350">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-delay"
+                data-i18n="options_delay_actions">Delay Between Actions</label>
+              <span class="option-desc"
+                data-i18n="options_delay_actions_desc">Milliseconds between each
+                claim attempt (500–10000)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-delay" class="option-input" min="500"
+                max="10000" step="500" value="2000">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <div class="option-info">
+              <label class="option-label" for="opt-timeout"
+                data-i18n="options_dialog_timeout">Dialog Timeout</label>
+              <span class="option-desc"
+                data-i18n="options_dialog_timeout_desc">Max wait for dialog/modal
+                to appear (3000–30000 ms)</span>
+            </div>
+            <div class="option-control">
+              <input type="number" id="opt-timeout" class="option-input"
+                min="3000" max="30000" step="1000" value="10000">
+            </div>
           </div>
         </div>
 

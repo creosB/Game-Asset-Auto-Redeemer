@@ -11,6 +11,9 @@
 
   var DEFAULTS = {
     preferredLicense: 'professional',
+    fabClaimSpeed: 'normal',
+    apiConcurrency: 2,
+    apiClaimDelayMs: 350,
     delayBetweenActions: 2000,
     maxRetries: 2,
     dialogTimeout: 10000,
@@ -34,9 +37,50 @@
   };
 
   var radios = document.querySelectorAll('input[name="license"]');
+  var speedRadios = document.querySelectorAll('input[name="fab-speed"]');
+  var speedHintEl = document.getElementById('fab-speed-hint');
+  var fabAdvancedWrap = document.getElementById('fab-advanced-wrap');
+  var fabConcurrencyInput = document.getElementById('opt-fab-concurrency');
+  var fabApiDelayInput = document.getElementById('opt-fab-api-delay');
   var delayInput = document.getElementById('opt-delay');
   var retriesInput = document.getElementById('opt-retries');
   var timeoutInput = document.getElementById('opt-timeout');
+
+  var SPEED_HINT_KEYS = {
+    fast: 'options_fab_speed_fast_desc',
+    normal: 'options_fab_speed_normal_desc',
+    casual: 'options_fab_speed_casual_desc',
+    advanced: 'options_fab_speed_advanced_desc'
+  };
+
+  function getSelectedSpeedMode() {
+    for (var i = 0; i < speedRadios.length; i++) {
+      if (speedRadios[i].checked) return speedRadios[i].value;
+    }
+    return DEFAULTS.fabClaimSpeed;
+  }
+
+  function applySpeedModeUI(mode) {
+    var m = SPEED_HINT_KEYS[mode] ? mode : DEFAULTS.fabClaimSpeed;
+    for (var i = 0; i < speedRadios.length; i++) {
+      speedRadios[i].checked = speedRadios[i].value === m;
+    }
+    if (fabAdvancedWrap) {
+      fabAdvancedWrap.style.display = m === 'advanced' ? '' : 'none';
+    }
+    if (speedHintEl) {
+      var key = SPEED_HINT_KEYS[m];
+      speedHintEl.setAttribute('data-i18n', key);
+      speedHintEl.textContent = t(key);
+      speedHintEl.classList.toggle('speed-hint--risky', m === 'fast');
+    }
+  }
+
+  for (var sr = 0; sr < speedRadios.length; sr++) {
+    speedRadios[sr].addEventListener('change', function() {
+      applySpeedModeUI(getSelectedSpeedMode());
+    });
+  }
   var autostartToggle = document.getElementById('opt-autostart');
   var hideOwnedToggle = document.getElementById('opt-hide-owned');
   var claimHistoryToggle = document.getElementById('opt-claim-history');
@@ -65,6 +109,13 @@
         radios[i].checked = radios[i].value === (stored.preferredLicense || DEFAULTS.preferredLicense);
       }
 
+      applySpeedModeUI(stored.fabClaimSpeed || DEFAULTS.fabClaimSpeed);
+      if (fabConcurrencyInput) {
+        fabConcurrencyInput.value = stored.apiConcurrency != null ? stored.apiConcurrency : DEFAULTS.apiConcurrency;
+      }
+      if (fabApiDelayInput) {
+        fabApiDelayInput.value = stored.apiClaimDelayMs != null ? stored.apiClaimDelayMs : DEFAULTS.apiClaimDelayMs;
+      }
       delayInput.value = stored.delayBetweenActions || DEFAULTS.delayBetweenActions;
       retriesInput.value = stored.maxRetries != null ? stored.maxRetries : DEFAULTS.maxRetries;
       timeoutInput.value = stored.dialogTimeout || DEFAULTS.dialogTimeout;
@@ -101,8 +152,12 @@
       }
     }
 
+    var parsedApiDelay = parseInt(fabApiDelayInput && fabApiDelayInput.value, 10);
     var cfg = {
       preferredLicense: licenseValue,
+      fabClaimSpeed: getSelectedSpeedMode(),
+      apiConcurrency: clamp(parseInt(fabConcurrencyInput && fabConcurrencyInput.value, 10) || DEFAULTS.apiConcurrency, 1, 4),
+      apiClaimDelayMs: clamp(Number.isFinite(parsedApiDelay) && parsedApiDelay >= 0 ? parsedApiDelay : DEFAULTS.apiClaimDelayMs, 0, 5000),
       delayBetweenActions: clamp(parseInt(delayInput.value, 10) || DEFAULTS.delayBetweenActions, 500, 10000),
       maxRetries: clamp(parseInt(retriesInput.value, 10) || DEFAULTS.maxRetries, 0, 5),
       dialogTimeout: clamp(parseInt(timeoutInput.value, 10) || DEFAULTS.dialogTimeout, 3000, 30000),
@@ -171,6 +226,15 @@
       for (var i = 0; i < radios.length; i++) {
         radios[i].checked = radios[i].value === val;
       }
+    }
+    if ('fabClaimSpeed' in changes) {
+      applySpeedModeUI(changes.fabClaimSpeed.newValue || DEFAULTS.fabClaimSpeed);
+    }
+    if ('apiConcurrency' in changes && fabConcurrencyInput) {
+      fabConcurrencyInput.value = changes.apiConcurrency.newValue != null ? changes.apiConcurrency.newValue : DEFAULTS.apiConcurrency;
+    }
+    if ('apiClaimDelayMs' in changes && fabApiDelayInput) {
+      fabApiDelayInput.value = changes.apiClaimDelayMs.newValue != null ? changes.apiClaimDelayMs : DEFAULTS.apiClaimDelayMs;
     }
     if ('delayBetweenActions' in changes) {
       delayInput.value = changes.delayBetweenActions.newValue || DEFAULTS.delayBetweenActions;

@@ -727,5 +727,53 @@
   },
   "badge_title_both": {
     "message": "$1 nicht beanspruchte(s) FAB-Asset(s), 1 neues wöchentliches Unity-Asset"
+  },
+  "options_fab_speed": {
+    "message": "Abruf-Geschwindigkeit"
+  },
+  "options_fab_speed_fast": {
+    "message": "Schnell (Riskant)"
+  },
+  "options_fab_speed_normal": {
+    "message": "Normal"
+  },
+  "options_fab_speed_casual": {
+    "message": "Gemütlich"
+  },
+  "options_fab_speed_advanced": {
+    "message": "Erweitert"
+  },
+  "options_fab_speed_fast_desc": {
+    "message": "Schnell (Rate-Limit-Risiko) — 4 parallele Anfragen, 120ms Takt. Am schnellsten, kann Fab-429-Pausen auslösen."
+  },
+  "options_fab_speed_normal_desc": {
+    "message": "Normal — 2 parallele Anfragen, 350ms Takt. Ausgewogene Geschwindigkeit und Sicherheit."
+  },
+  "options_fab_speed_casual_desc": {
+    "message": "Gemütlich — 1 Anfrage gleichzeitig, 1000ms Takt. Am sichersten für große Anbieterseiten."
+  },
+  "options_fab_speed_advanced_desc": {
+    "message": "Erweitert — Parallelität, API-Takt, Aktionsverzögerung und Dialog-Timeout unten anpassen."
+  },
+  "options_fab_concurrency": {
+    "message": "Parallele Anfragen"
+  },
+  "options_fab_concurrency_desc": {
+    "message": "Gleichzeitige API-Abrufe (1–4; höhere Werte erhöhen das 429-Risiko)"
+  },
+  "options_fab_api_delay": {
+    "message": "API-Takt (ms)"
+  },
+  "options_fab_api_delay_desc": {
+    "message": "Millisekunden zwischen API-Abrufstarts (0–5000)"
+  },
+  "panel_fab_speed": {
+    "message": "Geschwindigkeit"
+  },
+  "panel_fab_concurrency": {
+    "message": "Parallele Anfragen"
+  },
+  "panel_fab_api_delay": {
+    "message": "API-Takt (ms)"
   }
 }

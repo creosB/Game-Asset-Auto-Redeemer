@@ -30,7 +30,7 @@
         utils.log('[License] Dialog content loaded (button) at ' + (Date.now() - start) + 'ms');
         return true;
       }
-      await utils.wait(100);
+      await utils.wait(50);
     }
     utils.log('[License] Dialog content did not load within ' + timeout + 'ms', 'warn');
     return false;
@@ -141,7 +141,7 @@
           }
         }
         return null;
-      }, 5000, 100);
+      }, 5000, 50);
       utils.log(
         '[License] Button found: \'' + btn.textContent.trim() +
         '\' (enabled)'
@@ -151,6 +151,34 @@
       utils.log('[License] Primary action button never appeared or never enabled.', 'warn');
       return null;
     }
+  }
+
+  /** Resolve as soon as the modal closes instead of sleeping a fixed time. */
+  async function waitForDialogToClose(timeoutMs) {
+    try {
+      await utils.waitForCondition(function() {
+        return !document.querySelector('[role="dialog"][aria-modal="true"]');
+      }, timeoutMs || 1500, 50);
+      utils.log('[License] Dialog closed, claim confirmed.');
+      return true;
+    } catch (e) {
+      utils.log('[License] Dialog still present after clicking add.', 'warn');
+      return false;
+    }
+  }
+
+  async function closeDialog() {
+    var dialog = document.querySelector('[role="dialog"][aria-modal="true"]');
+    if (!dialog) return true;
+    var closeBtn = dialog.querySelector(
+      'button[aria-label="Close"], button[aria-label*="close" i], button[class*="closeButton"]'
+    );
+    if (closeBtn) {
+      utils.safeClick(closeBtn, 'dialog close button');
+    } else {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    }
+    return await waitForDialogToClose(1000);
   }
 
   async function selectLicenseAndAdd(dialogOrPreferred, assetName) {
@@ -174,7 +202,7 @@
 
     utils.log('[License] Dialog detected, polling for content...');
     await waitForDialogContentLoaded(dialog);
-    await utils.wait(100);
+    await utils.wait(50);
 
     var options = findLicenseOptions(dialog);
 
@@ -185,7 +213,7 @@
         utils.log('[License] Free asset, clicking primary button directly.');
         utils.safeClick(directBtn, 'direct primary action button');
         _actionClicked = true;
-        await utils.wait(1500);
+        await waitForDialogToClose(1500);
         return { success: true, method: 'direct-add' };
       }
       return { success: false, error: 'No license options and no primary button' };
@@ -250,7 +278,7 @@
       try {
         await utils.waitForCondition(function() {
           return selected.input.checked === true;
-        }, 2000);
+        }, 2000, 50);
         utils.log('[License] Radio checked successfully.');
       } catch (e) {
         utils.log('[License] Label click did not check radio, fallback to input.click().', 'warn');
@@ -285,14 +313,7 @@
     utils.safeClick(addBtn, 'primary action button');
     _actionClicked = true;
 
-    await utils.wait(1500);
-
-    var dialogGone = !document.querySelector('[role="dialog"][aria-modal="true"]');
-    if (dialogGone) {
-      utils.log('[License] Dialog closed, claim confirmed.');
-    } else {
-      utils.log('[License] Dialog still present after clicking add.', 'warn');
-    }
+    await waitForDialogToClose(1500);
 
     return { success: true, method: 'license-select' };
   }
@@ -314,7 +335,7 @@
     if (btn) {
       utils.log('[License] Clicking primary action button (standalone).');
       utils.safeClick(btn, 'primary action button standalone');
-      await utils.wait(1000);
+      await waitForDialogToClose(1500);
       return true;
     }
 
@@ -327,6 +348,7 @@
     selectLicenseAndAdd: selectLicenseAndAdd,
     clickAddToCartButton: clickPrimaryAction,
     clickPrimaryAction: clickPrimaryAction,
-    findPrimaryActionButton: findPrimaryActionButton
+    findPrimaryActionButton: findPrimaryActionButton,
+    closeDialog: closeDialog
   };
 })();

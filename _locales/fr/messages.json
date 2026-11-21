@@ -727,5 +727,53 @@
   },
   "badge_title_both": {
     "message": "$1 asset(s) FAB non réclamé(s), 1 nouvel asset hebdomadaire Unity"
+  },
+  "options_fab_speed": {
+    "message": "Vitesse de réclamation"
+  },
+  "options_fab_speed_fast": {
+    "message": "Rapide (Risqué)"
+  },
+  "options_fab_speed_normal": {
+    "message": "Normal"
+  },
+  "options_fab_speed_casual": {
+    "message": "Tranquille"
+  },
+  "options_fab_speed_advanced": {
+    "message": "Avancé"
+  },
+  "options_fab_speed_fast_desc": {
+    "message": "Rapide (risque de limite) — 4 requêtes parallèles, 120ms. Le plus rapide, peut déclencher des pauses 429."
+  },
+  "options_fab_speed_normal_desc": {
+    "message": "Normal — 2 requêtes parallèles, 350ms. Bon équilibre entre vitesse et sécurité."
+  },
+  "options_fab_speed_casual_desc": {
+    "message": "Tranquille — 1 requête à la fois, 1000ms. Le plus sûr pour les grandes pages vendeur."
+  },
+  "options_fab_speed_advanced_desc": {
+    "message": "Avancé — Définissez ci-dessous la concurrence, le délai API, le délai d’action et le délai de dialogue."
+  },
+  "options_fab_concurrency": {
+    "message": "Requêtes parallèles"
+  },
+  "options_fab_concurrency_desc": {
+    "message": "Réclamations API simultanées (1–4 ; plus élevé augmente le risque 429)"
+  },
+  "options_fab_api_delay": {
+    "message": "Délai API (ms)"
+  },
+  "options_fab_api_delay_desc": {
+    "message": "Millisecondes entre chaque début de requête API (0–5000)"
+  },
+  "panel_fab_speed": {
+    "message": "Vitesse"
+  },
+  "panel_fab_concurrency": {
+    "message": "Parallèles"
+  },
+  "panel_fab_api_delay": {
+    "message": "Délai API (ms)"
   }
 }

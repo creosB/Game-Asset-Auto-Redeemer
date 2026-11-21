@@ -727,5 +727,53 @@
   },
   "badge_title_both": {
     "message": "$1 нереализованный(х) ассет(ов) FAB, 1 новый ассет Unity"
+  },
+  "options_fab_speed": {
+    "message": "Скорость получения"
+  },
+  "options_fab_speed_fast": {
+    "message": "Быстро (Риск)"
+  },
+  "options_fab_speed_normal": {
+    "message": "Обычный"
+  },
+  "options_fab_speed_casual": {
+    "message": "Спокойный"
+  },
+  "options_fab_speed_advanced": {
+    "message": "Свой"
+  },
+  "options_fab_speed_fast_desc": {
+    "message": "Быстро (риск лимита) — 4 параллельных запроса, пауза 120мс. Максимальная скорость, возможны паузы 429."
+  },
+  "options_fab_speed_normal_desc": {
+    "message": "Обычный — 2 параллельных запроса, пауза 350мс. Баланс скорости и защиты от лимитов."
+  },
+  "options_fab_speed_casual_desc": {
+    "message": "Спокойный — по 1 запросу, пауза 1000мс. Самый безопасный режим для больших страниц."
+  },
+  "options_fab_speed_advanced_desc": {
+    "message": "Свой — настройте параллельность, паузу API, задержку действий и таймаут диалога ниже."
+  },
+  "options_fab_concurrency": {
+    "message": "Параллельные запросы"
+  },
+  "options_fab_concurrency_desc": {
+    "message": "Одновременные API-запросы (1–4; выше — больше риск 429)"
+  },
+  "options_fab_api_delay": {
+    "message": "Пауза API (мс)"
+  },
+  "options_fab_api_delay_desc": {
+    "message": "Миллисекунды между запусками API-запросов (0–5000)"
+  },
+  "panel_fab_speed": {
+    "message": "Скорость"
+  },
+  "panel_fab_concurrency": {
+    "message": "Параллельно"
+  },
+  "panel_fab_api_delay": {
+    "message": "Пауза API (мс)"
   }
 }

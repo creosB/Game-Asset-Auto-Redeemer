@@ -727,5 +727,53 @@
   },
   "badge_title_both": {
     "message": "$1 个未领取的 FAB 资源，1 个新的 Unity 每周资源"
+  },
+  "options_fab_speed": {
+    "message": "领取速度"
+  },
+  "options_fab_speed_fast": {
+    "message": "快速（易限流）"
+  },
+  "options_fab_speed_normal": {
+    "message": "正常"
+  },
+  "options_fab_speed_casual": {
+    "message": "舒缓"
+  },
+  "options_fab_speed_advanced": {
+    "message": "高级"
+  },
+  "options_fab_speed_fast_desc": {
+    "message": "快速（有触发限流风险）— 4 并发请求，120ms 间隔。速度最快，可能触发 Fab 429 冷却。"
+  },
+  "options_fab_speed_normal_desc": {
+    "message": "正常 — 2 并发请求，350ms 间隔。速度与防限流的均衡选择。"
+  },
+  "options_fab_speed_casual_desc": {
+    "message": "舒缓 — 逐个请求，1000ms 间隔。最适合资产数量庞大的卖家页面。"
+  },
+  "options_fab_speed_advanced_desc": {
+    "message": "高级 — 在下方自定义并发数、API 间隔、操作延迟和弹窗超时。"
+  },
+  "options_fab_concurrency": {
+    "message": "并发请求数"
+  },
+  "options_fab_concurrency_desc": {
+    "message": "同时进行的 API 领取数（1–4；数值越高 429 风险越大）"
+  },
+  "options_fab_api_delay": {
+    "message": "API 间隔 (ms)"
+  },
+  "options_fab_api_delay_desc": {
+    "message": "每次 API 领取开始之间的毫秒数（0–5000）"
+  },
+  "panel_fab_speed": {
+    "message": "领取速度"
+  },
+  "panel_fab_concurrency": {
+    "message": "并发数"
+  },
+  "panel_fab_api_delay": {
+    "message": "API 间隔 (ms)"
   }
 }

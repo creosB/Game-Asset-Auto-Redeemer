@@ -748,5 +748,53 @@
   },
   "badge_title_both": {
     "message": "$1 unclaimed FAB free asset(s), 1 new Unity weekly asset"
+  },
+  "options_fab_speed": {
+    "message": "Claim Speed"
+  },
+  "options_fab_speed_fast": {
+    "message": "Fast (Risky)"
+  },
+  "options_fab_speed_normal": {
+    "message": "Normal"
+  },
+  "options_fab_speed_casual": {
+    "message": "Casual"
+  },
+  "options_fab_speed_advanced": {
+    "message": "Advanced"
+  },
+  "options_fab_speed_fast_desc": {
+    "message": "Fast (risky rate limit) — 4 parallel requests, 120ms pace. Fastest, may trigger Fab 429 cooldowns."
+  },
+  "options_fab_speed_normal_desc": {
+    "message": "Normal — 2 parallel requests, 350ms pace. Balanced speed and rate-limit safety."
+  },
+  "options_fab_speed_casual_desc": {
+    "message": "Casual — 1 request at a time, 1000ms pace. Safest for huge seller pages."
+  },
+  "options_fab_speed_advanced_desc": {
+    "message": "Advanced — Set custom concurrency, API pace, action delay, and dialog timeout below."
+  },
+  "options_fab_concurrency": {
+    "message": "Parallel Requests"
+  },
+  "options_fab_concurrency_desc": {
+    "message": "Concurrent API claims (1–4; higher values increase 429 risk)"
+  },
+  "options_fab_api_delay": {
+    "message": "API Pace Delay (ms)"
+  },
+  "options_fab_api_delay_desc": {
+    "message": "Milliseconds between API claim starts (0–5000)"
+  },
+  "panel_fab_speed": {
+    "message": "Claim Speed"
+  },
+  "panel_fab_concurrency": {
+    "message": "Parallel Requests"
+  },
+  "panel_fab_api_delay": {
+    "message": "API Delay (ms)"
   }
 }

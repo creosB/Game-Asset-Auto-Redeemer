@@ -727,5 +727,53 @@
   },
   "badge_title_both": {
     "message": "$1 asset FAB non riscattato/i, 1 nuovo asset settimanale Unity"
+  },
+  "options_fab_speed": {
+    "message": "Velocità di riscatto"
+  },
+  "options_fab_speed_fast": {
+    "message": "Veloce (Rischioso)"
+  },
+  "options_fab_speed_normal": {
+    "message": "Normale"
+  },
+  "options_fab_speed_casual": {
+    "message": "Rilassato"
+  },
+  "options_fab_speed_advanced": {
+    "message": "Avanzato"
+  },
+  "options_fab_speed_fast_desc": {
+    "message": "Veloce (rischio rate limit) — 4 richieste parallele, 120ms. Il più veloce, può attivare pause 429 su Fab."
+  },
+  "options_fab_speed_normal_desc": {
+    "message": "Normale — 2 richieste parallele, 350ms. Equilibrio tra velocità e sicurezza."
+  },
+  "options_fab_speed_casual_desc": {
+    "message": "Rilassato — 1 richiesta alla volta, 1000ms. Il più sicuro per grandi pagine venditore."
+  },
+  "options_fab_speed_advanced_desc": {
+    "message": "Avanzato — Imposta concorrenza, ritmo API, ritardo azioni e timeout finestra qui sotto."
+  },
+  "options_fab_concurrency": {
+    "message": "Richieste parallele"
+  },
+  "options_fab_concurrency_desc": {
+    "message": "Riscatti API simultanei (1–4; valori più alti aumentano il rischio 429)"
+  },
+  "options_fab_api_delay": {
+    "message": "Ritardo API (ms)"
+  },
+  "options_fab_api_delay_desc": {
+    "message": "Millisecondi tra l’avvio delle richieste API (0–5000)"
+  },
+  "panel_fab_speed": {
+    "message": "Velocità"
+  },
+  "panel_fab_concurrency": {
+    "message": "Parallele"
+  },
+  "panel_fab_api_delay": {
+    "message": "Ritardo API (ms)"
   }
 }

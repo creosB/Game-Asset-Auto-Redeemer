@@ -727,5 +727,53 @@
   },
   "badge_title_both": {
     "message": "$1 alınmamış FAB varlığı, 1 yeni haftalık Unity varlığı"
+  },
+  "options_fab_speed": {
+    "message": "Talep Hızı"
+  },
+  "options_fab_speed_fast": {
+    "message": "Hızlı (Riskli)"
+  },
+  "options_fab_speed_normal": {
+    "message": "Normal"
+  },
+  "options_fab_speed_casual": {
+    "message": "Rahat"
+  },
+  "options_fab_speed_advanced": {
+    "message": "Gelişmiş"
+  },
+  "options_fab_speed_fast_desc": {
+    "message": "Hızlı (rate limit riskli) — 4 paralel istek, 120ms aralık. En hızlı, Fab 429 beklemesini tetikleyebilir."
+  },
+  "options_fab_speed_normal_desc": {
+    "message": "Normal — 2 paralel istek, 350ms aralık. Dengeli hız ve rate-limit güvenliği."
+  },
+  "options_fab_speed_casual_desc": {
+    "message": "Rahat — Tek tek istek, 1000ms aralık. Büyük satıcı sayfaları için en güvenli mod."
+  },
+  "options_fab_speed_advanced_desc": {
+    "message": "Gelişmiş — Paralel istek, API aralığı, işlem gecikmesi ve diyalog zaman aşımını aşağıdan özelleştirin."
+  },
+  "options_fab_concurrency": {
+    "message": "Paralel İstek"
+  },
+  "options_fab_concurrency_desc": {
+    "message": "Eşzamanlı API talebi (1–4; yüksek değerler 429 riskini artırır)"
+  },
+  "options_fab_api_delay": {
+    "message": "API Aralığı (ms)"
+  },
+  "options_fab_api_delay_desc": {
+    "message": "API talep başlangıçları arasındaki milisaniye (0–5000)"
+  },
+  "panel_fab_speed": {
+    "message": "Talep Hızı"
+  },
+  "panel_fab_concurrency": {
+    "message": "Paralel İstek"
+  },
+  "panel_fab_api_delay": {
+    "message": "API Aralığı (ms)"
   }
 }
